@@ -621,6 +621,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .row:hover, .row:focus-visible {
   background: var(--ink);
   color: var(--paper);
+  --heading: #FFFFFF;
 }
 
 .row:hover > *, .row:focus-visible > * { transform: translateX(clamp(0.5rem, 1.5vw, 1rem)); }
