@@ -989,12 +989,12 @@ textarea { resize: vertical; min-height: 8.5rem; }
 }
 
 .partners-row img {
-  height: clamp(44px, 6vw, 62px);
+  height: clamp(56px, 8vw, 82px);
   width: auto;
 }
 
 .foot-affil {
-  height: 38px;
+  height: 50px;
   width: auto;
   margin-top: 1.3rem;
   opacity: 0.92;
