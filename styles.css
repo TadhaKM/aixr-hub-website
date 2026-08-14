@@ -554,22 +554,29 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   color: var(--on-ink-faint);
 }
 
-.hero-side { min-width: 0; }
-
-.hero-photo {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 32px 64px -28px rgba(3, 10, 40, 0.7);
-  margin-bottom: 1.7rem;
+/* Photo woven into the banner: full-bleed on the right, fading into the
+   gradient (the Lab's blue wall blends with the brand blues) */
+.hero-photo-bg {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(54%, 46rem);
+  background-image: url("assets/students-vr.jpg");
+  background-size: cover;
+  background-position: 60% 25%;
+  -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 98%);
+  mask-image: linear-gradient(to left, #000 55%, transparent 98%);
+  pointer-events: none;
 }
 
-@media (max-width: 780px) {
-  .hero-photo { max-width: 30rem; }
+.hero-photo-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(7, 28, 101, 0.5), rgba(7, 28, 101, 0.08) 60%);
 }
 
 .hero-meta {
+  margin-top: 2.4rem;
   border-left: 2px solid var(--accent-soft);
   padding-left: 1.4rem;
   font-family: var(--font-mono);
@@ -582,7 +589,8 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 @media (max-width: 780px) {
   .hero-layout { grid-template-columns: 1fr; align-items: start; }
-  .hero-meta { order: -1; margin-bottom: 0.5rem; }
+  /* On small screens the photo would sit behind the text; keep the banner clean */
+  .hero-photo-bg { display: none; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -606,6 +614,16 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
     opacity: 0;
     animation: blade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
   }
+
+  .hero-photo-bg {
+    opacity: 0;
+    animation: photo-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
+  }
+}
+
+@keyframes photo-in {
+  from { opacity: 0; transform: translateX(40px); }
+  to { opacity: 1; transform: none; }
 }
 
 @keyframes rise {
