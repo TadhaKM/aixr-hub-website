@@ -554,6 +554,21 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   color: var(--on-ink-faint);
 }
 
+.hero-side { min-width: 0; }
+
+.hero-photo {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 32px 64px -28px rgba(3, 10, 40, 0.7);
+  margin-bottom: 1.7rem;
+}
+
+@media (max-width: 780px) {
+  .hero-photo { max-width: 30rem; }
+}
+
 .hero-meta {
   border-left: 2px solid var(--accent-soft);
   padding-left: 1.4rem;
@@ -681,27 +696,6 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 }
 
 /* ---------- Quote ---------- */
-
-.quote-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: center;
-}
-
-.quote-photo {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  box-shadow: 0 26px 52px -26px rgba(7, 28, 101, 0.5);
-}
-
-.quote-layout .quote { margin-inline: 0; }
-
-@media (max-width: 880px) {
-  .quote-layout { grid-template-columns: 1fr; }
-  .quote-photo { max-width: 34rem; }
-}
 
 .quote {
   position: relative;
