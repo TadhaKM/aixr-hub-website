@@ -682,6 +682,27 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 /* ---------- Quote ---------- */
 
+.quote-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr);
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+
+.quote-photo {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 26px 52px -26px rgba(7, 28, 101, 0.5);
+}
+
+.quote-layout .quote { margin-inline: 0; }
+
+@media (max-width: 880px) {
+  .quote-layout { grid-template-columns: 1fr; }
+  .quote-photo { max-width: 34rem; }
+}
+
 .quote {
   position: relative;
   max-width: 58rem;
