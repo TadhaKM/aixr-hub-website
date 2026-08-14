@@ -42,6 +42,17 @@ guidelines strictly.
 - Brand strapline in guidelines: "Incubating Intelligence for Human Impact".
   Site hero keeps the content doc's tagline "Immersive Intelligence. Positive Impact."
 
+### Dark mode
+- Token-driven: bare `:root` holds the light palette; `@media (prefers-color-scheme: dark)`
+  overrides tokens for un-stamped visitors; `:root[data-theme="dark"|"light"]` (set by the
+  header toggle, persisted in localStorage, restored pre-paint by a head script) wins over the OS.
+- Dark ground is `#0A1230` (deeper than band navy so band hierarchy survives); text `#C7D1E9`;
+  on-dark accents use `--accent-soft #9DC1F0`.
+- Header logo swaps navy/white lockup via `--display-light/--display-dark` tokens.
+- The homepage partner strip stays a fixed white island in both themes — the TCD and TBS
+  logo files have opaque white backgrounds.
+- White text on navy surfaces is literal `#FFFFFF`, never `var(--paper)` (which flips dark).
+
 ### Rules
 - Palette is closed: blue, navy, grey, white + derived tints only
 - No card grids; editorial rows with hairline rules

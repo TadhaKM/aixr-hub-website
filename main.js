@@ -69,6 +69,29 @@
     });
   });
 
+  // Theme toggle: un-stamped root follows the OS; an explicit choice is
+  // stamped on <html> and persisted (the head script restores it pre-paint)
+  var themeToggle = document.querySelector(".theme-toggle");
+  if (themeToggle) {
+    var darkQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    var effectiveTheme = function () {
+      var stamped = document.documentElement.getAttribute("data-theme");
+      if (stamped === "dark" || stamped === "light") return stamped;
+      return darkQuery.matches ? "dark" : "light";
+    };
+    var reflectTheme = function () {
+      themeToggle.setAttribute("aria-pressed", String(effectiveTheme() === "dark"));
+    };
+    themeToggle.addEventListener("click", function () {
+      var next = effectiveTheme() === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try { localStorage.setItem("theme", next); } catch (e) {}
+      reflectTheme();
+    });
+    if (darkQuery.addEventListener) darkQuery.addEventListener("change", reflectTheme);
+    reflectTheme();
+  }
+
   // Current year
   document.querySelectorAll("[data-year]").forEach(function (el) {
     el.textContent = new Intl.DateTimeFormat("en-IE", { year: "numeric" }).format(new Date());
