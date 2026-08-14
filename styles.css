@@ -483,7 +483,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .hero {
   position: relative;
-  background: linear-gradient(155deg, var(--ink) 0%, #123A8C 55%, var(--ink-3) 115%);
+  background: linear-gradient(155deg, var(--ink) 0%, #123A8C 40%, var(--ink-3) 90%);
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: var(--accent-soft);
@@ -506,9 +506,9 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   inset: 0;
   pointer-events: none;
   background:
-    linear-gradient(115deg, transparent 56%, rgba(255, 255, 255, 0.10) 56%, rgba(255, 255, 255, 0.10) 68%, transparent 68%),
-    linear-gradient(115deg, transparent 72%, rgba(255, 255, 255, 0.06) 72%, rgba(255, 255, 255, 0.06) 88%, transparent 88%),
-    linear-gradient(115deg, transparent 40%, rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.04) 47%, transparent 47%);
+    linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.10) 42%, rgba(255, 255, 255, 0.10) 54%, transparent 54%),
+    linear-gradient(115deg, transparent 58%, rgba(255, 255, 255, 0.06) 58%, rgba(255, 255, 255, 0.06) 74%, transparent 74%),
+    linear-gradient(115deg, transparent 26%, rgba(255, 255, 255, 0.04) 26%, rgba(255, 255, 255, 0.04) 33%, transparent 33%);
 }
 
 .hero .wrap { position: relative; z-index: 1; }
@@ -559,12 +559,12 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .hero-photo-bg {
   position: absolute;
   top: 0; right: 0; bottom: 0;
-  width: min(63%, 54rem);
+  width: min(82%, 73rem);
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
-  background-position: 50% 28%;
-  -webkit-mask-image: linear-gradient(to left, #000 48%, rgba(0, 0, 0, 0.55) 74%, transparent 97%);
-  mask-image: linear-gradient(to left, #000 48%, rgba(0, 0, 0, 0.55) 74%, transparent 97%);
+  background-position: 55% 28%;
+  -webkit-mask-image: linear-gradient(to left, #000 60%, rgba(0, 0, 0, 0.5) 78%, transparent 95%);
+  mask-image: linear-gradient(to left, #000 60%, rgba(0, 0, 0, 0.5) 78%, transparent 95%);
   pointer-events: none;
 }
 
@@ -572,7 +572,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(7, 28, 101, 0.22), rgba(7, 28, 101, 0.02) 55%);
+  background: linear-gradient(90deg, rgba(7, 28, 101, 0.3), rgba(7, 28, 101, 0) 24%);
 }
 
 .hero-meta {
@@ -921,8 +921,12 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .core-team {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: clamp(1.4rem, 3.5vw, 2.5rem);
+}
+
+@media (max-width: 980px) {
+  .core-team { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 .core-member h3 { font-size: 1.35rem; margin: 1.1rem 0 0.2rem; }
