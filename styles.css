@@ -562,7 +562,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   width: min(63%, 54rem);
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
-  background-position: 40% 28%;
+  background-position: 50% 28%;
   -webkit-mask-image: linear-gradient(to left, #000 48%, rgba(0, 0, 0, 0.55) 74%, transparent 97%);
   mask-image: linear-gradient(to left, #000 48%, rgba(0, 0, 0, 0.55) 74%, transparent 97%);
   pointer-events: none;
@@ -572,7 +572,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(7, 28, 101, 0.38), rgba(7, 28, 101, 0.05) 55%);
+  background: linear-gradient(90deg, rgba(7, 28, 101, 0.22), rgba(7, 28, 101, 0.02) 55%);
 }
 
 .hero-meta {
