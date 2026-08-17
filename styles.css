@@ -565,12 +565,16 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .hero-photo-bg {
   position: absolute;
   top: 0; right: 0; bottom: 0;
-  width: min(58%, 54rem);
+  /* Box matches the photo's own proportions, so cover crops nothing:
+     the full image shows at every banner height. Width follows height. */
+  aspect-ratio: 1600 / 1227;
+  width: auto;
+  max-width: 62%;
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
-  background-position: 50% 20%;
-  -webkit-mask-image: linear-gradient(to left, #000 85%, rgba(0, 0, 0, 0.55) 94%, transparent 100%);
-  mask-image: linear-gradient(to left, #000 85%, rgba(0, 0, 0, 0.55) 94%, transparent 100%);
+  background-position: 50% 25%;
+  -webkit-mask-image: linear-gradient(to left, #000 90%, rgba(0, 0, 0, 0.5) 96%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 90%, rgba(0, 0, 0, 0.5) 96%, transparent 100%);
   pointer-events: none;
 }
 
@@ -638,7 +642,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   html.anim .page-hero .btn { opacity: 0; }
 
   /* Parallax slack: oversize scroll-driven layers so movement never shows gaps */
-  html.anim .hero-photo-bg { top: -5rem; bottom: -5rem; }
+  html.anim .hero-photo-bg { top: -2.5rem; bottom: -2.5rem; }
   html.anim .hero-blades { inset: 0 -6rem; }
   html.anim .page-hero-photo { top: -3rem; bottom: -3rem; }
 

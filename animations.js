@@ -113,7 +113,7 @@ function initHome() {
     const blades = hero.querySelector(".hero-blades");
     if (photo) {
       scrollCancels.push(M.scroll(
-        M.animate(photo, { y: [0, 70] }, { ease: "linear" }),
+        M.animate(photo, { y: [0, 40] }, { ease: "linear" }),
         { target: hero, offset: ["start start", "end start"] }
       ));
     }
