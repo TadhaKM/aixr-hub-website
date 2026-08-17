@@ -565,12 +565,12 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .hero-photo-bg {
   position: absolute;
   top: 0; right: 0; bottom: 0;
-  width: min(53%, 48rem);
+  width: min(58%, 54rem);
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
-  background-position: 50% 25%;
-  -webkit-mask-image: linear-gradient(to left, #000 90%, rgba(0, 0, 0, 0.5) 96%, transparent 100%);
-  mask-image: linear-gradient(to left, #000 90%, rgba(0, 0, 0, 0.5) 96%, transparent 100%);
+  background-position: 50% 20%;
+  -webkit-mask-image: linear-gradient(to left, #000 85%, rgba(0, 0, 0, 0.55) 94%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 85%, rgba(0, 0, 0, 0.55) 94%, transparent 100%);
   pointer-events: none;
 }
 
