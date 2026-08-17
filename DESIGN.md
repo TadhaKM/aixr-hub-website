@@ -53,6 +53,21 @@ guidelines strictly.
   logo files have opaque white backgrounds.
 - White text on navy surfaces is literal `#FFFFFF`, never `var(--paper)` (which flips dark).
 
+### Animation layer (Motion + anime.js)
+- Vendored in `assets/vendor/` (no CDN at runtime): Motion 13.1.0 (IIFE, `window.Motion`)
+  and anime.js 4.5.0 (self-contained ESM). Logic lives in `animations.js`.
+- **`html.anim` gate**: set pre-paint only when ESM works and reduced-motion is off.
+  JS-owned hidden states gate on `.anim`; the original CSS keyframes run under
+  `html:not(.anim)` as the fallback (JS off, file 404, old browser) — never both.
+- Division of labor: anime.js = homepage hero timeline (char-split headline,
+  clip-path highlight wipe); Motion = scroll parallax (hero photo/blades,
+  about banner photo), `inView` spring reveals with per-child staggers, `press`
+  micro-interaction on buttons. On scroll-driven layers the timeline animates
+  opacity only — Motion owns their transforms.
+- Deliberate exception: row-hover uses a mild overshoot bezier (1.18) — flagged
+  by the detector as bounce-easing, kept intentionally as part of the spring
+  motion language this feature introduces.
+
 ### Rules
 - Palette is closed: blue, navy, grey, white + derived tints only
 - No card grids; editorial rows with hairline rules

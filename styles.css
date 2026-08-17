@@ -594,31 +594,54 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .hero .up {
+  /* CSS fallback path — plays only when the JS animation layer is unavailable
+     (html.anim is set pre-paint when Motion/anime can run) */
+  html:not(.anim) .hero .up {
     opacity: 0;
     transform: translateY(28px);
     animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  .hero .up:nth-child(1) { animation-delay: 0.08s; }
-  .hero .up:nth-child(2) { animation-delay: 0.2s; }
-  .hero .up:nth-child(3) { animation-delay: 0.34s; }
-  .hero .up:nth-child(4) { animation-delay: 0.46s; }
+  html:not(.anim) .hero .up:nth-child(1) { animation-delay: 0.08s; }
+  html:not(.anim) .hero .up:nth-child(2) { animation-delay: 0.2s; }
+  html:not(.anim) .hero .up:nth-child(3) { animation-delay: 0.34s; }
+  html:not(.anim) .hero .up:nth-child(4) { animation-delay: 0.46s; }
 
-  .hero-meta {
+  html:not(.anim) .hero-meta {
     opacity: 0;
     animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
   }
 
-  .hero-blades {
+  html:not(.anim) .hero-blades {
     opacity: 0;
     animation: blade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
   }
 
-  .hero-photo-bg {
+  html:not(.anim) .hero-photo-bg {
     opacity: 0;
     animation: photo-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
   }
+
+  /* JS path — animations.js owns the reveal; elements start hidden */
+  html.anim .hero .up,
+  html.anim .hero-meta,
+  html.anim .hero-blades,
+  html.anim .hero-photo-bg,
+  html.anim .page-hero h1,
+  html.anim .page-hero .lede,
+  html.anim .page-hero .btn { opacity: 0; }
+
+  /* Parallax slack: oversize scroll-driven layers so movement never shows gaps */
+  html.anim .hero-photo-bg { top: -5rem; bottom: -5rem; }
+  html.anim .hero-blades { inset: 0 -6rem; }
+  html.anim .page-hero-photo { top: -3rem; bottom: -3rem; }
+
+  /* Split-text chars must be inline-block for transforms to apply */
+  html.anim .hero-title .line span { display: inline-block; }
+
+  /* Gentle spring overshoot on the audience-row hover (CSS keeps hover ownership) */
+  html.anim .row > * { transition: transform 0.45s cubic-bezier(0.3, 1.18, 0.45, 1); }
+  html.anim .row .arrow { transition: transform 0.4s cubic-bezier(0.3, 1.18, 0.45, 1); }
 }
 
 @keyframes photo-in {
@@ -1207,17 +1230,12 @@ textarea { resize: vertical; min-height: 8.5rem; }
   .foot-grid { grid-template-columns: 1fr; }
 }
 
-/* ---------- Scroll reveal ---------- */
+/* ---------- Scroll reveal ----------
+   Motion (animations.js) drives reveals with springs; elements only start
+   hidden when the html.anim gate confirms the JS layer is running. */
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .reveal {
-    opacity: 0;
-    transform: translateY(26px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-      transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .js .reveal.in { opacity: 1; transform: none; }
+  html.anim .reveal { opacity: 0; }
 }
 
 /* ---------- Two-column reading layout ---------- */

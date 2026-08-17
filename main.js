@@ -36,25 +36,8 @@
     });
   }
 
-  // Scroll reveals (skipped for reduced motion; CSS gates the hidden state)
-  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var revealed = document.querySelectorAll(".reveal");
-  if (!reduced && "IntersectionObserver" in window && revealed.length) {
-    var io = new IntersectionObserver(
-      function (entries) {
-        entries.forEach(function (entry) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("in");
-            io.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-    );
-    revealed.forEach(function (el) { io.observe(el); });
-  } else {
-    revealed.forEach(function (el) { el.classList.add("in"); });
-  }
+  // Scroll reveals live in animations.js (Motion inView + springs);
+  // with the JS animation layer unavailable, .reveal content is simply visible.
 
   // Mock form handling: confirm inline, keep the page put
   document.querySelectorAll("form[data-mock]").forEach(function (form) {

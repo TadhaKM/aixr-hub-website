@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
   <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <script>try{if("noModule" in document.createElement("script")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")}catch(e){}</script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to Main Content</a>
@@ -213,5 +214,7 @@
   </footer>
 
   <script src="main.js"></script>
+  <script defer src="assets/vendor/motion-13.1.0.min.js"></script>
+  <script type="module" src="animations.js" onerror="document.documentElement.classList.remove('anim')"></script>
 </body>
 </html>
