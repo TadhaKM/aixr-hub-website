@@ -658,6 +658,22 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .page-hero .wrap { position: relative; z-index: 1; }
 
+/* Optional banner photo on interior page heroes, blended like the homepage hero */
+.page-hero-photo {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(46%, 40rem);
+  background-size: cover;
+  background-position: 62% 22%;
+  -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 96%);
+  mask-image: linear-gradient(to left, #000 55%, transparent 96%);
+  pointer-events: none;
+}
+
+@media (max-width: 780px) {
+  .page-hero-photo { display: none; }
+}
+
 .page-hero h1 { max-width: 18ch; margin-bottom: 1.2rem; }
 
 .page-hero .lede { color: var(--on-ink-muted); }
@@ -1202,25 +1218,6 @@ textarea { resize: vertical; min-height: 8.5rem; }
   }
 
   .js .reveal.in { opacity: 1; transform: none; }
-}
-
-/* ---------- Editorial photo (About) ---------- */
-
-.about-photo {
-  margin: 2.6rem 0 0;
-}
-
-.about-photo img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  box-shadow: 0 26px 52px -26px rgba(7, 28, 101, 0.45);
-}
-
-.about-photo figcaption {
-  margin-top: 0.8rem;
-  font-size: 0.875rem;
-  color: var(--muted);
 }
 
 /* ---------- Two-column reading layout ---------- */
