@@ -662,11 +662,11 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .page-hero-photo {
   position: absolute;
   top: 0; right: 0; bottom: 0;
-  width: min(46%, 40rem);
+  width: min(58%, 52rem);
   background-size: cover;
   background-position: 62% 22%;
-  -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 96%);
-  mask-image: linear-gradient(to left, #000 55%, transparent 96%);
+  -webkit-mask-image: linear-gradient(to left, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent 97%);
+  mask-image: linear-gradient(to left, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent 97%);
   pointer-events: none;
 }
 
