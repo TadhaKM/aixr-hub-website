@@ -80,6 +80,12 @@ body {
   overflow-x: hidden;
 }
 
+/* Render at 80% on desktop so 100% browser zoom shows the intended density.
+   Applied only above the mobile nav breakpoint — phone sizes stay 1:1. */
+@media (min-width: 921px) {
+  body { zoom: 0.8; }
+}
+
 ::selection { background: var(--accent); color: #FFFFFF; }
 
 ::-webkit-scrollbar { width: 12px; }
