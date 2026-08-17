@@ -519,9 +519,16 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .hero .wrap { position: relative; z-index: 1; }
 
+/* Hero content hugs the left edge instead of the centered column,
+   freeing the right two-thirds of the banner for the photo */
+.hero .wrap {
+  max-width: none;
+  padding-inline: clamp(1.5rem, 4vw, 3.75rem);
+}
+
 .hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 42rem) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 4.5rem);
   align-items: end;
 }
@@ -569,8 +576,8 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
   background-position: 50% 30%;
-  -webkit-mask-image: linear-gradient(to left, #000 60%, rgba(0, 0, 0, 0.5) 78%, transparent 95%);
-  mask-image: linear-gradient(to left, #000 60%, rgba(0, 0, 0, 0.5) 78%, transparent 95%);
+  -webkit-mask-image: linear-gradient(to left, #000 72%, rgba(0, 0, 0, 0.5) 86%, transparent 97%);
+  mask-image: linear-gradient(to left, #000 72%, rgba(0, 0, 0, 0.5) 86%, transparent 97%);
   pointer-events: none;
 }
 
@@ -691,7 +698,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .page-hero-photo {
   position: absolute;
   top: 0; right: 0; bottom: 0;
-  width: min(58%, 52rem);
+  width: min(70%, 70rem);
   background-size: cover;
   background-position: 62% 22%;
   -webkit-mask-image: linear-gradient(to left, #000 58%, rgba(0, 0, 0, 0.5) 80%, transparent 97%);
