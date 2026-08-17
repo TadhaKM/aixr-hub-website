@@ -562,7 +562,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   width: min(82%, 73rem);
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
-  background-position: 55% 28%;
+  background-position: 50% 30%;
   -webkit-mask-image: linear-gradient(to left, #000 60%, rgba(0, 0, 0, 0.5) 78%, transparent 95%);
   mask-image: linear-gradient(to left, #000 60%, rgba(0, 0, 0, 0.5) 78%, transparent 95%);
   pointer-events: none;
