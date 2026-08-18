@@ -209,7 +209,7 @@ address { font-style: normal; }
    blue tint matching the band's gradient, so it melts in with no visible box */
 .accent-photo {
   position: absolute;
-  top: 0; right: min(50%, 45rem); bottom: 0;
+  top: 0; right: min(53%, 48rem); bottom: 0;
   width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
   background-size: cover;
@@ -596,7 +596,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
    gradient (the Lab's blue wall blends with the brand blues) */
 .hero-photo-bg {
   position: absolute;
-  top: 0; right: 0; bottom: 0;
+  top: 0; right: -2rem; bottom: 0;
   /* Box matches the photo's own proportions, so cover crops nothing:
      the full image shows at every banner height. Width follows height. */
   aspect-ratio: 1600 / 1227;
