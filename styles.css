@@ -207,7 +207,7 @@ address { font-style: normal; }
    blue tint matching the band's gradient, so it melts in with no visible box */
 .accent-photo {
   position: absolute;
-  top: 0; right: min(22%, 20rem); bottom: 0;
+  top: 0; right: min(30%, 27rem); bottom: 0;
   width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
   background-size: cover;
