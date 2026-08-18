@@ -251,6 +251,9 @@ address { font-style: normal; }
   .split-media img { max-width: 34rem; }
 }
 
+/* An offer grid inside a split stacks to one column so items keep readable width */
+.split-media .offer-grid { grid-template-columns: 1fr; }
+
 .band-head {
   display: grid;
   gap: 1rem;
