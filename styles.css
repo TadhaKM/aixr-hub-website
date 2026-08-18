@@ -1050,6 +1050,9 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
+  /* Uniform strip height on every page (sized to a two-line heading), so the
+     stretched photo renders identically regardless of content length */
+  min-height: 9rem;
 }
 .cta-split h2 { margin: 0 0 0.6rem; max-width: 16ch; }
 
