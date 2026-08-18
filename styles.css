@@ -199,6 +199,8 @@ address { font-style: normal; }
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: #FFFFFF;
+  /* taller than a standard band so the woven photo renders larger */
+  padding-block: clamp(5.5rem, 11vw, 9.5rem);
 }
 
 .band--accent > .wrap { position: relative; z-index: 1; }
@@ -207,7 +209,7 @@ address { font-style: normal; }
    blue tint matching the band's gradient, so it melts in with no visible box */
 .accent-photo {
   position: absolute;
-  top: 0; right: min(30%, 27rem); bottom: 0;
+  top: 0; right: min(50%, 45rem); bottom: 0;
   width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
   background-size: cover;
