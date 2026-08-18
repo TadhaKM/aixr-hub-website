@@ -231,6 +231,26 @@ address { font-style: normal; }
   .accent-photo { display: none; }
 }
 
+/* Content + image side by side within a band */
+.split-media {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: center;
+}
+
+.split-media img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  box-shadow: 0 24px 48px -24px rgba(7, 28, 101, 0.45);
+}
+
+@media (max-width: 880px) {
+  .split-media { grid-template-columns: 1fr; }
+  .split-media img { max-width: 34rem; }
+}
+
 .band-head {
   display: grid;
   gap: 1rem;
