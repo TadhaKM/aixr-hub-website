@@ -209,19 +209,14 @@ address { font-style: normal; }
    blue tint matching the band's gradient, so it melts in with no visible box */
 .accent-photo {
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: min(50%, 45rem);
-  /* fixed size so the photo renders identically in every strip,
-     regardless of how tall the strip's content makes it */
-  height: 19rem;
+  top: 0; right: min(50%, 45rem); bottom: 0;
   width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
   background-size: cover;
   background-position: 50% 35%;
-  /* elliptical vignette: feathered on every edge, no visible rectangle */
-  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 50%, transparent 78%);
-  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 50%, transparent 78%);
+  /* feathered on BOTH sides: fades in after the heading, out before the button */
+  -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
+  mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
   pointer-events: none;
 }
 
