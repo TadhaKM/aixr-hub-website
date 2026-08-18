@@ -207,13 +207,14 @@ address { font-style: normal; }
    blue tint matching the band's gradient, so it melts in with no visible box */
 .accent-photo {
   position: absolute;
-  top: 0; right: 0; bottom: 0;
-  width: min(42%, 36rem);
+  top: 0; right: min(22%, 20rem); bottom: 0;
+  width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
   background-size: cover;
   background-position: 50% 35%;
-  -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 98%);
-  mask-image: linear-gradient(to left, #000 55%, transparent 98%);
+  /* feathered on BOTH sides: fades in after the heading, out before the button */
+  -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
+  mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
   pointer-events: none;
 }
 
