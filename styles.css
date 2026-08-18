@@ -199,8 +199,6 @@ address { font-style: normal; }
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: #FFFFFF;
-  /* taller than a standard band so the woven photo renders larger */
-  padding-block: clamp(5.5rem, 11vw, 9.5rem);
 }
 
 .band--accent > .wrap { position: relative; z-index: 1; }
@@ -212,8 +210,10 @@ address { font-style: normal; }
   top: 0; right: min(50%, 45rem); bottom: 0;
   width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
-  background-size: cover;
-  background-position: 50% 35%;
+  /* zoomed: image height is 140% of the strip, so the subjects render larger
+     within the same strip size (raise/lower the 140% to zoom in/out) */
+  background-size: auto 140%;
+  background-position: 50% 22%;
   /* feathered on BOTH sides: fades in after the heading, out before the button */
   -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
   mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
