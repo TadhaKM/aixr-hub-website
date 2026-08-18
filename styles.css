@@ -234,9 +234,9 @@ address { font-style: normal; }
 /* Content + image side by side within a band */
 .split-media {
   display: grid;
-  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
   gap: clamp(2rem, 5vw, 4rem);
-  align-items: center;
+  align-items: start;
 }
 
 .split-media img {
