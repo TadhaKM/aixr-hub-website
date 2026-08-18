@@ -199,6 +199,8 @@ address { font-style: normal; }
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: #FFFFFF;
+  /* top slightly trimmed relative to the standard band */
+  padding-block: clamp(2.75rem, 6vw, 5rem) clamp(3.75rem, 8.5vw, 7rem);
 }
 
 .band--accent > .wrap { position: relative; z-index: 1; }
@@ -207,14 +209,19 @@ address { font-style: normal; }
    blue tint matching the band's gradient, so it melts in with no visible box */
 .accent-photo {
   position: absolute;
-  top: 0; right: min(50%, 45rem); bottom: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: min(50%, 45rem);
+  /* fixed size so the photo renders identically in every strip,
+     regardless of how tall the strip's content makes it */
+  height: 19rem;
   width: min(40%, 34rem);
   background-image: url("assets/students-hero.jpg");
   background-size: cover;
   background-position: 50% 35%;
-  /* feathered on BOTH sides: fades in after the heading, out before the button */
-  -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
-  mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
+  /* elliptical vignette: feathered on every edge, no visible rectangle */
+  -webkit-mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 50%, transparent 78%);
+  mask-image: radial-gradient(ellipse 50% 50% at 50% 50%, #000 50%, transparent 78%);
   pointer-events: none;
 }
 
