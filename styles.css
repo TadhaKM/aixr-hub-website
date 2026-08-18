@@ -193,10 +193,39 @@ address { font-style: normal; }
 .band--alt { background: var(--paper-2); }
 
 .band--accent {
+  position: relative;
+  overflow: hidden;
   background: linear-gradient(120deg, var(--ink-3) 0%, #3E7BC9 100%);
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: #FFFFFF;
+}
+
+.band--accent > .wrap { position: relative; z-index: 1; }
+
+/* Photo woven into the accent strip's right side: feathered left edge plus a
+   blue tint matching the band's gradient, so it melts in with no visible box */
+.accent-photo {
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: min(42%, 36rem);
+  background-image: url("assets/students-hero.jpg");
+  background-size: cover;
+  background-position: 50% 35%;
+  -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 98%);
+  mask-image: linear-gradient(to left, #000 55%, transparent 98%);
+  pointer-events: none;
+}
+
+.accent-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(45, 103, 179, 0.45), rgba(62, 123, 201, 0.15));
+}
+
+@media (max-width: 780px) {
+  .accent-photo { display: none; }
 }
 
 .band-head {
