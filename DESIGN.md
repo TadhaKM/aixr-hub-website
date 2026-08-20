@@ -191,12 +191,13 @@ or on Motion loading).
 - `.core-member` and `.adv` are flex columns with `p:last-child { margin-top: auto }`
   so the profile buttons align along the bottom of each row rather than following
   bios of differing length.
-- ⚠️ **Six advisory members currently show a placeholder portrait** (`assets/jose.jpg`
-  under `.adv--preview` / `.adv-portrait`) purely to preview how photographs would
-  look; the remaining four are left bare for comparison. The `<img>` carries
-  `alt=""` so no one is announced under the wrong name. **Either replace all ten
-  with real photographs or strip the `.adv-portrait` blocks before this goes
-  live** — it must not ship as-is.
+- All ten advisory members carry a portrait. Nine are their own photographs;
+  **Kierstyn Olson is still the `assets/jose.jpg` placeholder** (`alt=""`, with an
+  HTML comment marking it) because no photo has been supplied. Swap it and set the
+  alt to her name when one arrives.
+- Supplied headshots are square; they are pre-cropped to the frame's 1:1.12 ratio
+  and capped at 400px wide before use. Two of the originals were ~800KB each — the
+  set went from 1,972KB to 169KB, which matters on a page carrying twelve of them.
 
 ### Map card (contact page)
 The address is a link to Google Maps (`/maps/search/?api=1&query=…`, the

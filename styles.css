@@ -1368,9 +1368,8 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .adv:hover { background: var(--card-hover); }
 
-/* Placeholder portraits on part of the advisory list, so the layout can be
-   judged before the real photographs exist. Remove .adv--preview (and the
-   .adv-portrait block in the markup) if photos are not going ahead. */
+/* Advisory group portraits, sized well below the core-team frames so the
+   list stays scannable at ten people. */
 .adv-portrait {
   /* see .core-member .monogram — width is required, not decorative */
   width: 100%;
