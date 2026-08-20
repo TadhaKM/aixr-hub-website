@@ -40,6 +40,17 @@
   --scroll-track: #EEF3FA;
   --display-light: block;
   --display-dark: none;
+  --card-hover: #F5F8FD;
+  --totop-bg: #071C65;
+  --totop-ink: #FFFFFF;
+  --totop-bg-hover: #2D67B3;
+  --totop-ink-hover: #FFFFFF;
+  /* Form feedback. Re-declared on navy grounds below, because the dark
+     variants of these are unreadable on white and vice versa. */
+  --form-ok: #146C43;
+  --form-error: #A4262C;
+  --map-road: rgba(45, 103, 179, 0.22);
+  --map-grid: rgba(7, 28, 101, 0.09);
 
   /* Brand typography: Josefin Sans (primary, headings) · Arial (secondary, body). */
   --font-display: "Josefin Sans", "Century Gothic", sans-serif;
@@ -47,9 +58,17 @@
   --font-mono: Arial, Helvetica, sans-serif;
 
   --fs-display: clamp(2.75rem, 7.5vw, 5.75rem);
-  --fs-h1: clamp(2.4rem, 5.5vw, 4.25rem);
-  --fs-h2: clamp(1.85rem, 3.8vw, 2.9rem);
-  --fs-h3: clamp(1.3rem, 2.2vw, 1.65rem);
+  --fs-h1: clamp(2.5rem, 5.6vw, 4.5rem);
+  --fs-h2: clamp(2rem, 4vw, 3.1rem);
+  --fs-h3: clamp(1.4rem, 2.4vw, 1.8rem);
+
+  /* ------------------------------------------------------------------
+     TEXT ALIGNMENT DIAL
+     Controls section headings, intros, cards and CTA strips sitewide.
+     "center" = Trinity-style centred editorial column (current)
+     "left"   = classic left-aligned column
+     ------------------------------------------------------------------ */
+  --text-align: center;
 
   --wrap: 76rem;
   --focus: var(--ink);
@@ -72,18 +91,26 @@ html {
 body {
   margin: 0;
   font-family: var(--font-body);
-  font-size: 1.0625rem;
-  line-height: 1.65;
+  /* BODY TEXT SIZE — phones and tablets (rendered 1:1) */
+  font-size: 1.1875rem;
+  line-height: 1.7;
   color: var(--text);
   background: var(--paper);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  overflow-wrap: break-word;
 }
 
 /* Render at 80% on desktop so 100% browser zoom shows the intended density.
-   Applied only above the mobile nav breakpoint — phone sizes stay 1:1. */
+   Applied only above the mobile nav breakpoint — phone sizes stay 1:1.
+   The desktop size is set larger to compensate for the 0.8 scale, so the
+   text lands at a comfortable reading size on screen. */
 @media (min-width: 921px) {
-  body { zoom: 0.8; }
+  body {
+    zoom: 0.8;
+    /* BODY TEXT SIZE — desktop (multiply by 0.8 for the on-screen size) */
+    font-size: 1.3125rem;
+  }
 }
 
 ::selection { background: var(--accent); color: #FFFFFF; }
@@ -110,6 +137,10 @@ h1, h2, h3, h4 {
   margin: 0 0 1rem;
   color: var(--heading);
   text-wrap: balance;
+  /* Display type opts out of body's break-word: it would break the hero's
+     "Positive&nbsp;Impact." mid-run and orphan the full stop into its own
+     accent box (box-decoration-break: clone paints each fragment). */
+  overflow-wrap: normal;
 }
 
 h1 { font-size: var(--fs-h1); }
@@ -176,6 +207,8 @@ address { font-style: normal; }
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: var(--accent-soft);
+  --form-ok: #93E5B5;
+  --form-error: #FFB4AB;
 }
 
 .band--ink::after {
@@ -199,6 +232,8 @@ address { font-style: normal; }
   color: #FFFFFF;
   --heading: #FFFFFF;
   --focus: #FFFFFF;
+  --form-ok: #93E5B5;
+  --form-error: #FFB4AB;
   /* top slightly trimmed relative to the standard band */
   padding-block: clamp(2.75rem, 6vw, 5rem) clamp(3.75rem, 8.5vw, 7rem);
 }
@@ -227,9 +262,9 @@ address { font-style: normal; }
   background: linear-gradient(90deg, rgba(45, 103, 179, 0.45), rgba(62, 123, 201, 0.15));
 }
 
-@media (max-width: 780px) {
-  .accent-photo { display: none; }
-}
+/* Below 880px the accent photo stops being a woven right-hand layer and
+   becomes a stacked strip instead — see the mobile photo section near the
+   end of this file. It is never hidden. */
 
 /* Content + image side by side within a band */
 .split-media {
@@ -246,60 +281,111 @@ address { font-style: normal; }
   box-shadow: 0 24px 48px -24px rgba(7, 28, 101, 0.45);
 }
 
+/* Stacked below 880px. The per-page position dials (inline margin-top /
+   left / width used to place each photo on desktop) are cancelled here —
+   left as-is they push the image right off a phone screen. */
 @media (max-width: 880px) {
-  .split-media { grid-template-columns: 1fr; }
-  .split-media img { max-width: 34rem; }
+  .split-media { grid-template-columns: 1fr; justify-items: center; }
+  .split-media img {
+    position: static !important;
+    inset: auto !important;
+    left: auto !important;
+    right: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    width: 100% !important;
+    max-width: 34rem !important;
+  }
 }
 
 /* An offer grid inside a split stacks to one column so items keep readable width */
 .split-media .offer-grid { grid-template-columns: 1fr; }
 
+/* Section heads read as a centred editorial column (see --text-align) */
 .band-head {
   display: grid;
   gap: 1rem;
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  text-align: var(--text-align);
 }
+
+/* A band head that pairs a heading with a side link keeps its two-column
+   arrangement and stays left-aligned */
+.band-head--split { text-align: left; }
+.band-head--split > p { margin-inline: 0; }
 
 .band-head > p {
   color: var(--muted);
-  max-width: 62ch;
-  font-size: 1.125rem;
+  max-width: 64ch;
+  font-size: 1.2em;
+  line-height: 1.6;
   margin: 0;
+  margin-inline: auto;
 }
 
 .band--ink .band-head > p { color: var(--on-ink-muted); }
 
 .lede {
-  font-size: clamp(1.1rem, 1.9vw, 1.3rem);
+  font-size: clamp(1.2rem, 2.1vw, 1.5rem);
   line-height: 1.55;
-  max-width: 62ch;
+  max-width: 60ch;
 }
 
-.prose { max-width: 68ch; }
+/* Long-form reading column: centred on the page, text left-aligned so the
+   ragged edge stays where the eye expects it across many paragraphs */
+.prose { max-width: 68ch; margin-inline: auto; }
 
-.prose h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 3rem 0 1rem; }
-.prose h3 { font-size: 1.35rem; margin: 2.4rem 0 0.8rem; }
+.prose h2 {
+  font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+  margin: 3rem 0 1rem;
+  text-align: var(--text-align);
+}
+.prose h3 { font-size: 1.45rem; margin: 2.4rem 0 0.8rem; text-align: var(--text-align); }
 .prose > :first-child { margin-top: 0; }
+.prose .lede { text-align: var(--text-align); margin-inline: auto; }
 
 /* ---------- Buttons & links ---------- */
 
 .btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   background: var(--accent);
   color: #FFFFFF;
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 600;
   line-height: 1.2;
-  padding: 0.95rem 1.5rem;
+  padding: 1rem 1.6rem;
   border: 2px solid var(--accent);
   border-radius: 2px;
   text-decoration: none;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease,
     background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Light sweep across the face on hover */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 32%, rgba(255, 255, 255, 0.3) 50%, transparent 68%);
+  transform: translateX(-110%);
+  transition: transform 0.7s cubic-bezier(0.3, 0.9, 0.4, 1);
+}
+
+.btn:hover::before { transform: translateX(110%); }
+
+/* White buttons on the accent strip need a dark sweep to register */
+.band--accent .btn::before {
+  background: linear-gradient(115deg, transparent 32%, rgba(7, 28, 101, 0.14) 50%, transparent 68%);
 }
 
 .btn:hover {
@@ -359,11 +445,22 @@ address { font-style: normal; }
   position: sticky;
   top: 0;
   z-index: 50;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* The translucent blur lives on a pseudo-element, not on .site-header itself.
+   backdrop-filter makes its element a containing block for position:fixed
+   descendants — with it on the header, the full-screen mobile nav overlay
+   (.site-nav, position:fixed inset:0) collapsed to the height of the header. */
+.site-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: color-mix(in srgb, var(--paper) 90%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .site-header.scrolled {
@@ -380,6 +477,7 @@ address { font-style: normal; }
 }
 
 .brand {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -403,6 +501,7 @@ address { font-style: normal; }
 }
 
 .header-tools {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -440,7 +539,7 @@ address { font-style: normal; }
   position: relative;
   display: inline-block;
   padding: 0.35rem 0;
-  font-size: 0.9688rem;
+  font-size: 1.0313rem;
   font-weight: 500;
   text-decoration: none;
 }
@@ -471,12 +570,14 @@ address { font-style: normal; }
 
 .nav-cta:hover, .nav-cta[aria-current="page"] { background: var(--cta-line); color: var(--cta-text); }
 
+/* --heading, not --ink: --ink is a fixed brand navy that is never redefined
+   for the dark theme, which left the hamburger at 1.19:1 on a dark ground. */
 .nav-toggle {
   display: none;
   position: relative;
   z-index: 70;
   background: none;
-  border: 2px solid var(--ink);
+  border: 2px solid var(--heading);
   border-radius: 2px;
   padding: 0.55rem 0.6rem;
   cursor: pointer;
@@ -494,7 +595,7 @@ address { font-style: normal; }
   left: 0;
   width: 100%;
   height: 2px;
-  background: var(--ink);
+  background: var(--heading);
   transition: transform 0.3s ease, top 0.3s ease, background-color 0.3s ease;
 }
 
@@ -516,28 +617,74 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
     background: var(--ink);
     color: #FFFFFF;
     --focus: var(--accent-soft);
-    display: grid;
-    place-items: center;
+    /* Flex + auto margins on the list: centred when the menu is short,
+       scrollable (never clipped) when it is taller than the screen */
+    display: flex;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
+    overflow-y: auto;
     overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    padding: 5.75rem 1.5rem 3rem;
   }
 
   body.nav-open .site-nav { opacity: 1; visibility: visible; }
   body.nav-open { overflow: hidden; }
 
-  .site-nav ul { flex-direction: column; gap: 1.1rem; text-align: center; }
+  .site-nav ul {
+    flex-direction: column;
+    gap: clamp(0.55rem, 2.1vh, 1.1rem);
+    text-align: center;
+    width: 100%;
+    margin: auto;
+  }
 
   .site-nav a {
     font-family: var(--font-display);
-    font-size: 1.9rem;
+    font-size: clamp(1.45rem, 5.8vw, 1.9rem);
     font-weight: 600;
     letter-spacing: -0.01em;
+    padding-block: 0.3rem;
   }
 
   .nav-cta { border-color: var(--accent-soft); color: var(--accent-soft); }
   .nav-cta:hover, .nav-cta[aria-current="page"] { background: var(--accent-soft); color: var(--ink); }
+
+  /* The brand and the theme toggle must stay reachable above the overlay,
+     and the navy ground needs the white lockup whatever the theme is */
+  body.nav-open .brand { z-index: 70; }
+  body.nav-open .header-tools { z-index: 70; }
+  body.nav-open .logo-light { display: none; }
+  body.nav-open .logo-dark { display: block; }
+  /* Only the colours are forced here — which icon shows must stay
+     token-driven, or the toggle would claim "switch to dark" while the
+     page already is dark, contradicting its own aria-pressed state. */
+  body.nav-open .theme-toggle { border-color: rgba(255, 255, 255, 0.45); color: #FFFFFF; }
+
+  /* The overlay owns the screen while it is open; a floating button on top
+     of it is both visually wrong and a stray tab stop */
+  body.nav-open .to-top { opacity: 0; visibility: hidden; pointer-events: none; }
+}
+
+@media (max-width: 920px) and (prefers-reduced-motion: no-preference) {
+  /* Menu items cascade in behind the overlay fade */
+  body.nav-open .site-nav li {
+    animation: nav-item-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  }
+  body.nav-open .site-nav li:nth-child(1) { animation-delay: 0.06s; }
+  body.nav-open .site-nav li:nth-child(2) { animation-delay: 0.11s; }
+  body.nav-open .site-nav li:nth-child(3) { animation-delay: 0.16s; }
+  body.nav-open .site-nav li:nth-child(4) { animation-delay: 0.21s; }
+  body.nav-open .site-nav li:nth-child(5) { animation-delay: 0.26s; }
+  body.nav-open .site-nav li:nth-child(6) { animation-delay: 0.31s; }
+  body.nav-open .site-nav li:nth-child(7) { animation-delay: 0.36s; }
+  body.nav-open .site-nav li:nth-child(8) { animation-delay: 0.41s; }
+}
+
+@keyframes nav-item-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* ---------- Hero (homepage) ---------- */
@@ -601,18 +748,26 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .hero-lede {
   color: var(--on-ink-muted);
-  font-size: 1.125rem;
+  font-size: 1.2em;
+  line-height: 1.6;
   max-width: 56ch;
   margin-bottom: 2.2rem;
 }
 
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
 
+/* Funding acknowledgement, set as the hero's opening line so it reads before
+   the headline rather than getting lost underneath it */
 .hero-note {
-  margin-top: 2.4rem;
+  display: inline-block;
+  margin: 0 0 1.5rem;
+  padding: 0.35rem 0 0.35rem 1rem;
+  border-left: 3px solid var(--accent-soft);
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  color: var(--on-ink-faint);
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+  color: #FFFFFF;
 }
 
 /* Photo woven into the banner: full-bleed on the right, fading into the
@@ -645,17 +800,15 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   border-left: 2px solid var(--accent-soft);
   padding-left: 1.4rem;
   font-family: var(--font-mono);
-  font-size: 0.8438rem;
+  font-size: 0.9688rem;
   line-height: 2;
   color: var(--on-ink-muted);
 }
 
 .hero-meta strong { color: #FFFFFF; font-weight: 500; }
 
-@media (max-width: 780px) {
+@media (max-width: 880px) {
   .hero-layout { grid-template-columns: 1fr; align-items: start; }
-  /* On small screens the photo would sit behind the text; keep the banner clean */
-  .hero-photo-bg { display: none; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -701,8 +854,9 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   html.anim .hero-blades { inset: 0 -6rem; }
   html.anim .page-hero-photo { top: -3rem; bottom: -3rem; }
 
-  /* Split-text chars must be inline-block for transforms to apply */
-  html.anim .hero-title .line span { display: inline-block; }
+  /* Split-text chars and words must be inline-block for transforms to apply */
+  html.anim .hero-title .line span,
+  html.anim .page-hero h1 span { display: inline-block; }
 
   /* Gentle spring overshoot on the audience-row hover (CSS keeps hover ownership) */
   html.anim .row > * { transition: transform 0.45s cubic-bezier(0.3, 1.18, 0.45, 1); }
@@ -758,11 +912,10 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   pointer-events: none;
 }
 
-@media (max-width: 780px) {
-  .page-hero-photo { display: none; }
-}
+/* The banner photo restacks below 880px rather than disappearing —
+   see the mobile photo section near the end of this file. */
 
-.page-hero h1 { max-width: 18ch; margin-bottom: 1.2rem; }
+.page-hero h1 { max-width: 20ch; margin-bottom: 1.2rem; }
 
 .page-hero .lede { color: var(--on-ink-muted); }
 
@@ -772,19 +925,26 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .rows { border-top: 1px solid var(--rule); }
 
+/* No overflow:hidden here — ::before is inset:0 so it cannot escape anyway,
+   and clipping the row sliced the tip off the arrow during its hover slide. */
 .row {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) auto;
   gap: clamp(1.2rem, 3vw, 2.5rem);
   align-items: center;
-  padding: clamp(1.8rem, 4vw, 2.6rem) clamp(0.6rem, 1.5vw, 1rem);
+  /* Inline padding has to absorb the hover slide: the children move by up to
+     1rem and the arrow another 4px on top. Any less and the arrow travels
+     past the row's tinted background and is left sitting on the page. */
+  padding: clamp(1.8rem, 4vw, 2.6rem) clamp(1rem, 2.2vw, 1.9rem);
   border-bottom: 1px solid var(--rule);
   text-decoration: none;
   color: inherit;
   transition: background-color 0.35s ease, color 0.35s ease;
 }
 
-.row > * { transition: transform 0.35s ease; }
+/* above the pointer spotlight in ::before */
+.row > * { position: relative; transition: transform 0.35s ease; }
 
 .row h3 { font-size: clamp(1.5rem, 3vw, 2.1rem); margin: 0; }
 
@@ -811,7 +971,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .row:hover p, .row:focus-visible p { color: var(--on-ink-muted); }
 .row:hover .row-cta, .row:focus-visible .row-cta { color: var(--accent-soft); }
-.row:hover .arrow, .row:focus-visible .arrow { transform: translateX(6px); }
+.row:hover .arrow, .row:focus-visible .arrow { transform: translateX(4px); }
 
 @media (max-width: 780px) {
   .row { grid-template-columns: 1fr; gap: 0.7rem; }
@@ -823,18 +983,20 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   position: relative;
   max-width: 58rem;
   margin-inline: auto;
-  padding-left: clamp(2.4rem, 7vw, 5.5rem);
+  padding-top: clamp(3rem, 8vw, 4.5rem);
+  text-align: var(--text-align);
 }
 
 .quote::before {
   content: "\201C";
   position: absolute;
-  left: 0;
-  top: -0.5rem;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
   font-family: var(--font-display);
   font-size: clamp(5rem, 11vw, 8.5rem);
   font-weight: 700;
-  line-height: 1;
+  line-height: 0.8;
   color: var(--quote-mark);
 }
 
@@ -844,7 +1006,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.4rem, 2.8vw, 2.1rem);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
   line-height: 1.4;
   letter-spacing: -0.01em;
 }
@@ -852,7 +1014,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 .quote figcaption {
   margin-top: 1.6rem;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   color: var(--muted);
 }
 
@@ -866,9 +1028,28 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   gap: clamp(1.6rem, 4vw, 3rem);
 }
 
-.pillar { border-top: 2px solid var(--accent-soft); padding-top: 1.4rem; }
+.pillar {
+  position: relative;
+  border-top: 2px solid var(--accent-soft);
+  padding-top: 1.4rem;
+  text-align: var(--text-align);
+}
 
-.pillar h3 { font-size: 1.4rem; margin-bottom: 0.6rem; }
+/* The accent rule brightens and sweeps across on hover */
+.pillar::before {
+  content: "";
+  position: absolute;
+  left: 0; top: -2px;
+  width: 100%; height: 2px;
+  background: #FFFFFF;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.55s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.pillar:hover::before { transform: scaleX(1); }
+
+.pillar h3 { font-size: 1.5rem; margin-bottom: 0.6rem; }
 
 .pillar p { color: var(--on-ink-muted); margin: 0; }
 
@@ -882,24 +1063,30 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 .news-item {
   display: grid;
-  grid-template-columns: 8.5rem minmax(0, 1fr) auto;
+  grid-template-columns: 9.5rem minmax(0, 1fr) auto;
   gap: clamp(1rem, 3vw, 2.2rem);
   align-items: baseline;
-  padding: clamp(1.4rem, 3vw, 2rem) 0;
+  padding: clamp(1.4rem, 3vw, 2rem) clamp(0.5rem, 1.5vw, 1rem);
   border-bottom: 1px solid var(--rule);
+  transition: background-color 0.3s ease;
 }
+
+.news-item:hover { background: var(--card-hover); }
+.news-item:hover .link-arrow .arrow { transform: translateX(5px); }
+.news-item h3 { transition: color 0.25s ease; }
+.news-item:hover h3 { color: var(--accent-line); }
 
 .news-item time {
   font-family: var(--font-mono);
-  font-size: 0.8438rem;
+  font-size: 0.95rem;
   color: var(--muted);
 }
 
-.news-item h3 { font-size: clamp(1.2rem, 2.2vw, 1.55rem); margin-bottom: 0.4rem; }
+.news-item h3 { font-size: clamp(1.3rem, 2.4vw, 1.7rem); margin-bottom: 0.4rem; }
 
 .news-item p { color: var(--muted); margin: 0; max-width: 62ch; }
 
-.news-item .link-arrow { font-size: 0.9688rem; }
+.news-item .link-arrow { font-size: 1.05rem; }
 
 @media (max-width: 780px) {
   .news-item { grid-template-columns: 1fr; gap: 0.4rem; }
@@ -915,11 +1102,31 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 }
 
 .offer {
+  position: relative;
   border-bottom: 1px solid var(--rule);
-  padding: 1.7rem 0 2rem;
+  padding: 1.7rem clamp(0.5rem, 1.5vw, 1.1rem) 2rem;
+  text-align: var(--text-align);
+  transition: background-color 0.35s ease;
 }
 
-.offer h3 { font-size: 1.35rem; margin-bottom: 0.6rem; }
+/* Accent underline grows in on hover — the card acknowledges the pointer */
+.offer::after, .adv::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -1px;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.offer:hover::after, .adv:hover::after { transform: scaleX(1); }
+.offer:hover { background: var(--card-hover); }
+.band--ink .offer:hover, .band--ink .adv:hover { background: rgba(255, 255, 255, 0.05); }
+.band--ink .offer::after, .band--ink .adv::after { background: var(--accent-soft); }
+
+.offer h3 { font-size: 1.45rem; margin-bottom: 0.6rem; transition: color 0.25s ease; }
 
 .offer p { color: var(--muted); margin: 0; }
 
@@ -927,14 +1134,45 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   .offer-grid { grid-template-columns: 1fr; }
 }
 
+/* ---------- Body copy blocks ----------
+   A plain content block sitting directly in a band — not one of the grid
+   layouts, and not a component that manages its own measure — becomes a
+   centred reading column, matching its band head.
+
+   The whole chain sits inside :where() so it contributes ZERO specificity.
+   Without that, the nine :not() classes would add up to (0,11,0) and silently
+   outrank single-class rules like .band-head--split and .quote's own
+   max-width, which is exactly what this selector must never do: it is a
+   default, and anything more specific has to be able to override it. */
+
+:where(
+  .band > .wrap:not(.contact-layout) > .reveal:not(.split-media):not(.rows):not(.news-list):not(.offer-grid):not(.pillars):not(.core-team):not(.advisory):not(.person):not(.band-head):not(.quote),
+  .band > .wrap:not(.contact-layout) > p.reveal
+) {
+  text-align: var(--text-align);
+  max-width: 68ch;
+  margin-inline: auto;
+}
+
+/* Paragraphs carrying their own narrower inline measure still sit on the
+   column's centre axis rather than hugging its left edge */
+:where(.band > .wrap:not(.contact-layout) > .reveal) > p,
+:where(.band > .wrap:not(.contact-layout) > .reveal) > .ticks { margin-inline: auto; }
+
 /* ---------- Tick lists ---------- */
 
+/* The list block centres under a centred heading, but the items themselves
+   stay left-aligned — centred bullet text is hard to scan. */
 .ticks {
   list-style: none;
-  margin: 1.2rem 0;
+  margin: 1.2rem auto;
   padding: 0;
+  width: fit-content;
   max-width: 62ch;
+  text-align: left;
 }
+
+.split-media .ticks, .band-head--split .ticks { margin-inline: 0; }
 
 .ticks li {
   position: relative;
@@ -1003,24 +1241,70 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   height: 100%;
   object-fit: cover;
   object-position: 60% center;
+  transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1);
 }
+
+.person:hover .monogram--photo img,
+.core-member:hover .monogram--photo img { transform: scale(1.06); }
 
 /* keep the brand accent bar above the photo */
 .monogram--photo::after { z-index: 1; }
 
-.person h3 { font-size: clamp(1.5rem, 2.6vw, 1.9rem); margin-bottom: 0.3rem; }
+/* Profile link, shared by directors, core team and advisory group. Each one
+   carries an aria-label naming the person: sixteen links all announced as
+   "LinkedIn" would be indistinguishable to a screen-reader user. */
+.person-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  padding: 0.42rem 0.9rem;
+  border: 1.5px solid var(--rule-strong);
+  border-radius: 2px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, border-color 0.2s ease,
+    color 0.2s ease, transform 0.25s ease;
+}
+
+.person-link svg { width: 16px; height: 16px; flex: none; }
+
+.person-link:hover, .person-link:focus-visible {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+}
+
+/* on navy, the light-theme rule colour would be invisible */
+.band--ink .person-link { border-color: rgba(255, 255, 255, 0.38); color: #FFFFFF; }
+
+.band--ink .person-link:hover, .band--ink .person-link:focus-visible {
+  background: var(--accent-soft);
+  border-color: var(--accent-soft);
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .person-link, .person-link:hover, .person-link:focus-visible { transform: none; }
+}
+
+.person h3 { font-size: clamp(1.6rem, 2.8vw, 2.05rem); margin-bottom: 0.3rem; }
 
 .person-role {
   font-family: var(--font-mono);
-  font-size: 0.8438rem;
+  font-size: 0.9375rem;
   line-height: 1.7;
   color: var(--muted);
   margin-bottom: 1.1rem;
 }
 
 @media (max-width: 680px) {
-  .person { grid-template-columns: 1fr; }
-  .monogram { max-width: 220px; }
+  .person { grid-template-columns: 1fr; justify-items: center; text-align: var(--text-align); }
+  .monogram { max-width: 220px; width: 100%; }
+  .person .ticks { margin-inline: auto; }
 }
 
 .core-team {
@@ -1033,14 +1317,33 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   .core-team { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
-.core-member h3 { font-size: 1.35rem; margin: 1.1rem 0 0.2rem; }
+/* Flex column so the profile link can be pushed to the bottom: bios differ
+   in length, and without it the buttons sit at a different height in every
+   card across the row. */
+.core-member {
+  display: flex;
+  flex-direction: column;
+  text-align: var(--text-align);
+}
 
-.core-member p { color: var(--muted); font-size: 0.9688rem; margin: 0.4rem 0 0; }
+.core-member > p:last-child { margin-top: auto; padding-top: 0.9rem; }
+
+/* width:100% is load-bearing. As a flex item with auto inline margins the
+   frame no longer stretches, and its only child is absolutely positioned,
+   so it would shrink to zero content width and the aspect-ratio would then
+   collapse the height too. */
+.core-member .monogram { width: 100%; margin-inline: auto; }
+
+.core-member h3 { font-size: 1.45rem; margin: 1.1rem 0 0.2rem; }
+
+.core-member p { color: var(--muted); font-size: 1.05rem; margin: 0.4rem 0 0; }
 
 .core-member .person-role { margin-bottom: 0; }
 
 @media (max-width: 680px) {
   .core-team { grid-template-columns: 1fr; }
+  /* A full-width monogram would tower on a phone — cap it and centre */
+  .core-member .monogram { max-width: 15rem; }
 }
 
 .advisory {
@@ -1051,15 +1354,35 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 }
 
 .adv {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   border-bottom: 1px solid var(--rule);
-  padding: 1.4rem 0 1.6rem;
+  padding: 1.4rem clamp(0.5rem, 1.5vw, 1.1rem) 1.6rem;
+  text-align: var(--text-align);
+  transition: background-color 0.35s ease;
 }
 
-.adv h3 { font-size: 1.2rem; margin-bottom: 0.2rem; }
+/* profile link aligns to the bottom of the row, as with the core team */
+.adv > p:last-child { margin-top: auto; padding-top: 0.9rem; }
+
+.adv:hover { background: var(--card-hover); }
+
+/* Placeholder portraits on part of the advisory list, so the layout can be
+   judged before the real photographs exist. Remove .adv--preview (and the
+   .adv-portrait block in the markup) if photos are not going ahead. */
+.adv-portrait {
+  /* see .core-member .monogram — width is required, not decorative */
+  width: 100%;
+  max-width: 8.5rem;
+  margin: 0.2rem auto 1.1rem;
+}
+
+.adv h3 { font-size: 1.3rem; margin-bottom: 0.2rem; }
 
 .adv .person-role { margin-bottom: 0.5rem; }
 
-.adv p { color: var(--muted); font-size: 0.9688rem; margin: 0; }
+.adv p { color: var(--muted); font-size: 1.05rem; margin: 0; }
 
 @media (max-width: 780px) {
   .advisory { grid-template-columns: 1fr; }
@@ -1077,11 +1400,11 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
      stretched photo renders identically regardless of content length */
   min-height: 9rem;
 }
-.cta-split h2 { margin: 0 0 0.6rem; max-width: 16ch; }
+.cta-split h2 { margin: 0 0 0.6rem; max-width: 20ch; }
 
 .cta-split address, .cta-split p {
   font-family: var(--font-mono);
-  font-size: 0.9063rem;
+  font-size: 1.05rem;
   line-height: 1.8;
   margin: 0;
 }
@@ -1101,9 +1424,13 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
   padding: 0.9rem 0;
 }
 
+.subnav ul { justify-content: center; }
+
 .subnav a {
+  display: inline-block;
+  padding-block: 0.3rem;
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 0.95rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
@@ -1119,11 +1446,13 @@ body.nav-open .nav-toggle-bar:nth-child(2) { top: 5px; transform: rotate(-45deg)
 
 /* ---------- Forms ---------- */
 
-.field { display: grid; gap: 0.45rem; margin-bottom: 1.4rem; }
+/* Form fields stay left-aligned whatever --text-align is set to: a centred
+   label floats away from the input it belongs to and slows the form down. */
+.field { display: grid; gap: 0.45rem; margin-bottom: 1.4rem; text-align: left; }
 
-.field label { font-weight: 600; font-size: 0.9688rem; }
+.field label { font-weight: 600; font-size: 1.05rem; }
 
-.field .hint { font-size: 0.875rem; color: var(--muted); margin: 0; }
+.field .hint { font-size: 0.95rem; color: var(--muted); margin: 0; }
 
 input[type="text"],
 input[type="email"],
@@ -1148,11 +1477,44 @@ select option { background-color: var(--field-bg); color: var(--text); }
 
 textarea { resize: vertical; min-height: 8.5rem; }
 
+/* Spam trap: reachable by a bot filling every field, invisible and
+   unfocusable for a person. Not display:none — some bots skip those. */
+.hp-field {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none;
+}
+
+.form-note {
+  margin: 0.7rem 0 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  opacity: 0.75;
+}
+
+/* `color: inherit` matters: these sit on white bands AND on the navy
+   footer, where the old var(--text) grey fell to ~1.9:1 */
 .form-status {
   margin-top: 1rem;
   font-weight: 600;
-  color: var(--text);
+  color: inherit;
+  min-height: 1.5em;
 }
+
+.form-status.is-ok { color: var(--form-ok); }
+.form-status.is-error { color: var(--form-error); }
+.form-status.is-busy { opacity: 0.75; }
+
+button[type="submit"]:disabled {
+  opacity: 0.65;
+  cursor: progress;
+  transform: none;
+}
+
+button[type="submit"]:disabled:hover { transform: none; box-shadow: none; }
 
 /* Footer mailing form */
 
@@ -1182,9 +1544,10 @@ textarea { resize: vertical; min-height: 8.5rem; }
 
 .partners-title {
   text-align: center;
-  font-size: 0.9375rem;
+  font-size: 1.05rem;
   color: #5A5B5D;
-  margin: 0 0 2.2rem;
+  max-width: 60ch;
+  margin: 0 auto 2.2rem;
 }
 
 .partners-row {
@@ -1198,14 +1561,29 @@ textarea { resize: vertical; min-height: 8.5rem; }
 .partners-row img {
   height: clamp(56px, 8vw, 82px);
   width: auto;
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.3, 1), filter 0.4s ease;
+}
+
+.partners-row img:hover { transform: translateY(-4px) scale(1.03); }
+
+/* Institutional lockups in the footer: TCD and the HEA funding acknowledgement */
+.foot-affils {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: clamp(1.1rem, 3vw, 2rem);
+  margin-top: 1.4rem;
 }
 
 .foot-affil {
-  height: 50px;
+  height: 54px;
   width: auto;
-  margin-top: 1.3rem;
   opacity: 0.92;
 }
+
+/* The HEA lockup is a wide, fine-stroked wordmark — it needs full opacity
+   on the navy ground to stay legible */
+.foot-affil--hea { height: 44px; opacity: 1; }
 
 /* ---------- Footer ---------- */
 
@@ -1214,6 +1592,8 @@ textarea { resize: vertical; min-height: 8.5rem; }
   color: var(--on-ink-muted);
   --heading: #FFFFFF;
   --focus: var(--accent-soft);
+  --form-ok: #93E5B5;
+  --form-error: #FFB4AB;
   padding-block: clamp(3.5rem, 7vw, 5rem) 2rem;
   position: relative;
   overflow: hidden;
@@ -1240,13 +1620,13 @@ textarea { resize: vertical; min-height: 8.5rem; }
 
 .foot-brand p {
   margin-top: 1rem;
-  font-size: 0.9375rem;
+  font-size: 1.05rem;
   max-width: 30ch;
 }
 
 .foot-col h2 {
   font-family: var(--font-mono);
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1259,9 +1639,19 @@ textarea { resize: vertical; min-height: 8.5rem; }
 .foot-col li { margin: 0.45rem 0; }
 
 .foot-col a {
+  display: inline-block;
+  padding-block: 0.15rem;
   text-decoration: none;
-  font-size: 0.9375rem;
+  font-size: 1.0313rem;
+  transition: color 0.2s ease, transform 0.25s ease;
 }
+
+.foot-col a:hover { color: #FFFFFF; }
+.foot-col li:hover a { transform: translateX(3px); }
+
+/* Social links keep their icon-beside-label row: the inline-block above
+   would otherwise stack the icon on top of the text */
+.foot-col a.social-link { display: inline-flex; align-items: center; gap: 0.55rem; }
 
 .foot-col a:hover {
   text-decoration: underline;
@@ -1285,9 +1675,17 @@ textarea { resize: vertical; min-height: 8.5rem; }
   gap: 1rem;
   flex-wrap: wrap;
   font-family: var(--font-mono);
-  font-size: 0.7813rem;
+  font-size: 0.9063rem;
   color: var(--on-ink-faint);
 }
+
+.foot-bottom a {
+  text-decoration-color: rgba(157, 193, 240, 0.45);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.foot-bottom a:hover { color: #FFFFFF; text-decoration-color: var(--accent-soft); }
 
 @media (max-width: 880px) {
   .foot-grid { grid-template-columns: 1fr 1fr; }
@@ -1317,12 +1715,12 @@ textarea { resize: vertical; min-height: 8.5rem; }
 .side-toc {
   position: sticky;
   top: 6rem;
-  font-size: 0.9375rem;
+  font-size: 1rem;
 }
 
 .side-toc h2 {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -1344,6 +1742,829 @@ textarea { resize: vertical; min-height: 8.5rem; }
 @media (max-width: 900px) {
   .layout-side { grid-template-columns: 1fr; }
   .side-toc { display: none; }
+}
+
+/* ============================================================
+   Page transitions
+   Cross-document view transitions: navigating between pages
+   cross-fades instead of flashing white. Browsers without support
+   simply navigate as before, so there is nothing to fall back to.
+   ============================================================ */
+
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) { animation: page-out 0.2s ease both; }
+  ::view-transition-new(root) { animation: page-in 0.36s cubic-bezier(0.16, 1, 0.3, 1) both; }
+}
+
+@keyframes page-out { to { opacity: 0; } }
+@keyframes page-in { from { opacity: 0; transform: translateY(14px); } }
+
+/* The header is identical on every page, so give it its own snapshot and
+   it stays put while the content beneath it changes */
+.site-header { view-transition-name: site-header; }
+
+/* ============================================================
+   Photo lightbox
+   ============================================================ */
+
+.zoomable { cursor: zoom-in; }
+
+/* The site's default focus ring sits 3px OUTSIDE the box, which a clipping
+   parent or an in-flight clip-path wipe paints away — leaving these newly
+   focusable photos with no visible focus at all. Draw it inward instead,
+   where nothing can clip it. */
+.zoomable:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+
+/* A monogram photo fills its frame exactly and the frame clips, so an
+   outline on the image itself is invisible. Put it on the frame instead. */
+.monogram--photo:has(img:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.monogram--photo img:focus-visible { outline: none; }
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  gap: 1.2rem;
+  padding: clamp(1rem, 4vw, 3rem);
+  background: rgba(4, 16, 58, 0.94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Cancels the desktop body zoom (0.8 x 1.25 = 1), so a fixed overlay
+   covers the whole viewport instead of 80% of it */
+@media (min-width: 921px) {
+  .lightbox { zoom: 1.25; }
+}
+
+body.lb-open .lightbox { opacity: 1; visibility: visible; }
+
+.lightbox figure {
+  margin: 0;
+  display: grid;
+  gap: 1.1rem;
+  justify-items: center;
+  max-width: min(100%, 70rem);
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 76vh;
+  width: auto;
+  height: auto;
+  border-radius: 3px;
+  box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.75);
+  transform: scale(0.96);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+body.lb-open .lightbox img { transform: none; }
+
+.lightbox figcaption {
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+  max-width: 62ch;
+  opacity: 0.85;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: clamp(0.75rem, 2.5vw, 1.5rem);
+  right: clamp(0.75rem, 2.5vw, 1.5rem);
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  background: none;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #FFFFFF;
+  transform: rotate(90deg);
+}
+
+.lightbox-close:focus-visible { outline: 3px solid #FFFFFF; outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox, .lightbox img, .lightbox-close { transition: none; }
+  .lightbox img { transform: none; }
+  .lightbox-close:hover { transform: none; }
+}
+
+/* ============================================================
+   Pointer-reactive surfaces
+   ============================================================ */
+
+/* A soft light follows the cursor across the homepage banner */
+.hero-glow {
+  position: absolute;
+  top: 0; left: 0;
+  /* above .hero-photo-bg (auto), below .hero .wrap (also 1, but later in
+     DOM order) — otherwise the light vanishes over the right-hand photo */
+  z-index: 1;
+  width: 40rem;
+  height: 40rem;
+  margin: -20rem 0 0 -20rem;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle,
+    rgba(255, 255, 255, 0.14),
+    rgba(157, 193, 240, 0.07) 42%,
+    transparent 68%);
+  opacity: 0;
+  transition: opacity 0.55s ease;
+  will-change: transform;
+}
+
+.hero:hover .hero-glow { opacity: 1; }
+
+/* The audience rows pick up a spotlight under the pointer. Background
+   only: the rows' children already own transform for their slide.
+   --mx/--my are written by main.js on pointermove; both reads below carry
+   a fallback so the rule is still valid before any pointer has moved. */
+.row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(18rem 18rem at var(--mx, 50%) var(--my, 50%),
+    rgba(157, 193, 240, 0.30), transparent 72%);
+}
+
+.row:hover::before { opacity: 1; }
+
+@media (max-width: 880px) {
+  .hero-glow { display: none; }
+  .row::before { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow { display: none; }
+}
+
+/* ============================================================
+   Section headings draw an accent rule as they scroll in
+   ============================================================ */
+
+.band-head h2::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 3px;
+  margin: 1rem auto 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
+}
+
+/* The split head bottom-aligns its heading against a side link; adding a
+   rule under the h2 would knock that baseline out by the rule's height */
+.band-head--split h2::after { display: none; }
+.band--ink .band-head h2::after { background: var(--accent-soft); }
+.band--accent .band-head h2::after { background: rgba(255, 255, 255, 0.85); }
+
+.band-head.is-in h2::after { transform: scaleX(1); }
+
+/* Without the JS layer nothing adds .is-in, so show the rule outright */
+html:not(.anim) .band-head h2::after { transform: scaleX(1); transition: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .band-head h2::after { transform: scaleX(1); transition: none; }
+}
+
+/* ============================================================
+   Scroll-spy: the in-page nav marks the section you are reading
+   ============================================================ */
+
+.side-toc a.is-current {
+  color: var(--heading);
+  border-color: var(--accent);
+  font-weight: 700;
+}
+
+.subnav a.is-current {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-decoration-color: var(--accent);
+  text-underline-offset: 6px;
+}
+
+/* ============================================================
+   Map card (contact page)
+   The address itself is the link. The panel above it is drawn in CSS
+   rather than an embedded Google map on purpose: an iframe would load
+   Google's scripts and cookies for every visitor before anyone has
+   consented to it, which is not something a Trinity page should do
+   without asking. Pressing it opens Google Maps in a new tab.
+   ============================================================ */
+
+.map-card {
+  display: block;
+  margin-top: 0.9rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: var(--paper);
+  transition: border-color 0.25s ease, box-shadow 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.map-card:hover, .map-card:focus-visible {
+  border-color: var(--accent);
+  box-shadow: 0 18px 36px -22px rgba(7, 28, 101, 0.55);
+  transform: translateY(-2px);
+}
+
+/* An abstract street plan: two carriageways crossing a block grid.
+   Decorative, not a real map, so it is aria-hidden. */
+.map-canvas {
+  position: relative;
+  display: block;
+  height: 7.5rem;
+  background-color: var(--paper-2);
+  background-image:
+    linear-gradient(107deg, transparent 43%, var(--map-road) 43%, var(--map-road) 51%, transparent 51%),
+    linear-gradient(14deg, transparent 62%, var(--map-road) 62%, var(--map-road) 67%, transparent 67%),
+    repeating-linear-gradient(0deg, var(--map-grid) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(90deg, var(--map-grid) 0 1px, transparent 1px 30px);
+}
+
+.map-pin {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  margin: -22px 0 0 -9px;
+  border-radius: 50% 50% 50% 0;
+  background: var(--accent);
+  border: 2px solid #FFFFFF;
+  transform: rotate(-45deg);
+  box-shadow: 0 6px 14px -4px rgba(7, 28, 101, 0.6);
+  transition: transform 0.35s cubic-bezier(0.28, 0.84, 0.42, 1);
+}
+
+/* the pin's shadow on the ground */
+.map-pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 118%;
+  width: 12px;
+  height: 5px;
+  margin-left: -6px;
+  border-radius: 50%;
+  background: rgba(7, 28, 101, 0.28);
+  transform: rotate(45deg);
+}
+
+.map-card:hover .map-pin,
+.map-card:focus-visible .map-pin { transform: rotate(-45deg) translate(3px, -3px); }
+
+.map-body {
+  display: block;
+  padding: 1rem 1.1rem 1.1rem;
+  font-size: 1.0313rem;
+  line-height: 1.65;
+  color: var(--text);
+}
+
+/* block-level so it starts its own line under the eircode */
+.map-cta {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.9rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--rule);
+  font-weight: 600;
+  color: var(--accent-line);
+}
+
+.map-cta .arrow { transition: transform 0.25s ease; }
+.map-card:hover .map-cta .arrow,
+.map-card:focus-visible .map-cta .arrow { transform: translate(2px, -2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .map-card, .map-card:hover, .map-card:focus-visible,
+  .map-pin, .map-card:hover .map-pin, .map-card:focus-visible .map-pin,
+  .map-cta .arrow, .map-card:hover .map-cta .arrow,
+  .map-card:focus-visible .map-cta .arrow { transform: none; transition: none; }
+}
+
+/* ============================================================
+   VR view
+   A novelty toggle that makes the page look like it is being viewed
+   through a headset: two lens apertures, the screen-door grid real
+   panels show, chromatic fringing at the lens edges, and a slow head
+   drift. Everything lives in a fixed, pointer-events:none overlay, so
+   the site underneath stays completely usable — nothing is transformed
+   or filtered, which would otherwise turn body into a containing block
+   and break the sticky header, the lightbox and back-to-top.
+   ============================================================ */
+
+.vr-toggle {
+  position: fixed;
+  left: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 85;
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  padding: 0;
+  background: var(--totop-bg);
+  color: var(--totop-ink);
+  border: 2px solid var(--totop-bg);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 14px 30px -12px rgba(7, 28, 101, 0.55);
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease, opacity 0.3s ease, visibility 0.3s ease,
+    transform 0.3s cubic-bezier(0.2, 0.9, 0.35, 1.05);
+}
+
+/* The menu owns the screen while it is open — same rule .to-top follows */
+body.nav-open .vr-toggle { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.vr-toggle:hover { transform: translateY(-3px); }
+.vr-toggle:active { transform: scale(0.95); }
+
+/* Attention hint: mostly still, with a double-bounce every few seconds so
+   it registers in peripheral vision without nagging. It runs a fixed
+   number of times and stops for good once the button has been used. */
+.vr-toggle::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  border: 2px solid var(--accent-soft);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body:not(.vr-on) .vr-toggle.is-hinting {
+    animation: vr-bounce 5s cubic-bezier(0.3, 0.8, 0.4, 1) 5;
+  }
+
+  body:not(.vr-on) .vr-toggle.is-hinting::after {
+    animation: vr-ping 5s ease-out 5;
+  }
+
+  /* Hand transform back to :hover / :active the moment it is engaged with.
+     Matches the hinting selector's specificity plus the pseudo-class, or
+     the running animation would keep overriding the hover transform. */
+  body:not(.vr-on) .vr-toggle.is-hinting:hover,
+  body:not(.vr-on) .vr-toggle.is-hinting:focus-visible { animation: none; }
+
+  body:not(.vr-on) .vr-toggle.is-hinting:hover::after,
+  body:not(.vr-on) .vr-toggle.is-hinting:focus-visible::after { animation: none; opacity: 0; }
+}
+
+@keyframes vr-bounce {
+  0%, 66%, 100% { transform: translateY(0) scale(1); }
+  72% { transform: translateY(-11px) scale(1.06); }
+  79% { transform: translateY(0) scale(0.96); }
+  86% { transform: translateY(-5px) scale(1.02); }
+  93% { transform: translateY(0) scale(1); }
+}
+
+@keyframes vr-ping {
+  0%, 66% { transform: scale(1); opacity: 0; }
+  72% { opacity: 0.65; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+body.vr-on .vr-toggle {
+  background: var(--accent);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  box-shadow: 0 0 0 4px rgba(157, 193, 240, 0.35), 0 14px 30px -12px rgba(0, 0, 0, 0.6);
+}
+
+/* The navigation rides ABOVE the VR overlay as a heads-up display.
+   The header sits outside the lens apertures, so left under the dark
+   surround it dims to the point of being unusable — the links still
+   receive clicks, but you cannot read what you are clicking.
+   Raising .site-header also lifts .scroll-progress and the full-screen
+   mobile nav, since both are its children and it now forms a stacking
+   context. The lightbox (z 90) still wins over all of it. */
+body.vr-on .site-header {
+  z-index: 82;
+  color: #FFFFFF;
+  --heading: #FFFFFF;
+  --text: #E6EDFB;
+  --muted: #C6D4F2;
+  --cta-line: #9DC1F0;
+  --cta-text: #071C65;
+  --accent-line: #9DC1F0;
+  --rule: rgba(157, 193, 240, 0.35);
+  --rule-strong: rgba(255, 255, 255, 0.45);
+  --link-line: rgba(157, 193, 240, 0.5);
+  --link-line-strong: #FFFFFF;
+  --focus: #9DC1F0;
+  border-bottom-color: rgba(157, 193, 240, 0.4);
+}
+
+/* The white lockup, whichever theme is active. Done directly rather than by
+   flipping --display-light/--display-dark: the theme toggle's sun and moon
+   icons read the same two tokens, so overriding them here showed the wrong
+   icon and contradicted the button's own aria-pressed state. */
+body.vr-on .brand .logo-light { display: none; }
+body.vr-on .brand .logo-dark { display: block; }
+
+body.vr-on .site-header::before {
+  background: rgba(5, 12, 36, 0.82);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+}
+
+/* back-to-top would be swallowed by the surround too */
+body.vr-on .to-top { z-index: 82; }
+
+.vr-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+/* same trick as the lightbox: cancel the desktop body zoom so a fixed
+   overlay covers the true viewport rather than 80% of it */
+@media (min-width: 921px) {
+  .vr-stage { zoom: 1.25; }
+}
+
+body.vr-on .vr-stage { opacity: 1; visibility: visible; }
+
+.vr-inner { position: absolute; inset: -2%; }
+
+/* the page read as an emissive panel — backdrop-filter touches only what
+   is painted behind, never the page's own layout or containing blocks */
+.vr-panel {
+  position: absolute;
+  inset: 0;
+  -webkit-backdrop-filter: saturate(1.22) contrast(1.05);
+  backdrop-filter: saturate(1.22) contrast(1.05);
+}
+
+/* the two lens apertures: a dark sheet with two soft holes punched in it */
+.vr-lenses {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* the fine gap between physical pixels that headsets show */
+.vr-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.34;
+  mix-blend-mode: multiply;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.55) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0 1px, transparent 1px 3px);
+}
+
+/* lenses split light: warm on one edge, cool on the other */
+.vr-fringe {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.85;
+  /* sized to match the SVG apertures so the fringe lands on the rim */
+  background:
+    radial-gradient(ellipse 26% 48% at 27% 50%, transparent 68%, rgba(255, 74, 74, 0.26) 82%, transparent 97%),
+    radial-gradient(ellipse 26% 48% at 73% 50%, transparent 68%, rgba(74, 176, 255, 0.26) 82%, transparent 97%);
+}
+
+/* A catchlight on each lens, not a wash: kept small and weak so the page
+   underneath stays readable — the whole point is to browse in VR, not to
+   look at fog. */
+.vr-glare {
+  position: absolute;
+  inset: 0;
+  mix-blend-mode: screen;
+  opacity: 0.5;
+  background:
+    radial-gradient(ellipse 5% 7% at 19% 30%, rgba(255, 255, 255, 0.16), transparent 70%),
+    radial-gradient(ellipse 5% 7% at 63% 30%, rgba(255, 255, 255, 0.16), transparent 70%);
+}
+
+.vr-reticle {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle 3px at 27% 50%, rgba(255, 255, 255, 0.7), transparent 100%),
+    radial-gradient(circle 3px at 73% 50%, rgba(255, 255, 255, 0.7), transparent 100%);
+}
+
+.vr-flash {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle at 50% 50%, rgba(210, 232, 255, 0.9), rgba(45, 103, 179, 0.5) 60%, transparent 100%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body.vr-on .vr-inner { animation: vr-drift 13s ease-in-out infinite; }
+  body.vr-on .vr-flash { animation: vr-power 0.75s ease-out; }
+}
+
+@keyframes vr-drift {
+  0%   { transform: translate3d(-0.55%, -0.35%, 0) rotate(-0.22deg) scale(1.01); }
+  50%  { transform: translate3d(0.6%, 0.45%, 0) rotate(0.26deg) scale(1.02); }
+  100% { transform: translate3d(-0.55%, -0.35%, 0) rotate(-0.22deg) scale(1.01); }
+}
+
+@keyframes vr-power {
+  0% { opacity: 0; }
+  14% { opacity: 0.6; }
+  100% { opacity: 0; }
+}
+
+/* One lens on a phone: two side-by-side apertures on a 390px screen
+   leave almost nothing readable through either of them. */
+@media (max-width: 700px) {
+  .vr-fringe {
+    background:
+      radial-gradient(ellipse 66% 42% at 50% 50%, transparent 68%, rgba(255, 74, 74, 0.16) 80%, transparent 96%),
+      radial-gradient(ellipse 66% 42% at 50% 50%, transparent 72%, rgba(74, 176, 255, 0.16) 86%, transparent 99%);
+  }
+  .vr-glare {
+    background: radial-gradient(ellipse 9% 6% at 28% 30%, rgba(255, 255, 255, 0.16), transparent 70%);
+  }
+  .vr-reticle {
+    background: radial-gradient(circle 3px at 50% 50%, rgba(255, 255, 255, 0.6), transparent 100%);
+  }
+}
+
+/* ============================================================
+   Interactive furniture: reading-progress bar and back-to-top
+   ============================================================ */
+
+/* Sits on the sticky header's bottom edge. Kept inside the header rather
+   than fixed to the viewport so the desktop `zoom` scale applies to it the
+   same way it applies to everything else. */
+.scroll-progress {
+  position: absolute;
+  left: 0; right: 0; bottom: -3px;
+  height: 3px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scroll-progress > span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+
+/* Nothing drives the bar without the JS layer, so don't show an empty rail */
+html:not(.anim) .scroll-progress { display: none; }
+
+.to-top {
+  position: fixed;
+  right: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 55;
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  padding: 0;
+  background: var(--totop-bg);
+  color: var(--totop-ink);
+  border: 2px solid var(--totop-bg);
+  border-radius: 50%;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(14px) scale(0.92);
+  box-shadow: 0 14px 30px -12px rgba(7, 28, 101, 0.55);
+  transition: opacity 0.3s ease, visibility 0.3s ease,
+    transform 0.35s cubic-bezier(0.2, 0.9, 0.35, 1.05),
+    background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.to-top.is-visible { opacity: 1; visibility: visible; transform: none; }
+
+.to-top:hover {
+  background: var(--totop-bg-hover);
+  border-color: var(--totop-bg-hover);
+  color: var(--totop-ink-hover);
+  transform: translateY(-3px);
+}
+
+/* CSS owns the press, not Motion: an inline transform from M.press would
+   stick and permanently override the show/hide and hover transforms above */
+.to-top:active { transform: scale(0.95); }
+
+.to-top svg { transition: transform 0.25s ease; }
+.to-top:hover svg { transform: translateY(-2px); }
+
+@media (prefers-reduced-motion: reduce) {
+  .to-top, .to-top:hover, .to-top:active, .to-top:hover svg,
+  .vr-toggle, .vr-toggle:hover, .vr-toggle:active { transform: none; }
+  .to-top {
+    transition: opacity 0.2s linear, visibility 0.2s linear,
+      background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Photos that scroll into view wipe open rather than simply appearing */
+@media (prefers-reduced-motion: no-preference) {
+  html.anim .split-media img { clip-path: inset(0 0 100% 0); }
+}
+
+.split-media img { transition: box-shadow 0.45s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.3, 1); }
+.split-media img:hover { box-shadow: 0 30px 60px -26px rgba(7, 28, 101, 0.6); }
+
+/* ============================================================
+   Phones and small tablets (≤880px)
+
+   These photo layers used to be `display: none` below 780px, which is why
+   the site read as image-less on a phone. They now restack as full-bleed
+   strips. Each page carries inline "dial" values (right / left / width /
+   mask) tuned for the desktop composition — those are cancelled here with
+   !important, since inline styles otherwise win and shove the image off
+   the side of the screen.
+   ============================================================ */
+
+@media (max-width: 880px) {
+
+  /* ---- Homepage hero: photo drops in below the headline ---- */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 0;
+  }
+
+  .hero > .wrap { order: 1; }
+
+  .hero-photo-bg {
+    display: block;
+    order: 2;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    aspect-ratio: auto !important;
+    height: 58vw;
+    min-height: 12rem;
+    max-height: 20rem;
+    margin-top: clamp(2.25rem, 8vw, 3.25rem);
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
+  .hero-photo-bg::after { display: none; }
+
+  /* ---- Interior page heroes: photo banner above the heading ---- */
+  .page-hero {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* only pages that actually carry a banner photo lose their top padding */
+  .page-hero:has(> .page-hero-photo) { padding-top: 0; }
+
+  .page-hero > .wrap { order: 2; }
+
+  .page-hero-photo {
+    display: block;
+    order: 1;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 52vw;
+    min-height: 11rem;
+    max-height: 18rem;
+    margin-bottom: clamp(2rem, 7vw, 3rem);
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
+  /* ---- Accent CTA strips ----
+     Two classes, so this still wins against the plain `.band` padding
+     override further down the file (equal specificity, later source). */
+  .band.band--accent { padding-top: 0; }
+
+  .accent-photo {
+    /* The desktop crop is framed for a tall side panel; as a wide strip the
+       subject needs to sit much lower in the frame */
+    background-position: 55% 85%;
+    display: block;
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    left: auto !important;
+    width: auto !important;
+    max-width: none !important;
+    height: 44vw;
+    min-height: 9.5rem;
+    max-height: 15rem;
+    margin-bottom: clamp(1.75rem, 6vw, 2.5rem);
+    -webkit-mask-image: none !important;
+    mask-image: none !important;
+  }
+
+  /* the blue wash exists to blend the photo into the strip; stacked, it
+     just mutes the picture */
+  .accent-photo::after { display: none; }
+}
+
+/* ---------- Mobile layout refinements ---------- */
+
+@media (max-width: 780px) {
+  .band { padding-block: clamp(3rem, 9vw, 4.75rem); }
+  .hero { padding-top: clamp(3rem, 9vw, 4.5rem); }
+
+  .quote { padding-top: clamp(2.6rem, 12vw, 3.6rem); }
+  .quote::before { font-size: clamp(4rem, 15vw, 6rem); }
+
+  .foot-form input[type="email"] { flex: 1 1 100%; }
+  .foot-form .btn { width: 100%; justify-content: center; }
+
+  /* the in-page tabs scroll rather than wrapping into a ragged stack */
+  .subnav ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none;
+    justify-content: flex-start;
+  }
+  .subnav ul::-webkit-scrollbar { display: none; }
+  .subnav a { white-space: nowrap; }
+}
+
+@media (max-width: 620px) {
+  .cta-split {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: var(--text-align);
+    min-height: 0;
+  }
+  .cta-split h2 { max-width: none; }
+  .cta-split .btn { justify-content: center; }
+
+  .hero-ctas { flex-direction: column; align-items: stretch; }
+  .hero-ctas .btn { justify-content: center; }
+
+  .page-hero .btn { display: flex; justify-content: center; }
+}
+
+@media (max-width: 540px) {
+  .foot-grid { text-align: var(--text-align); }
+  .foot-brand p { margin-inline: auto; }
+  .foot-brand .brand-logo { margin-inline: auto; }
+  .foot-affils { justify-content: center; }
+  .foot-bottom { justify-content: center; text-align: center; }
+  /* the two corner buttons are a visual pair — shrink them together */
+  .to-top, .vr-toggle { width: 2.85rem; height: 2.85rem; }
 }
 
 /* ============================================================
@@ -1380,6 +2601,15 @@ textarea { resize: vertical; min-height: 8.5rem; }
     --scroll-track: #0A1230;
     --display-light: none;
     --display-dark: block;
+    --card-hover: #14225A;
+    --totop-bg: #2D67B3;
+    --totop-ink: #FFFFFF;
+    --totop-bg-hover: #9DC1F0;
+    --totop-ink-hover: #071C65;
+    --form-ok: #6FD79B;
+    --form-error: #FFB4AB;
+    --map-road: rgba(157, 193, 240, 0.24);
+    --map-grid: rgba(198, 212, 242, 0.10);
   }
 }
 
@@ -1408,4 +2638,13 @@ textarea { resize: vertical; min-height: 8.5rem; }
   --scroll-track: #0A1230;
   --display-light: none;
   --display-dark: block;
+  --card-hover: #14225A;
+  --totop-bg: #2D67B3;
+  --totop-ink: #FFFFFF;
+  --totop-bg-hover: #9DC1F0;
+  --totop-ink-hover: #071C65;
+  --form-ok: #6FD79B;
+  --form-error: #FFB4AB;
+  --map-road: rgba(157, 193, 240, 0.24);
+  --map-grid: rgba(198, 212, 242, 0.10);
 }
