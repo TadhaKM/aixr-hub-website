@@ -91,6 +91,64 @@ var FORM_CONFIG = {
     if (state) el.classList.add(state);
   }
 
+  // ---------- per-field errors ----------
+  // The native validation bubble shows one field at a time and disappears
+  // after a few seconds. These persist beside the field, and give provider
+  // errors somewhere to land other than the bottom of the form.
+
+  function errorNode(el) {
+    return el && el.id ? document.getElementById(el.id + "-error") : null;
+  }
+
+  function setFieldError(el, message) {
+    var node = errorNode(el);
+    if (message) {
+      el.setAttribute("aria-invalid", "true");
+      if (node) node.textContent = message;
+    } else {
+      el.removeAttribute("aria-invalid");
+      if (node) node.textContent = "";
+    }
+  }
+
+  function clearFieldErrors(form) {
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (el.id) setFieldError(el, "");
+    });
+  }
+
+  // Writes each invalid control's own message beside it and focuses the
+  // first one. Returns false when the form is not submittable.
+  function showValidationErrors(form) {
+    var first = null;
+    Array.prototype.forEach.call(form.elements, function (el) {
+      if (!el.willValidate || !el.id) return;
+      if (el.validity.valid) { setFieldError(el, ""); return; }
+      setFieldError(el, el.validationMessage);
+      if (!first) first = el;
+    });
+    if (first) {
+      // The mailing forms are a bare input with no per-field error node, and
+      // noValidate suppresses the browser's own bubble -- so without this the
+      // form would simply do nothing visible when the address is bad.
+      if (!errorNode(first)) setStatus(form, first.validationMessage, "is-error");
+      first.focus();
+    }
+    return !first;
+  }
+
+  // A provider complaining about an address should point at the address.
+  function routeProviderError(form, message) {
+    if (!message) return false;
+    var email = form.querySelector('input[type="email"]');
+    if (email && email.id && /e-?mail|address/i.test(message)) {
+      setFieldError(email, message);
+      email.focus();
+      return true;
+    }
+    return false;
+  }
+
   function setBusy(form, busy) {
     var btn = form.querySelector("button[type=submit], button:not([type])");
     form.setAttribute("aria-busy", String(busy));
@@ -192,6 +250,13 @@ var FORM_CONFIG = {
     var kind = form.getAttribute("data-form"); // "booking" | "mailing"
     var ready = kind === "booking" ? bookingReady : mailingReady;
 
+    // Hand validation to us, but only because JS is running: a natively
+    // invalid form never fires `submit` at all, so the inline errors below
+    // would be unreachable and the browser's own bubble would show instead.
+    // Set here rather than in the markup, so with JS off the browser still
+    // validates before posting.
+    form.noValidate = true;
+
     // Point the form at the real endpoint so that it still submits (as a
     // normal page POST) if this script never runs.
     if (ready) {
@@ -201,9 +266,27 @@ var FORM_CONFIG = {
       form.method = "post";
     }
 
+    // Warn before losing a part-written booking. Only the booking form: a
+    // single email field is not worth interrupting a navigation over.
+    var dirty = false;
+    if (kind === "booking") {
+      form.addEventListener("input", function (e) {
+        dirty = true;
+        // stop shouting at a field the moment it is being fixed
+        if (e.target && e.target.id) setFieldError(e.target, "");
+      });
+      window.addEventListener("beforeunload", function (e) {
+        if (!dirty) return;
+        e.preventDefault();
+        e.returnValue = "";
+      });
+    }
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!form.checkValidity()) { form.reportValidity(); return; }
+      // inline errors beside each field, and focus the first offender
+      if (!showValidationErrors(form)) return;
+      clearFieldErrors(form);
 
       // Honeypot: a real person never fills a hidden field
       var trap = form.querySelector(".hp-field");
@@ -229,9 +312,14 @@ var FORM_CONFIG = {
           setStatus(form, result.message || form.getAttribute("data-success") ||
             "Thanks. We will be in touch.", "is-ok");
           form.reset();
+          clearFieldErrors(form);
+          dirty = false;
         } else {
+          var pinned = routeProviderError(form, result.message);
           setStatus(form, result.message ||
-            "Sorry, that did not go through. Please email trinityaixr@tcd.ie.", "is-error");
+            "Sorry, that did not go through. Please email trinityaixr@tcd.ie.",
+            "is-error");
+          if (pinned) setStatus(form, result.message, "is-error");
         }
       }).catch(function () {
         setBusy(form, false);

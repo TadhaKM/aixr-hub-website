@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>For Business · Trinity AI XR Hub</title>
   <meta name="description" content="Training that strengthens human capability in a digital world: practical, immersive training experiences for organisations navigating digital transformation.">
-  <meta name="theme-color" content="#071C65">
+  <meta name="theme-color" content="#FFFFFF">
   <link rel="icon" href="assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <!-- the hero photo is a CSS background, so the preload scanner cannot discover it -->
+  <link rel="preload" as="image" fetchpriority="high" href="assets/business-hero.jpg">
   <link rel="stylesheet" href="styles.css">
-  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);var d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches),m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d?"#0A1230":"#FFFFFF"}catch(e){}</script>
   <script>try{if("noModule" in document.createElement("script")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")}catch(e){}</script>
 </head>
 <body>
@@ -22,7 +24,7 @@
 
   <header class="site-header">
     <div class="wrap header-bar">
-      <a class="brand" href="index.html" aria-label="Trinity AI XR Hub home page">
+      <a class="brand" href="index.html" translate="no" aria-label="Trinity AI XR Hub home page">
         <img class="brand-logo logo-light" src="assets/logo-blue.png" alt="" width="529" height="446">
         <img class="brand-logo logo-dark" src="assets/logo-white.png" alt="" width="529" height="446">
       </a>
@@ -34,7 +36,6 @@
           <li><a href="students.html">Students</a></li>
           <li><a href="business.html" aria-current="page">Business</a></li>
           <li><a href="research.html">Research</a></li>
-          <li><a href="insights.html">Insights</a></li>
           <li><a class="nav-cta" href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -72,18 +73,22 @@
           <h2 id="solutions-title">Training Solutions</h2>
           <p>Our training solutions are tailored to short sessions, half-day experiences, or full one-day programmes within the structure of digital transformation.</p>
         </div>
-        <div class="reveal">
-          <p><strong>Our programmes help teams:</strong></p>
-          <ul class="ticks">
-            <li>Improve communication, presentation, and interpersonal skills</li>
-            <li>Practise leadership and decision making in realistic scenarios</li>
-            <li>Build confidence for high-pressure or uncertain situations</li>
-            <li>Explore responsible and ethical use of emerging technologies</li>
-            <li>Develop teamwork, problem solving, and adaptability</li>
-            <li>Prepare for important meetings, pitches, and client interactions</li>
-          </ul>
-          <p style="max-width:68ch">Using immersive VR-supported scenarios and guided practice, participants engage in lifelike business situations that reflect the challenges they face in their roles. These experiences provide a safe space to build confidence, refine judgement, and strengthen essential human skills that complement technical expertise.</p>
-          <p style="max-width:68ch">Each programme is designed collaboratively to align with organisational goals, culture, and learning outcomes.</p>
+        <div class="split-media split-media--copy reveal">
+          <div>
+            <p><strong>Our programmes help teams:</strong></p>
+            <ul class="ticks">
+              <li>Improve communication, presentation, and interpersonal skills</li>
+              <li>Practise leadership and decision making in realistic scenarios</li>
+              <li>Build confidence for high-pressure or uncertain situations</li>
+              <li>Explore responsible and ethical use of emerging technologies</li>
+              <li>Develop teamwork, problem solving, and adaptability</li>
+              <li>Prepare for important meetings, pitches, and client interactions</li>
+            </ul>
+            <p style="max-width:68ch; margin-inline:auto">Using immersive VR-supported scenarios and guided practice, participants engage in lifelike business situations that reflect the challenges they face in their roles. These experiences provide a safe space to build confidence, refine judgement, and strengthen essential human skills that complement technical expertise.</p>
+            <p style="max-width:68ch; margin-inline:auto">Each programme is designed collaboratively to align with organisational goals, culture, and learning outcomes.</p>
+          </div>
+          <!-- POSITION DIALS: margin-top = up/down (negative = up) | --shift = move right | --bleed = grow to the right (both auto-capped so they never clip) -->
+          <img src="assets/business-training.jpg" alt="Professor Na Fu presenting the Trinity AI XR Hub to an audience" width="1400" height="1050" loading="lazy" style="margin-top: -10.5rem; --shift: 4rem; --bleed: 8rem">
         </div>
       </div>
     </section>
@@ -93,24 +98,32 @@
         <div class="band-head reveal">
           <h2 id="why-title">Why Partner With Us</h2>
         </div>
-        <div class="reveal">
-          <ul class="ticks">
-            <li>Practical, hands-on simulations</li>
-            <li>A safe space for independent or group practice</li>
-            <li>Sessions rooted in research and responsible innovation</li>
-            <li>Adaptable formats for diverse teams and industries</li>
-            <li>Strong alignment with digital transformation and future skills</li>
-          </ul>
-          <p style="max-width:62ch; margin-inline:auto; color:var(--on-ink-muted)">Your organisation can use the Hub to create meaningful development experiences that support leadership, communication, and human capability at all levels.</p>
+        <div class="split-media split-media--copy reveal">
+          <div>
+            <ul class="ticks">
+              <li>Practical, hands-on simulations</li>
+              <li>A safe space for independent or group practice</li>
+              <li>Sessions rooted in research and responsible innovation</li>
+              <li>Adaptable formats for diverse teams and industries</li>
+              <li>Strong alignment with digital transformation and future skills</li>
+            </ul>
+            <p style="max-width:62ch; margin-inline:auto; color:var(--on-ink-muted)">Your organisation can use the Hub to create meaningful development experiences that support leadership, communication, and human capability at all levels.</p>
+          </div>
+          <!-- POSITION DIALS: margin-top = up/down (negative = up) | --shift = move right | --bleed = grow to the right (both auto-capped so they never clip) -->
+          <img src="assets/business-partner.jpg" alt="A group training session in the Trinity AI XR Hub" width="1200" height="900" loading="lazy" style="margin-top: 0rem; --shift: 4rem; --bleed: 8rem">
         </div>
       </div>
     </section>
 
     <section class="band" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="prose reveal">
-          <h2 id="work-title" style="margin-top:0">Work With Us</h2>
-          <p class="lede">We design programmes in collaboration with teams, departments, and organisations across sectors. Whether you want a focused skills session or a broader digital transformation module, we can tailor an experience that fits your needs.</p>
+        <div class="split-media split-media--copy reveal">
+          <div class="prose">
+            <h2 id="work-title" style="margin-top:0">Work With Us</h2>
+            <p class="lede">We design programmes in collaboration with teams, departments, and organisations across sectors. Whether you want a focused skills session or a broader digital transformation module, we can tailor an experience that fits your needs.</p>
+          </div>
+          <!-- POSITION DIALS: margin-top = up/down (negative = up, moves half the value) | --shift = move right | --bleed = grow to the right (both auto-capped so they never clip) -->
+          <img src="assets/staff-family-day.jpg" alt="Staff and their families at a Trinity AI XR Hub open day" width="1800" height="932" loading="lazy" style="margin-top: 0rem; --shift: 4rem; --bleed: 8rem">
         </div>
       </div>
     </section>
@@ -137,8 +150,8 @@
           <img class="brand-logo" src="assets/logo-white.png" alt="Trinity AI XR Hub" width="529" height="446" loading="lazy">
           <p>Immersive Intelligence. Positive Impact.</p>
           <div class="foot-affils">
-            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="5612" height="1982" loading="lazy">
-            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="2094" height="613" loading="lazy">
+            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="453" height="160" loading="lazy">
+            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="547" height="160" loading="lazy">
           </div>
         </div>
         <nav class="foot-col" aria-label="Quick links">
@@ -150,14 +163,6 @@
             <li><a href="students.html">For Students</a></li>
             <li><a href="business.html">For Business</a></li>
             <li><a href="research.html">For Research</a></li>
-          </ul>
-        </nav>
-        <nav class="foot-col" aria-label="More links">
-          <h2>Explore</h2>
-          <ul>
-            <li><a href="insights.html">Insights &amp; News</a></li>
-            <li><a href="insights.html#blogs">Blogs</a></li>
-            <li><a href="insights.html#impact">Case Studies</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
@@ -188,7 +193,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin</a></span>
+        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin, the University of Dublin</a></span>
         <span>Email: <a href="mailto:trinityaixr@tcd.ie">trinityaixr@tcd.ie</a></span>
       </div>
     </div>

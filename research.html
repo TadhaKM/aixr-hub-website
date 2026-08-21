@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>For Research · Trinity AI XR Hub</title>
   <meta name="description" content="Exploring the human side of technology: a collaborative space for research on AI, VR, human behaviour, learning, and leadership.">
-  <meta name="theme-color" content="#071C65">
+  <meta name="theme-color" content="#FFFFFF">
   <link rel="icon" href="assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <!-- the hero photo is a CSS background, so the preload scanner cannot discover it -->
+  <link rel="preload" as="image" fetchpriority="high" href="assets/research-hero.jpg">
   <link rel="stylesheet" href="styles.css">
-  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);var d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches),m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d?"#0A1230":"#FFFFFF"}catch(e){}</script>
   <script>try{if("noModule" in document.createElement("script")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")}catch(e){}</script>
 </head>
 <body>
@@ -22,7 +24,7 @@
 
   <header class="site-header">
     <div class="wrap header-bar">
-      <a class="brand" href="index.html" aria-label="Trinity AI XR Hub home page">
+      <a class="brand" href="index.html" translate="no" aria-label="Trinity AI XR Hub home page">
         <img class="brand-logo logo-light" src="assets/logo-blue.png" alt="" width="529" height="446">
         <img class="brand-logo logo-dark" src="assets/logo-white.png" alt="" width="529" height="446">
       </a>
@@ -34,7 +36,6 @@
           <li><a href="students.html">Students</a></li>
           <li><a href="business.html">Business</a></li>
           <li><a href="research.html" aria-current="page">Research</a></li>
-          <li><a href="insights.html">Insights</a></li>
           <li><a class="nav-cta" href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -78,7 +79,7 @@
             <li>Communication and interpersonal dynamics</li>
             <li>Leadership behaviour in high-pressure settings</li>
             <li>Teamwork, collaboration, and problem solving</li>
-            <li>Ethical judgment and decision making</li>
+            <li>Ethical judgement and decision making</li>
             <li>Human responses to digital and immersive environments</li>
           </ul>
           <p>We welcome project proposals from across business, psychology, education, and interdisciplinary areas.</p>
@@ -151,8 +152,8 @@
           <img class="brand-logo" src="assets/logo-white.png" alt="Trinity AI XR Hub" width="529" height="446" loading="lazy">
           <p>Immersive Intelligence. Positive Impact.</p>
           <div class="foot-affils">
-            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="5612" height="1982" loading="lazy">
-            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="2094" height="613" loading="lazy">
+            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="453" height="160" loading="lazy">
+            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="547" height="160" loading="lazy">
           </div>
         </div>
         <nav class="foot-col" aria-label="Quick links">
@@ -164,14 +165,6 @@
             <li><a href="students.html">For Students</a></li>
             <li><a href="business.html">For Business</a></li>
             <li><a href="research.html">For Research</a></li>
-          </ul>
-        </nav>
-        <nav class="foot-col" aria-label="More links">
-          <h2>Explore</h2>
-          <ul>
-            <li><a href="insights.html">Insights &amp; News</a></li>
-            <li><a href="insights.html#blogs">Blogs</a></li>
-            <li><a href="insights.html#impact">Case Studies</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
@@ -202,7 +195,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin</a></span>
+        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin, the University of Dublin</a></span>
         <span>Email: <a href="mailto:trinityaixr@tcd.ie">trinityaixr@tcd.ie</a></span>
       </div>
     </div>

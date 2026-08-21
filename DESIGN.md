@@ -1,29 +1,127 @@
 # Trinity AI XR Hub — Design System
 
 ## Status
-Rebranded 2026-08-13 to comply with the official **Trinity AI XR Lab Brand Guidelines**
-(PDF supplied by the team). Naming decision: the site keeps the content doc's
-"AI XR Hub" name per the owner's choice; the logo and visual identity follow the
-guidelines strictly.
+Rebranded 2026-08-13 to the **Trinity AI XR Lab Brand Guidelines**, then rebased
+2026-08-21 onto the **TCD Visual Identity Handbook**, which outranks it. Naming
+decision: the site keeps the content doc's "AI XR Hub" name per the owner's choice.
+
+### TCD handbook compliance (2026-08-21)
+| § | Requirement | Status |
+|---|---|---|
+| 1 | Full institutional name at least once per page | Footer credit reads "Trinity College Dublin, the University of Dublin" on all 7 pages |
+| 2.2 | No sub-brand or unit-specific logos | **Deliberate conflict — see below** |
+| 2.3 | Clear zone = half the shield height around the logo | Partner strip: 66px lockups, 42px above / 51px below / 114px left / 58px right, all clear of the 33px minimum |
+| 3 | Source Sans Pro | `--font-body` / `--font-mono` = Source Sans 3 (its maintained successor), with Source Sans Pro as the next fallback |
+| 4.1 | Trinity Blue `#0569b9`, Grey `#50555a`; secondary colours must not predominate | Palette rebased to exact hex. Trinity Blue now carries every dominant surface (27 uses); Navy `#001e69` demoted to 3 uses, all gradient depth stops |
+| 5 | Bilingual unit naming | Carried by the official Trinity lockup, which is itself bilingual. No Irish unit name invented — Trinity Business School's own site does not present one either |
+| 6 | Trinity logo leftmost, equal prominence with partners | Trinity is first in the partner strip; all three logos are 66px |
+
+**§2.2 conflict, on the record.** The handbook forbids unit-specific logos, but the
+Hub has its own approved mark and the owner chose to keep it (asked and answered,
+2026-08-21). Everything else in the handbook is applied. If Trinity's brand office
+ever objects, the fix is one asset swap: `assets/logo*.png` in the header, footer and
+favicon, with no CSS or layout change needed.
+
+**Why Josefin Sans survives §3.** The handbook mandates Source Sans Pro; the Hub's own
+guidelines mandate Josefin Sans. Split by role at the owner's instruction: Source Sans
+runs all body, meta and form text (the bulk of the page); Josefin Sans is confined to
+display headings, where it functions as the Hub's mark rather than as text.
+
+### Portrait hover flip (team.html, 2026-08-21)
+Hovering a team portrait turns it about its vertical axis onto a navy plate
+carrying a LinkedIn shortcut. Three traps are load-bearing:
+
+- **`preserve-3d` cannot live on `.monogram--photo`.** The frame keeps
+  `overflow: hidden`, and an element whose computed overflow is not `visible`
+  has its used `transform-style` forced back to `flat` — the back face then
+  renders on the wrong side with no error anywhere. It lives on the inner
+  `.mono-flip`, which must never be given an overflow, opacity, filter, mask or
+  clip-path of its own. `perspective` is not a grouping property and stays on
+  the frame.
+- **`.mono-flip` must stay `position: absolute`.** An in-flow child gives the
+  frame intrinsic content and collapses the `width: 100%` / `aspect-ratio`
+  contract — the 2×2px portrait failure recorded below.
+- **Reduced motion swaps the mechanism, it does not zero the transform.**
+  `transform: none` on a plate that is `rotate: y 180deg` + backface-hidden
+  hides it permanently. The reduced variant cross-fades instead, so the reveal
+  survives and only the rotation goes.
+
+- **The `:focus-visible` rule must stay separate from the `:hover` rule.** A CSS
+  selector list is not forgiving: one unsupported selector invalidates the whole
+  rule. Sharing a list with `:has()` meant that on any engine without it the
+  hover flip died too — and since the plate is now the only profile link, losing
+  the reveal loses the link entirely (it is backface-hidden and turned away, so
+  it is neither visible nor clickable). Split, the worst case is only that
+  keyboard focus does not spin the card.
+- **The badge size is a token, because `body { zoom: 0.8 }` is gated on width,
+  not on pointer type.** A coarse-pointer tablet at ≥921px would otherwise
+  render the 44px badge at 35px, under the tap-target floor. `--badge` is
+  pre-divided to `3.4375rem` inside that breakpoint.
+
+**The plate is the profile link.** The text "LinkedIn" buttons that used to sit
+under each bio were removed on request, which makes the plate the *only* route
+to a profile — so it carries a real `href`, a per-person
+`aria-label="NAME on LinkedIn"`, and stays keyboard focusable. `:focus-visible`
+flips it in and rings the frame; a link you cannot see is a link you cannot use.
+
+**Devices without hover get a badge, not a flip.** `.mono-back`'s base state is
+a 44px corner badge pinned bottom-right (the bottom-left 38% belongs to
+`.monogram::after`), permanently visible and tappable. Only inside
+`(hover: hover) and (pointer: fine)` is it promoted to the full turned-away
+plate. Structuring it this way — badge as the base, plate as the enhancement —
+avoids negated media queries entirely, and means a phone can never land in the
+tap-to-flip-then-tap-again trap. Removing the text buttons without this would
+have left every phone visitor with no way to reach any profile at all.
+
+Two layout rules died with the text buttons: `.core-member > p:last-child` and
+`.adv > p:last-child` carried `margin-top: auto` to pin the button to the foot
+of the card. With the button gone the last child is the bio, and leaving those
+rules would have shoved the bio to the bottom leaving a gap under the role.
+
+**Consequence, deliberate:** team portraits are no longer lightbox triggers.
+You must hover a photo to click it, so the flip made the lightbox unreachable;
+`.monogram--photo img` was removed from the lightbox selector in `main.js`
+rather than leaving a `role="button"` labelled "View larger" on a control that
+cannot open. `.split-media` photos on the business and students pages keep it.
+**Kierstyn Olson's tile shows initials, not a photograph.** It used to borrow
+`assets/jose.jpg` — José Antonio Flaque García's portrait, still shown under his
+own name in the Core Team. That was tolerable as a mute placeholder, but once
+the card carried a LinkedIn link it became a profile affordance mounted on the
+wrong person's face, and on touch the badge sits permanently in the corner of
+that face. Excluding her instead would have left her unreachable from every
+device once the text buttons went. So the front face is now `.mono-initials`
+("KO") on the brand ground, which misrepresents nobody; swapping in a real
+headshot is a one-line change back to the standard `<img>` markup.
+
+The plate's visible label is "LinkedIn", not "View profile", to satisfy WCAG
+2.5.3 Label in Name: the accessible name is "NAME on LinkedIn", and a speech
+input user saying what they can see has to be able to activate the control.
 
 ## Tokens
 
 ### Color — official brand palette only
 | Token | Value | Role |
 |---|---|---|
-| `--ink` | `#071C65` | Brand deep navy. Dominant ground: heroes, bands, footer |
-| `--ink-2` | `#14337E` | Gradient midpoint on navy surfaces |
-| `--ink-3` / `--accent` | `#2D67B3` | Brand blue. Buttons, marks, links, accent band |
-| `--paper` | `#FFFFFF` | Brand white. Page ground |
+| `--ink` | `#0569b9` | **Trinity Blue.** Dominant ground: heroes, bands, footer |
+| `--ink-2` | `#001e69` | Trinity Navy — *secondary*, used only as a gradient depth stop |
+| `--ink-3` / `--accent` | `#0569b9` | Trinity Blue. Buttons, marks, links, accent band |
+| `--paper` | `#FFFFFF` | White. Page ground — the handbook counts white space as core identity |
 | `--paper-2` | `#EEF3FA` | Derived blue-tinted surface for alternate bands |
-| `--text` | `#5A5B5D` | Brand grey. Body text |
-| `--accent-soft` | `#9DC1F0` | Derived tint: accents/focus/markers **on navy** (raw brand blue fails contrast there) |
-| `--heading` | navy on paper, white on navy/blue surfaces | Headings |
+| `--text` | `#50555a` | **Trinity Grey.** Body text |
+| `--accent-soft` | `#c0daee` | Trinity Blue at 25%. Focus rings, borders, markers, carets — **UI only, never text** (3.89:1 on Trinity Blue clears WCAG's 3:1 bar for non-text, but not 4.5:1) |
+| `--on-ink-faint` | `#dae8f4` | The darkest blue tint that still clears 4.5:1 on Trinity Blue. Faint *text* on blue surfaces |
+| `--heading` | Trinity Blue on paper, white on blue surfaces | Headings |
+
+Two contrast failures were introduced by the rebase and fixed at the same time:
+`--on-ink-faint` was 3.31:1 on the new lighter blue (now 4.51:1), and dark mode's
+`--cta-text` was 3.89:1 (now Navy, 10.44:1). The two places `--accent-soft` was used
+as *text* — the mobile nav CTA and the row hover CTA — moved to white, 5.63:1.
 
 ### Type — brand fonts, strict
 - **Primary (headings):** Josefin Sans (Google Fonts, variable)
-- **Secondary (body, meta, data):** Arial — per guidelines, deliberately overriding the
-  general "no system fonts" preference at the owner's instruction
+- **Secondary (body, meta, data):** Source Sans 3 (TCD handbook §3), falling back to
+  Source Sans Pro then `system-ui`. This replaced Arial on 2026-08-21; the handbook
+  outranks the Hub guidelines, and it also settles the standing "no system fonts" rule
 - Body measure ≤ 68ch, tabular numerals on dates retained
 - **Reading size** (raised 2026-08-20): `1.1875rem` on phones/tablets, `1.3125rem` on
   desktop. Desktop carries `body { zoom: 0.8 }`, so 21px authored lands at ~16.8px on
@@ -36,7 +134,7 @@ guidelines strictly.
   Constrained columns are centred on the page (`margin-inline: auto`) regardless.
 
 ### Graphic language
-- Navy → blue gradients (`155deg, #071C65 → #123A8C → #2D67B3`) on hero surfaces
+- Navy → blue gradients (`155deg, #0569b9 → #03518f → #0569b9`, with `#001e69` for depth) on hero surfaces
 - Translucent white **diagonal blades** (115°) over gradients — replaces the earlier
   perspective-grid motif, matching the guidelines' pattern pages
 - Accent CTA band is brand blue gradient with white buttons (was chartreuse)
@@ -58,7 +156,7 @@ guidelines strictly.
   overrides tokens for un-stamped visitors; `:root[data-theme="dark"|"light"]` (set by the
   header toggle, persisted in localStorage, restored pre-paint by a head script) wins over the OS.
 - Dark ground is `#0A1230` (deeper than band navy so band hierarchy survives); text `#C7D1E9`;
-  on-dark accents use `--accent-soft #9DC1F0`.
+  on-dark accents use `--accent-soft #c0daee` (Trinity Blue 25%).
 - Header logo swaps navy/white lockup via `--display-light/--display-dark` tokens.
 - The homepage partner strip stays a fixed white island in both themes — the TCD and TBS
   logo files have opaque white backgrounds.
@@ -108,7 +206,7 @@ guidelines strictly.
 - **Back-to-top** button (`.to-top`) lives in `main.js`, not `animations.js`, so it
   still works when the animation module is unavailable. Appears past 60vh.
 - Hover language: accent underline sweep on `.offer`/`.adv`, rule sweep on `.pillar`,
-  tint + heading colour on `.news-item`, photo zoom on team monograms, light sweep
+  tint + heading colour on `.news-item`, portrait flip on team monograms, light sweep
   across `.btn` faces (`::before`, `z-index: -1` under `isolation: isolate`),
   clip-path wipe on `.split-media` photos entering view, staggered mobile nav items.
 
@@ -166,6 +264,14 @@ or on Motion loading).
     on, and never shown again once `localStorage['vr-seen']` is set.
 
 ### Traps worth remembering
+- **Full-bleed bands and centred text do not share a coordinate system.**
+  `.accent-photo` was pinned with `right: min(53%, 48rem)`, i.e. to the band's
+  right edge, while the heading and button sit in a centred max-width `.wrap`.
+  Every change of window width or browser zoom slid the photo across the
+  composition — 33% to 67% of the band between 1280px and 3000px. It is now
+  anchored to the band centre (`left: 50%` with a `-17rem` margin against a
+  fixed `34rem` width), which is the same axis the `.wrap` centres on, so the
+  three hold their relationship at any width. Mobile nulls the margin.
 - **Never override `--display-light` / `--display-dark` on a container.** They
   swap the header logo *and* the theme toggle's sun/moon. Overriding them to get
   the white lockup froze the toggle on the wrong glyph, contradicting its own
@@ -198,6 +304,31 @@ or on Motion loading).
 - Supplied headshots are square; they are pre-cropped to the frame's 1:1.12 ratio
   and capped at 400px wide before use. Two of the originals were ~800KB each — the
   set went from 1,972KB to 169KB, which matters on a page carrying twelve of them.
+
+### Parked pages
+`_parked/` holds finished pages that are not currently part of the site. They
+sit outside the site root deliberately: Vercel serves every `.html` in the root,
+so an unlinked page there would still be reachable by URL and indexable.
+`_parked/README.md` carries the exact steps to bring one back.
+
+Currently parked: **insights.html** (Insights & News). Removing it also removed
+7 nav items, 21 footer links, the homepage "All Updates" link, the three
+homepage "Read More" links and the students page "Check Latest Events" link.
+Those Read More links pointed at `insights.html#news` — the top of a section
+rather than an article — which a guideline audit flagged as misleading, so they
+should get real article URLs rather than simply being restored.
+
+### Form validation
+`forms.js` sets `form.noValidate = true` **at runtime**, not in the markup. A
+natively invalid form never fires `submit` at all, so the inline error path
+would be unreachable and the browser's own bubble would show instead; setting it
+from JS means a no-JS visitor still gets native validation before the form posts.
+
+On submit, each invalid control gets `aria-invalid="true"`, its own
+`validationMessage` written into a `.field-error` node linked by
+`aria-describedby`, and the first offender takes focus. Errors clear per-field on
+`input`. Provider errors that mention an address are routed to the email field
+rather than only landing in `.form-status` at the foot of the form.
 
 ### Map card (contact page)
 The address is a link to Google Maps (`/maps/search/?api=1&query=…`, the

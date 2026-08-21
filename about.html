@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>About · Trinity AI XR Hub</title>
   <meta name="description" content="The Trinity AI XR Hub is a pioneering facility within Trinity Business School at Trinity College Dublin, a hub for immersive learning, human skills development, and responsible innovation.">
-  <meta name="theme-color" content="#071C65">
+  <meta name="theme-color" content="#FFFFFF">
   <link rel="icon" href="assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <!-- the hero photo is a CSS background, so the preload scanner cannot discover it -->
+  <link rel="preload" as="image" fetchpriority="high" href="assets/laura-berry.jpg">
   <link rel="stylesheet" href="styles.css">
-  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);var d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches),m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d?"#0A1230":"#FFFFFF"}catch(e){}</script>
   <script>try{if("noModule" in document.createElement("script")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")}catch(e){}</script>
 </head>
 <body>
@@ -22,7 +24,7 @@
 
   <header class="site-header">
     <div class="wrap header-bar">
-      <a class="brand" href="index.html" aria-label="Trinity AI XR Hub home page">
+      <a class="brand" href="index.html" translate="no" aria-label="Trinity AI XR Hub home page">
         <img class="brand-logo logo-light" src="assets/logo-blue.png" alt="" width="529" height="446">
         <img class="brand-logo logo-dark" src="assets/logo-white.png" alt="" width="529" height="446">
       </a>
@@ -34,7 +36,6 @@
           <li><a href="students.html">Students</a></li>
           <li><a href="business.html">Business</a></li>
           <li><a href="research.html">Research</a></li>
-          <li><a href="insights.html">Insights</a></li>
           <li><a class="nav-cta" href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -73,11 +74,11 @@
           <a href="#offer">What We Offer</a>
         </nav>
         <div class="prose">
-          <p class="lede reveal">We focus on the complementarity between technology and human capability. While AI can automate many tasks, the skills that matter most remain distinctly human: communication, emotional intelligence, leadership, and ethical judgment. The Hub strengthens these skills through immersive simulations, realistic practice environments, and AI-supported coaching.</p>
+          <p class="lede reveal">We focus on the complementarity between technology and human capability. While AI can automate many tasks, the skills that matter most remain distinctly human: communication, emotional intelligence, leadership, and ethical judgement. The Hub strengthens these skills through immersive simulations, realistic practice environments, and AI-supported coaching.</p>
           <p class="reveal">We support students preparing for leadership roles, businesses seeking innovative training solutions, and researchers exploring how technology can enhance human potential. The Hub brings together educators, industry partners, and interdisciplinary teams who are working to amplify the human side of digital transformation.</p>
 
           <h2 id="story" class="reveal">Our Story</h2>
-          <p class="reveal">The Trinity AI XR Hub was created to explore a simple but vital idea. Technology is advancing rapidly, but the ability to lead, communicate, collaborate, and make sound judgments remains the foundation of professional success. The Hub was established to develop these capabilities using tools that mirror the realities of modern work.</p>
+          <p class="reveal">The Trinity AI XR Hub was created to explore a simple but vital idea. Technology is advancing rapidly, but the ability to lead, communicate, collaborate, and make sound judgements remains the foundation of professional success. The Hub was established to develop these capabilities using tools that mirror the realities of modern work.</p>
           <p class="reveal">Our approach combines academic research, immersive learning design, and responsible AI practice. By integrating AI-enhanced simulations and XR-supported environments into teaching, the Hub provides opportunities for learners to practise difficult conversations, navigate complex scenarios, and reflect on their decisions in a space that is safe, realistic, and deeply engaging.</p>
 
           <h2 id="mission" class="reveal">Our Mission</h2>
@@ -86,7 +87,7 @@
 
           <h2 id="goal" class="reveal">Our Goal</h2>
           <p class="reveal">Our goal is to create a learning environment where technology strengthens what makes people effective at work. We believe that future leaders will need both technical fluency and strong human capability. The Hub exists to support this development by helping learners think critically, act responsibly, and build confidence through practice.</p>
-          <p class="reveal">We are committed to preparing students, organisations, and researchers for a world where success depends on the ability to connect human judgment with technological insight.</p>
+          <p class="reveal">We are committed to preparing students, organisations, and researchers for a world where success depends on the ability to connect human judgement with technological insight.</p>
         </div>
       </div>
     </section>
@@ -152,8 +153,8 @@
           <img class="brand-logo" src="assets/logo-white.png" alt="Trinity AI XR Hub" width="529" height="446" loading="lazy">
           <p>Immersive Intelligence. Positive Impact.</p>
           <div class="foot-affils">
-            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="5612" height="1982" loading="lazy">
-            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="2094" height="613" loading="lazy">
+            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="453" height="160" loading="lazy">
+            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="547" height="160" loading="lazy">
           </div>
         </div>
         <nav class="foot-col" aria-label="Quick links">
@@ -165,14 +166,6 @@
             <li><a href="students.html">For Students</a></li>
             <li><a href="business.html">For Business</a></li>
             <li><a href="research.html">For Research</a></li>
-          </ul>
-        </nav>
-        <nav class="foot-col" aria-label="More links">
-          <h2>Explore</h2>
-          <ul>
-            <li><a href="insights.html">Insights &amp; News</a></li>
-            <li><a href="insights.html#blogs">Blogs</a></li>
-            <li><a href="insights.html#impact">Case Studies</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
@@ -203,7 +196,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin</a></span>
+        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin, the University of Dublin</a></span>
         <span>Email: <a href="mailto:trinityaixr@tcd.ie">trinityaixr@tcd.ie</a></span>
       </div>
     </div>

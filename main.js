@@ -67,7 +67,11 @@
   // Photo lightbox — click (or Enter/Space) any content photo to see it
   // at full size. Built on demand so pages with no photos pay nothing.
   // ---------------------------------------------------------------
-  var photos = document.querySelectorAll(".split-media img, .monogram--photo img");
+  // Team portraits are deliberately absent: on team.html they carry a hover
+  // flip to LinkedIn, and since you must hover a photo to click it, the
+  // lightbox was unreachable there anyway. Leaving them in would stamp a
+  // role="button" labelled "View larger" on a control that cannot open.
+  var photos = document.querySelectorAll(".split-media img");
   if (photos.length) {
     var box = null, boxImg = null, boxCap = null, lastFocus = null;
     var supportsInert = "inert" in HTMLElement.prototype;
@@ -466,13 +470,20 @@
     var reflectTheme = function () {
       themeToggle.setAttribute("aria-pressed", String(effectiveTheme() === "dark"));
     };
+    // the browser chrome colour has to follow the theme too, or it stays
+    // on whichever value the page loaded with
+    var paintChrome = function () {
+      var m = document.querySelector('meta[name="theme-color"]');
+      if (m) m.content = effectiveTheme() === "dark" ? "#0A1230" : "#FFFFFF";
+    };
     themeToggle.addEventListener("click", function () {
       var next = effectiveTheme() === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       try { localStorage.setItem("theme", next); } catch (e) {}
       reflectTheme();
+      paintChrome();
     });
-    if (darkQuery.addEventListener) darkQuery.addEventListener("change", reflectTheme);
+    if (darkQuery.addEventListener) darkQuery.addEventListener("change", function () { reflectTheme(); paintChrome(); });
     reflectTheme();
   }
 

@@ -149,10 +149,11 @@ function initHome() {
       .add(split2.chars, { y: ["0.9em", "0em"], opacity: [0, 1], duration: 850, delay: animeStagger(26) }, 340)
       .add(".hero-title .line:nth-child(3)", { opacity: [0, 1], duration: 10 }, 600)
       .add(".hero-title .mark", { clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"], duration: 700, ease: "outQuint" }, 620)
-      .add(".hero-lede", { opacity: [0, 1], y: [24, 0], duration: 700 }, 820)
-      .add(".hero-ctas", { opacity: [0, 1], duration: 10 }, 920)
-      .add(".hero-ctas .btn", { opacity: [0, 1], y: [18, 0], duration: 600, delay: animeStagger(90) }, 920)
-      .add(".hero-meta", { opacity: [0, 1], x: [-14, 0], duration: 600 }, 1080)
+      // The hero lede was removed, so the CTAs follow the headline directly
+      // and the rest of the sequence pulls forward instead of leaving a gap.
+      .add(".hero-ctas", { opacity: [0, 1], duration: 10 }, 820)
+      .add(".hero-ctas .btn", { opacity: [0, 1], y: [18, 0], duration: 600, delay: animeStagger(90) }, 820)
+      .add(".hero-meta", { opacity: [0, 1], x: [-14, 0], duration: 600 }, 980)
       // Blades and photo: OPACITY ONLY here — Motion's scroll() owns their transforms
       .add(".hero-blades", { opacity: [0, 1], duration: 1100 }, 150)
       .add(".hero-photo-bg", { opacity: [0, 1], duration: 1100 }, 250);

@@ -5,16 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Trinity AI XR Hub · Immersive Intelligence. Positive Impact.</title>
   <meta name="description" content="The Trinity AI XR Hub is a strategic initiative of Trinity Business School, advancing the responsible application of AI and XR in education, business and research.">
-  <meta name="theme-color" content="#071C65">
+  <meta name="theme-color" content="#FFFFFF">
   <link rel="icon" href="assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+  <!-- the hero photo is a CSS background, so the preload scanner cannot discover it -->
+  <link rel="preload" as="image" fetchpriority="high" href="assets/students-vr.jpg">
   <link rel="stylesheet" href="styles.css">
-  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);var d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches),m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d?"#0A1230":"#FFFFFF"}catch(e){}</script>
   <script>try{if("noModule" in document.createElement("script")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")}catch(e){}</script>
 </head>
 <body>
@@ -22,7 +24,7 @@
 
   <header class="site-header">
     <div class="wrap header-bar">
-      <a class="brand" href="index.html" aria-label="Trinity AI XR Hub home page">
+      <a class="brand" href="index.html" translate="no" aria-label="Trinity AI XR Hub home page">
         <img class="brand-logo logo-light" src="assets/logo-blue.png" alt="" width="529" height="446">
         <img class="brand-logo logo-dark" src="assets/logo-white.png" alt="" width="529" height="446">
       </a>
@@ -34,7 +36,6 @@
           <li><a href="students.html">Students</a></li>
           <li><a href="business.html">Business</a></li>
           <li><a href="research.html">Research</a></li>
-          <li><a href="insights.html">Insights</a></li>
           <li><a class="nav-cta" href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -69,7 +70,6 @@
               <span class="line">Intelligence.</span>
               <span class="line"><em class="mark">Positive&nbsp;Impact.</em></span>
             </h1>
-            <p class="hero-lede up">The Trinity AI&nbsp;XR Hub is a strategic initiative of Trinity Business School, advancing the responsible application of Artificial Intelligence and Extended Reality in education, business and research, so that technology strengthens rather than replaces professional judgement and capability.</p>
             <div class="hero-ctas up">
               <a class="btn" href="contact.html#book">Book a Session
                 <svg class="arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -159,11 +159,8 @@
     <!-- Latest news -->
     <section class="band" aria-labelledby="news-title">
       <div class="wrap">
-        <div class="band-head band-head--split reveal" style="grid-template-columns: minmax(0,1fr) auto; align-items: end;">
+        <div class="band-head reveal">
           <h2 id="news-title" style="margin:0">Latest News</h2>
-          <a class="link-arrow" href="insights.html">All Updates
-            <svg class="arrow" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
         </div>
         <div class="news-list reveal">
           <article class="news-item">
@@ -172,9 +169,6 @@
               <h3>Trinity AI XR Hub Launch</h3>
               <p>The Hub opens its doors at Trinity Business School, bringing immersive AI-supported learning to students, businesses, and researchers.</p>
             </div>
-            <a class="link-arrow" href="insights.html#news" aria-label="Read more about the Trinity AI XR Hub launch">Read More
-              <svg class="arrow" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
           </article>
           <article class="news-item">
             <time datetime="2026-05">May 2026</time>
@@ -182,9 +176,6 @@
               <h3>MSc HRM Students Case Study</h3>
               <p>MSc Human Resource Management students take part in an immersive case study exploring difficult workplace conversations in VR.</p>
             </div>
-            <a class="link-arrow" href="insights.html#news" aria-label="Read more about the MSc HRM students case study">Read More
-              <svg class="arrow" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
           </article>
           <article class="news-item">
             <time datetime="2026-04">April 2026</time>
@@ -192,9 +183,6 @@
               <h3>Faculty Workshops on AI-Enabled VR for Teaching</h3>
               <p>Academic staff explore how AI-enabled VR can support teaching, assessment, and learning innovation across programmes.</p>
             </div>
-            <a class="link-arrow" href="insights.html#news" aria-label="Read more about faculty workshops on AI-enabled VR">Read More
-              <svg class="arrow" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </a>
           </article>
         </div>
       </div>
@@ -223,9 +211,9 @@
       <div class="wrap">
         <p class="partners-title">An initiative of Trinity Business School, supported through funding from the Higher Education Authority</p>
         <div class="partners-row reveal">
-          <img src="assets/trinity-college-logo.jpg" alt="Trinity College Dublin, The University of Dublin" width="1713" height="591" loading="lazy">
-          <img src="assets/tbs.png" alt="Trinity Business School, Transforming Business for Good" width="793" height="241" loading="lazy">
-          <img src="assets/hea-logo.png" alt="The Higher Education Authority, An tÚdarás um Ard-Oideachas" width="8375" height="2450" loading="lazy">
+          <img src="assets/trinity-college-logo.jpg" alt="Trinity College Dublin, The University of Dublin" width="580" height="200" loading="lazy">
+          <img src="assets/tbs.png" alt="Trinity Business School, Transforming Business for Good" width="658" height="200" loading="lazy">
+          <img src="assets/hea-logo.png" alt="The Higher Education Authority, An tÚdarás um Ard-Oideachas" width="684" height="200" loading="lazy">
         </div>
       </div>
     </section>
@@ -239,8 +227,8 @@
           <img class="brand-logo" src="assets/logo-white.png" alt="Trinity AI XR Hub" width="529" height="446" loading="lazy">
           <p>Immersive Intelligence. Positive Impact.</p>
           <div class="foot-affils">
-            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="5612" height="1982" loading="lazy">
-            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="2094" height="613" loading="lazy">
+            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="453" height="160" loading="lazy">
+            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="547" height="160" loading="lazy">
           </div>
         </div>
         <nav class="foot-col" aria-label="Quick links">
@@ -252,14 +240,6 @@
             <li><a href="students.html">For Students</a></li>
             <li><a href="business.html">For Business</a></li>
             <li><a href="research.html">For Research</a></li>
-          </ul>
-        </nav>
-        <nav class="foot-col" aria-label="More links">
-          <h2>Explore</h2>
-          <ul>
-            <li><a href="insights.html">Insights &amp; News</a></li>
-            <li><a href="insights.html#blogs">Blogs</a></li>
-            <li><a href="insights.html#impact">Case Studies</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
@@ -290,7 +270,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin</a></span>
+        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin, the University of Dublin</a></span>
         <span>Email: <a href="mailto:trinityaixr@tcd.ie">trinityaixr@tcd.ie</a></span>
       </div>
     </div>

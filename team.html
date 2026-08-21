@@ -5,16 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Meet the Team · Trinity AI XR Hub</title>
   <meta name="description" content="Meet the people who bring the Trinity AI XR Hub to life: hub directors, core team, and advisory group.">
-  <meta name="theme-color" content="#071C65">
+  <meta name="theme-color" content="#FFFFFF">
   <link rel="icon" href="assets/favicon.ico" sizes="32x32">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Source+Sans+3:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <script>try{var t=localStorage.getItem("theme");if(t==="dark"||t==="light")document.documentElement.setAttribute("data-theme",t);var d=t==="dark"||(t!=="light"&&matchMedia("(prefers-color-scheme: dark)").matches),m=document.querySelector('meta[name="theme-color"]');if(m)m.content=d?"#0A1230":"#FFFFFF"}catch(e){}</script>
   <script>try{if("noModule" in document.createElement("script")&&!matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("anim")}catch(e){}</script>
 </head>
 <body>
@@ -22,7 +22,7 @@
 
   <header class="site-header">
     <div class="wrap header-bar">
-      <a class="brand" href="index.html" aria-label="Trinity AI XR Hub home page">
+      <a class="brand" href="index.html" translate="no" aria-label="Trinity AI XR Hub home page">
         <img class="brand-logo logo-light" src="assets/logo-blue.png" alt="" width="529" height="446">
         <img class="brand-logo logo-dark" src="assets/logo-white.png" alt="" width="529" height="446">
       </a>
@@ -34,7 +34,6 @@
           <li><a href="students.html">Students</a></li>
           <li><a href="business.html">Business</a></li>
           <li><a href="research.html">Research</a></li>
-          <li><a href="insights.html">Insights</a></li>
           <li><a class="nav-cta" href="contact.html">Contact</a></li>
         </ul>
       </nav>
@@ -71,7 +70,14 @@
 
         <div class="person reveal">
           <div class="monogram monogram--photo">
-            <img src="assets/nafu.jpeg" alt="Professor Na Fu" width="400" height="400" style="object-position: center 20%">
+            <div class="mono-flip">
+              <img src="assets/nafu.jpeg" alt="Professor Na Fu" width="400" height="400" style="object-position: center 20%">
+              <a class="mono-back" href="https://www.linkedin.com/in/na-fu-77a90012/" target="_blank" rel="noopener" aria-label="Professor Na Fu on LinkedIn">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                <span class="mono-back-rule"></span>
+                <span class="mono-back-label">LinkedIn</span>
+              </a>
+            </div>
           </div>
           <div>
             <h3>Professor Na Fu</h3>
@@ -80,13 +86,19 @@
               Chair of Responsible Leadership and Fellow, Trinity Business School
             </p>
             <p>Director of the Trinity AI XR Hub and Chair of Responsible Leadership at Trinity College Dublin. Her work spans a Fellowship of Trinity and CIPD, co-direction of the Trinity Centre for Digital Business and Analytics, and leadership of Sustainable Business, HRM and Leadership.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/na-fu-77a90012/" target="_blank" rel="noopener" aria-label="Professor Na Fu on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
         </div>
 
         <div class="person reveal">
           <div class="monogram monogram--photo">
-            <img src="assets/laura-berry-2.jpg" alt="Dr Laura Berry" width="800" height="800" loading="lazy" style="object-position: center 25%">
+            <div class="mono-flip">
+              <img src="assets/laura-berry-2.jpg" alt="Dr Laura Berry" width="800" height="800" loading="lazy" style="object-position: center 25%">
+              <a class="mono-back" href="https://www.linkedin.com/in/laura-berry-96710335/" target="_blank" rel="noopener" aria-label="Dr Laura Berry on LinkedIn">
+                <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                <span class="mono-back-rule"></span>
+                <span class="mono-back-label">LinkedIn</span>
+              </a>
+            </div>
           </div>
           <div>
             <h3>Dr Laura Berry</h3>
@@ -95,7 +107,6 @@
               Assistant Professor of Digital Marketing and AI
             </p>
             <p>Manager of the Trinity AI XR Hub, Assistant Professor of Digital Marketing &amp; AI, and Academic Director of the MSc in Digital Marketing Strategy. Her work integrates research, education and practice across digital marketing, artificial intelligence, and strategy.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/laura-berry-96710335/" target="_blank" rel="noopener" aria-label="Dr Laura Berry on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
         </div>
       </div>
@@ -110,39 +121,63 @@
         <div class="core-team reveal">
           <div class="core-member">
             <div class="monogram monogram--sm monogram--photo">
-              <img src="assets/denni.jpg" alt="Denni Cawley" width="800" height="800" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/denni.jpg" alt="Denni Cawley" width="800" height="800" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/dennicawley/" target="_blank" rel="noopener" aria-label="Denni Cawley on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Denni Cawley</h3>
             <p class="person-role" style="color:var(--on-ink-faint)">Research Fellow</p>
             <p style="color:var(--on-ink-muted)">Denni Cawley is a Research Fellow at the Trinity AI XR Hub. Her PhD research focuses on AI readiness and management education, exploring how organisations can navigate technological change and build capabilities for innovation.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/dennicawley/" target="_blank" rel="noopener" aria-label="Denni Cawley on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="core-member">
             <div class="monogram monogram--sm monogram--photo">
-              <img src="assets/chang.jpg" alt="Dr Chang Sheng Leong" width="800" height="886" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/chang.jpg" alt="Dr Chang Sheng Leong" width="800" height="886" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/changsheng-leong/" target="_blank" rel="noopener" aria-label="Dr Chang Sheng Leong on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Chang Sheng Leong</h3>
             <p class="person-role" style="color:var(--on-ink-faint)">Researcher</p>
             <p style="color:var(--on-ink-muted)">Chang Sheng is a researcher and a member of the AI XR Hub team at Trinity Business School. With a background in medicine, public health, and healthcare leadership and management, his work explores human–technology interaction, AI, immersive learning and digital transformation.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/changsheng-leong/" target="_blank" rel="noopener" aria-label="Dr Chang Sheng Leong on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="core-member">
             <div class="monogram monogram--sm monogram--photo">
-              <img src="assets/jose.jpg" alt="José Antonio Flaque García" width="800" height="976" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/jose.jpg" alt="José Antonio Flaque García" width="800" height="976" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/joseflaquegarcia/" target="_blank" rel="noopener" aria-label="José Antonio Flaque García on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>José Antonio Flaque García</h3>
             <p class="person-role" style="color:var(--on-ink-faint)">Hub Assistant</p>
             <p style="color:var(--on-ink-muted)">José recently completed his MSc in Human Resource Management and has experience in consulting. He is particularly interested in technology and exploring how AI and immersive technologies can shape learning and professional development.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/joseflaquegarcia/" target="_blank" rel="noopener" aria-label="José Antonio Flaque García on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="core-member">
             <div class="monogram monogram--sm monogram--photo">
-              <img src="assets/margherita-2.jpg" alt="Margherita Mura" width="800" height="896" loading="lazy" style="object-position: center 18%">
+              <div class="mono-flip">
+                <img src="assets/margherita-2.jpg" alt="Margherita Mura" width="800" height="896" loading="lazy" style="object-position: center 18%">
+                <a class="mono-back" href="https://www.linkedin.com/in/margherita-mura/" target="_blank" rel="noopener" aria-label="Margherita Mura on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Margherita Mura</h3>
             <p class="person-role" style="color:var(--on-ink-faint)">PhD Researcher &amp; Teaching Assistant</p>
             <p style="color:var(--on-ink-muted)">Margherita Mura is a PhD researcher and Teaching Assistant at Trinity, and a doctoral member of the Trinity Centre for Digital Business &amp; Analytics. Her research focuses on digital-driven business model innovation, corporate governance, and strategy in cultural and creative organisations.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/margherita-mura/" target="_blank" rel="noopener" aria-label="Margherita Mura on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
         </div>
       </div>
@@ -157,95 +192,160 @@
         <div class="advisory reveal">
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/ashish.jpg" alt="Dr Ashish Kumar Jha" width="179" height="200" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/ashish.jpg" alt="Dr Ashish Kumar Jha" width="179" height="200" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/ashishkjha/" target="_blank" rel="noopener" aria-label="Dr Ashish Kumar Jha on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Ashish Kumar Jha</h3>
             <p class="person-role">Associate Professor in Business Analytics</p>
             <p>Expert in business analytics and data-informed decision making who supports the Hub’s research direction.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/ashishkjha/" target="_blank" rel="noopener" aria-label="Dr Ashish Kumar Jha on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/kisito.jpg" alt="Dr Kisito Futonge Nzembayie" width="347" height="389" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/kisito.jpg" alt="Dr Kisito Futonge Nzembayie" width="347" height="389" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/kisito-futonge/" target="_blank" rel="noopener" aria-label="Dr Kisito Futonge Nzembayie on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Kisito Futonge Nzembayie</h3>
             <p class="person-role">Assistant Professor in Entrepreneurship</p>
             <p>Specialist in digital entrepreneurship and innovation who guides emerging technology projects.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/kisito-futonge/" target="_blank" rel="noopener" aria-label="Dr Kisito Futonge Nzembayie on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/steven.jpg" alt="Dr Steven Kilroy" width="357" height="400" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/steven.jpg" alt="Dr Steven Kilroy" width="357" height="400" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/steven-kilroy-88ba252a/" target="_blank" rel="noopener" aria-label="Dr Steven Kilroy on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Steven Kilroy</h3>
             <p class="person-role">Associate Professor in Human Resource Management</p>
             <p>Researcher in well-being and organisational psychology who advises on human-centred adoption of AI and XR.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/steven-kilroy-88ba252a/" target="_blank" rel="noopener" aria-label="Dr Steven Kilroy on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
-            <!-- PLACEHOLDER PORTRAIT: no photograph supplied for this person yet.
-                 Swap assets/jose.jpg for their own photo and set alt to their name. -->
+            <!-- NO PHOTOGRAPH SUPPLIED for this person yet, so this tile shows her
+                 initials rather than a face. It previously borrowed assets/jose.jpg,
+                 which is Jose Antonio Flaque Garcia's photograph and is still shown
+                 under his own name in the Core Team above; once the card carried a
+                 LinkedIn link that became a profile affordance mounted on the wrong
+                 person. To restore a photograph: replace the .mono-initials span with
+                 the same image markup every other card uses, alt set to her name. -->
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/jose.jpg" alt="" width="800" height="976" loading="lazy">
+              <div class="mono-flip">
+                <span class="mono-initials" aria-hidden="true">KO</span>
+                <a class="mono-back" href="https://www.linkedin.com/in/kierstyn-olson-198646157/" target="_blank" rel="noopener" aria-label="Ms Kierstyn Olson on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Ms Kierstyn Olson</h3>
             <p class="person-role">Learning Technologist</p>
             <p>Supports the pedagogical integration of AI and XR into teaching and curriculum design.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/kierstyn-olson-198646157/" target="_blank" rel="noopener" aria-label="Ms Kierstyn Olson on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/eamonn.jpg" alt="Dr Eamonn O’Raghallaigh" width="400" height="448" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/eamonn.jpg" alt="Dr Eamonn O’Raghallaigh" width="400" height="448" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/eamonnoraghallaigh/" target="_blank" rel="noopener" aria-label="Dr Eamonn O’Raghallaigh on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Eamonn O’Raghallaigh</h3>
             <p class="person-role">Teaching Fellow in Digital Marketing Strategy</p>
             <p>Advises on AI in marketing and digital customer engagement.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/eamonnoraghallaigh/" target="_blank" rel="noopener" aria-label="Dr Eamonn O’Raghallaigh on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/wlad.jpg" alt="Dr Wladislaw Rivkin" width="287" height="321" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/wlad.jpg" alt="Dr Wladislaw Rivkin" width="287" height="321" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/wladislaw-rivkin-b0280727/" target="_blank" rel="noopener" aria-label="Dr Wladislaw Rivkin on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Wladislaw Rivkin</h3>
             <p class="person-role">Associate Professor in Organisational Behaviour</p>
             <p>Expert in workplace well-being and human performance who supports research design.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/wladislaw-rivkin-b0280727/" target="_blank" rel="noopener" aria-label="Dr Wladislaw Rivkin on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/ulrich.jpg" alt="Dr Ulrich Leicht-Deobald" width="400" height="448" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/ulrich.jpg" alt="Dr Ulrich Leicht-Deobald" width="400" height="448" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/ulrich-leicht-deobald-a62178b2/" target="_blank" rel="noopener" aria-label="Dr Ulrich Leicht-Deobald on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Ulrich Leicht-Deobald</h3>
             <p class="person-role">Associate Professor in Responsible Leadership</p>
             <p>Provides expertise on responsible leadership and ethical implications of AI in organisations.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/ulrich-leicht-deobald-a62178b2/" target="_blank" rel="noopener" aria-label="Dr Ulrich Leicht-Deobald on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/sinead.jpg" alt="Dr Sinéad Monaghan" width="400" height="448" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/sinead.jpg" alt="Dr Sinéad Monaghan" width="400" height="448" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/sineadmonaghan/" target="_blank" rel="noopener" aria-label="Dr Sinéad Monaghan on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Sinéad Monaghan</h3>
             <p class="person-role">Associate Professor of International Business</p>
             <p>Guides research on global strategy and the international implications of emerging technologies.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/sineadmonaghan/" target="_blank" rel="noopener" aria-label="Dr Sinéad Monaghan on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/ana.jpg" alt="Dr Ana Schalk" width="400" height="448" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/ana.jpg" alt="Dr Ana Schalk" width="400" height="448" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/anaelena/" target="_blank" rel="noopener" aria-label="Dr Ana Schalk on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>Dr Ana Schalk</h3>
             <p class="person-role">Academic Developer: Digital Learning</p>
             <p>Supports digital pedagogy and GenAI integration across higher education.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/anaelena/" target="_blank" rel="noopener" aria-label="Dr Ana Schalk on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
           <div class="adv">
             <div class="monogram monogram--sm monogram--photo adv-portrait">
-              <img src="assets/david.jpg" alt="David S. Byrne" width="179" height="200" loading="lazy">
+              <div class="mono-flip">
+                <img src="assets/david.jpg" alt="David S. Byrne" width="179" height="200" loading="lazy">
+                <a class="mono-back" href="https://www.linkedin.com/in/davidsbyrne/" target="_blank" rel="noopener" aria-label="David S. Byrne on LinkedIn">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>
+                  <span class="mono-back-rule"></span>
+                  <span class="mono-back-label">LinkedIn</span>
+                </a>
+              </div>
             </div>
             <h3>David S. Byrne</h3>
             <p class="person-role">Director of Accreditation and Quality Assurance</p>
             <p>Advises on quality, process, and alignment with School and accreditation standards.</p>
-            <p><a class="person-link" href="https://www.linkedin.com/in/davidsbyrne/" target="_blank" rel="noopener" aria-label="David S. Byrne on LinkedIn"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V23h-4V8zm7.5 0h3.8v2.05h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V23h-4v-7.9c0-1.88-.03-4.3-2.62-4.3-2.62 0-3.02 2.05-3.02 4.16V23H8V8z"/></svg>LinkedIn</a></p>
           </div>
         </div>
       </div>
@@ -273,8 +373,8 @@
           <img class="brand-logo" src="assets/logo-white.png" alt="Trinity AI XR Hub" width="529" height="446" loading="lazy">
           <p>Immersive Intelligence. Positive Impact.</p>
           <div class="foot-affils">
-            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="5612" height="1982" loading="lazy">
-            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="2094" height="613" loading="lazy">
+            <img class="foot-affil" src="assets/trinity-college-logo-white.png" alt="Trinity College Dublin" width="453" height="160" loading="lazy">
+            <img class="foot-affil foot-affil--hea" src="assets/hea-logo-white.png" alt="The Higher Education Authority" width="547" height="160" loading="lazy">
           </div>
         </div>
         <nav class="foot-col" aria-label="Quick links">
@@ -286,14 +386,6 @@
             <li><a href="students.html">For Students</a></li>
             <li><a href="business.html">For Business</a></li>
             <li><a href="research.html">For Research</a></li>
-          </ul>
-        </nav>
-        <nav class="foot-col" aria-label="More links">
-          <h2>Explore</h2>
-          <ul>
-            <li><a href="insights.html">Insights &amp; News</a></li>
-            <li><a href="insights.html#blogs">Blogs</a></li>
-            <li><a href="insights.html#impact">Case Studies</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
         </nav>
@@ -324,7 +416,7 @@
         </div>
       </div>
       <div class="foot-bottom">
-        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin</a></span>
+        <span>© <span data-year>2026</span> Trinity AI XR Hub · <a href="https://www.tcd.ie/business/" target="_blank" rel="noopener">Trinity Business School</a>, <a href="https://www.tcd.ie/" target="_blank" rel="noopener">Trinity College Dublin, the University of Dublin</a></span>
         <span>Email: <a href="mailto:trinityaixr@tcd.ie">trinityaixr@tcd.ie</a></span>
       </div>
     </div>
