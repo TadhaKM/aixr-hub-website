@@ -97,6 +97,72 @@ The plate's visible label is "LinkedIn", not "View profile", to satisfy WCAG
 2.5.3 Label in Name: the accessible name is "NAME on LinkedIn", and a speech
 input user saying what they can see has to be able to activate the control.
 
+### Homepage hero rebalance (2026-08-21)
+The hero headline is now the Hub's name with a description under it. The HEA
+note, the address block and the diagonal blades were removed from `index.html`,
+and `--wrap` is overridden to `92rem` on `.site-header` and `.hero` only, so
+the logo lockup and the headline stand on one left edge. Interior pages keep
+`--wrap: 76rem` on their content, giving a wide header rail over a narrower
+column, which is deliberate.
+
+Three traps live here:
+
+- **`.hero-layout` needs its `min-height`.** `.hero-photo-bg` is aspect-locked
+  with top and bottom pinned, so the hero's height is what sets the photo's
+  width. Losing the address block and two headline lines would otherwise
+  collapse the banner and shrink the photo with it. The mobile block cancels
+  it (`min-height: 0`) or it opens dead space above the stacked strip.
+- **The headline must split by word as well as character.** anime's `splitText`
+  gives every character its own inline-block, so a chars-only split let the
+  line break *inside* a word: "Trinity AI XR Hub" wrapped as
+  "Trinity A / I XR Hub".
+- **`initHome()` must guard its split.** It used to index `lines[1]`
+  unconditionally. With one headline line that throws, `initHome` aborts,
+  `html.anim` stays on `<html>`, and `html.anim .hero .up { opacity: 0 }`
+  leaves the whole hero permanently invisible.
+
+The blades survive on interior pages as `.page-hero::before`. Do not re-add
+them to the homepage: the photo's mask was widened from a 10% hard edge to a
+34% dissolve specifically to carry the band they used to fill.
+
+**`.mark` needed a hero-specific palette.** The TCD palette rebase made
+`--accent` the same hex as `--ink` and `--ink-3`, so the default highlight box
+painted brand blue on the hero's brand-blue gradient, in both themes. `.hero
+.mark` uses the tint on navy instead, 10.4:1.
+
+### "Try Me" cue
+`main.js` injects a chalk label and a hand-drawn arrow pointing at the VR
+button, for five seconds, on **every** homepage visit. The old behaviour was a
+bounce shown once ever behind a `localStorage` gate; that gate is gone.
+
+- It is a **sibling** of the button, not a child, so the button's accessible
+  name stays exactly "VR view" and the hover lift and bounce do not drag the
+  drawing around. `aria-hidden`, because a screen reader already gets that name
+  from the button and a visible "Try Me" must not become a second announcement.
+- The stroke is **doubled**, white halo under a blue core. The hero gradient is
+  Trinity Blue in both themes, so at scroll 0, exactly when the cue fires, a
+  blue stroke alone would be invisible for its whole life.
+- The fade is a class-toggled **transition**, not an animation with a forwards
+  fill, so hovering can cut it short gracefully instead of snapping.
+- Homepage detection is `document.querySelector(".hero")`, the same test
+  `animations.js` uses. It survives being served at `/`, `/index.html` or from
+  a subdirectory, which a pathname test does not.
+- The cue is **not** zoom-cancelled, unlike `.lightbox` and `.vr-stage`. Those
+  are full-viewport overlays that must cover the true viewport; this one has to
+  ride `body { zoom: 0.8 }` exactly as the button does, or the arrow tip
+  detaches from what it points at.
+
+### Media page
+`media.html` ships with all three sections empty on purpose. Each shows a
+`.media-empty` block, an accent-topped frame mark with an uppercase label and a
+line saying where to look in the meantime, rather than being omitted, so the
+page reads as designed structure rather than an unfinished one. `.media-frame`
+and `.gallery` are specified now so the first real item is pure markup.
+
+`.gallery` is added to the `:not()` chain on the prose default, or a
+`.gallery.reveal` that is a direct child of `.band > .wrap` inherits the
+centred 68ch reading column and the grid collapses to one column.
+
 ## Tokens
 
 ### Color — official brand palette only

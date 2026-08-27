@@ -273,7 +273,27 @@
     if (phoneQuery.addEventListener) phoneQuery.addEventListener("change", applyApertures);
     else if (phoneQuery.addListener) phoneQuery.addListener(applyApertures);
 
-    var SEEN = "vr-seen";
+    // Homepage only. animations.js already uses .hero as the homepage test:
+    // it is the one class that exists on index.html and on no other page
+    // (interior pages carry .page-hero instead), and it survives being served
+    // at "/", "/index.html" or from a subdirectory, which a pathname test
+    // does not.
+    var isHome = !!document.querySelector(".hero");
+
+    var CUE_SVG =
+      '<svg class="vr-cue-art" viewBox="0 -20 200 152" fill="none" aria-hidden="true" ' +
+      'stroke-linecap="round" stroke-linejoin="round">' +
+      // halo pass: this is the stroke that reads over the navy hero
+      '<path class="vr-cue-shaft vr-cue-halo" pathLength="100" stroke-width="9" ' +
+      'd="M134 42 C124 56 112 64 99 68 C88 71.5 79 70 70 74 C63 77 58 79.5 54.4 83.4"/>' +
+      '<path class="vr-cue-head vr-cue-halo" pathLength="100" stroke-width="9" ' +
+      'd="M66 80.2 L54.4 83.4 L56.6 71.6"/>' +
+      // core pass: identical geometry and timing, drawn on top
+      '<path class="vr-cue-shaft vr-cue-core" pathLength="100" stroke-width="3.5" ' +
+      'd="M134 42 C124 56 112 64 99 68 C88 71.5 79 70 70 74 C63 77 58 79.5 54.4 83.4"/>' +
+      '<path class="vr-cue-head vr-cue-core" pathLength="100" stroke-width="3.5" ' +
+      'd="M66 80.2 L54.4 83.4 L56.6 71.6"/>' +
+      '</svg>';
 
     var btn = document.createElement("button");
     btn.className = "vr-toggle";
@@ -354,32 +374,56 @@
       }
     };
 
-    // Removing the class is what actually ends the hint. The CSS also stops
-    // the animation on :hover, but that alone restarts the five-iteration
-    // count every time the pointer leaves, so it could bounce forever.
-    var endHint = function (remember) {
+    // The cue is a SIBLING of the button, not a child: that keeps the button
+    // accessible name exactly "VR view" (the sr-only span above), and keeps
+    // the button hover lift and the bounce from dragging the whole drawing
+    // around with them. aria-hidden because a screen reader already gets that
+    // name from the button; a visible "Try Me" must not become a second
+    // announcement of the same control.
+    var cue = null, cueIn = 0, cueOut = 0;
+
+    if (isHome) {
+      cue = document.createElement("div");
+      cue.className = "vr-cue";
+      cue.setAttribute("aria-hidden", "true");
+      cue.innerHTML = CUE_SVG + '<span class="vr-cue-label">Try Me</span>';
+      document.body.appendChild(cue);
+    }
+
+    // Removing the classes ends the cue. Clearing BOTH timers matters:
+    // without clearing cueIn, hovering the button before the cue is due would
+    // be ignored and it would draw itself anyway a moment later.
+    var endHint = function () {
+      clearTimeout(cueIn);
+      clearTimeout(cueOut);
       btn.classList.remove("is-hinting");
-      if (remember) { try { localStorage.setItem(SEEN, "1"); } catch (e) {} }
+      if (cue) cue.classList.remove("is-on");
     };
 
-    // Noticing it is enough to stop the bounce; only using it is remembered.
-    btn.addEventListener("pointerenter", function () { endHint(false); });
-    btn.addEventListener("focus", function () { endHint(false); });
+    btn.addEventListener("pointerenter", endHint);
+    btn.addEventListener("focus", endHint);
 
     btn.addEventListener("click", function () {
-      endHint(true);
+      endHint();
       setVR(!document.body.classList.contains("vr-on"), true);
     });
 
-    // Held back a few seconds so the bounce does not compete with the
-    // page's own entrance animations, and skipped entirely once the
-    // visitor has found the button at least once.
-    var alreadySeen = false;
-    try { alreadySeen = localStorage.getItem(SEEN) === "1"; } catch (e) {}
-    if (!alreadySeen) {
-      setTimeout(function () {
-        if (!document.body.classList.contains("vr-on")) btn.classList.add("is-hinting");
-      }, 3200);
+    // Every visit, not once ever. Held back so the drawing does not compete
+    // with the hero entrance, then five seconds of visible life: 0.45s fade
+    // in (during which the arrow draws) + 4.10s + 0.45s out.
+    //
+    // The fade is a class-toggled TRANSITION rather than an animation with a
+    // forwards fill, precisely so endHint can cut it short: a filled
+    // animation can only be cancelled by yanking the class, which snaps with
+    // no fade, whereas a transition dismisses from wherever it currently is.
+    if (isHome) {
+      cueIn = setTimeout(function () {
+        if (document.body.classList.contains("vr-on")) return;
+        if (document.body.classList.contains("nav-open")) return;
+        btn.classList.add("is-hinting");
+        cue.classList.add("is-on");
+        cueOut = setTimeout(endHint, 4550);
+      }, 1600);
     }
 
     document.addEventListener("keydown", function (e) {

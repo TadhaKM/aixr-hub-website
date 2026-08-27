@@ -132,31 +132,49 @@ function initProgress() {
 function initHome() {
   const title = document.querySelector(".hero-title");
   if (title) {
-    const lines = title.querySelectorAll(".line");
-    const mark = title.querySelector(".mark");
-    const split1 = splitText(lines[0], { words: false, chars: true });
-    const split2 = splitText(lines[1], { words: false, chars: true });
+    // One .line now, not three. The `|| title` fallback and the try/catch are
+    // load-bearing: splitText on a missing node throws, initHome aborts, and
+    // html.anim stays on <html> -- where `html.anim .hero .up { opacity: 0 }`
+    // leaves the entire hero permanently invisible.
+    const line = title.querySelector(".line") || title;
+    // The highlight device moved off the headline and into the lede.
+    const mark = document.querySelector(".hero-lede .mark");
+    let split = null;
+    try {
+      // words:true is not cosmetic. Splitting to chars alone makes every
+      // letter its own inline-block, so the line can break INSIDE a word --
+      // "Trinity AI XR Hub" wrapped as "Trinity A / I XR Hub". Wrapping each
+      // word in its own box keeps words atomic while still yielding chars.
+      split = splitText(line, { words: true, chars: true });
+    } catch (err) {
+      split = null;
+    }
+    const chars = split && split.chars && split.chars.length ? split.chars : null;
     // Pre-hide chars so nothing flashes between the title fade-in and each
     // char's staggered start; the mark is hidden by its clip until the wipe.
-    [...split1.chars, ...split2.chars].forEach((c) => { c.style.opacity = "0"; });
+    if (chars) chars.forEach((ch) => { ch.style.opacity = "0"; });
     if (mark) mark.style.clipPath = "inset(0 100% 0 0)";
 
     const tl = createTimeline({ defaults: { ease: "outExpo" } });
-    // The HEA funding line opens the hero, ahead of the headline
-    tl.add(".hero-note", { opacity: [0, 1], x: [-16, 0], duration: 600 }, 0)
-      .add(".hero-title", { opacity: [0, 1], duration: 50 }, 120)
-      .add(split1.chars, { y: ["0.9em", "0em"], opacity: [0, 1], duration: 850, delay: animeStagger(26) }, 200)
-      .add(split2.chars, { y: ["0.9em", "0em"], opacity: [0, 1], duration: 850, delay: animeStagger(26) }, 340)
-      .add(".hero-title .line:nth-child(3)", { opacity: [0, 1], duration: 10 }, 600)
-      .add(".hero-title .mark", { clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"], duration: 700, ease: "outQuint" }, 620)
-      // The hero lede was removed, so the CTAs follow the headline directly
-      // and the rest of the sequence pulls forward instead of leaving a gap.
-      .add(".hero-ctas", { opacity: [0, 1], duration: 10 }, 820)
+    if (chars) {
+      tl.add(".hero-title", { opacity: [0, 1], duration: 50 }, 0)
+        .add(chars, { y: ["0.9em", "0em"], opacity: [0, 1], duration: 850, delay: animeStagger(26) }, 80);
+    } else {
+      // split failed: the headline still arrives, as one block, never hidden
+      tl.add(".hero-title", { opacity: [0, 1], y: [22, 0], duration: 700 }, 0);
+    }
+    // .hero-lede carries `up`, so the html.anim rule holds it at opacity 0.
+    // It MUST be revealed here or it never appears at all.
+    tl.add(".hero-lede", { opacity: [0, 1], y: [18, 0], duration: 700 }, 420);
+    if (mark) {
+      // wipes once the lede has settled, so the highlight is not a gap in a
+      // half-faded sentence
+      tl.add(mark, { clipPath: ["inset(0 100% 0 0)", "inset(0 0% 0 0)"], duration: 700, ease: "outQuint" }, 760);
+    }
+    tl.add(".hero-ctas", { opacity: [0, 1], duration: 10 }, 820)
       .add(".hero-ctas .btn", { opacity: [0, 1], y: [18, 0], duration: 600, delay: animeStagger(90) }, 820)
-      .add(".hero-meta", { opacity: [0, 1], x: [-14, 0], duration: 600 }, 980)
-      // Blades and photo: OPACITY ONLY here — Motion's scroll() owns their transforms
-      .add(".hero-blades", { opacity: [0, 1], duration: 1100 }, 150)
-      .add(".hero-photo-bg", { opacity: [0, 1], duration: 1100 }, 250);
+      // Photo: OPACITY ONLY here -- Motion's scroll() owns its transform.
+      .add(".hero-photo-bg", { opacity: [0, 1], duration: 1100 }, 150);
   }
 
   // Scroll-linked parallax (desktop only: below 881px the photo layer is a
@@ -164,16 +182,9 @@ function initHome() {
   const hero = document.querySelector(".hero");
   if (hero && desktopQuery.matches) {
     const photo = hero.querySelector(".hero-photo-bg");
-    const blades = hero.querySelector(".hero-blades");
     if (photo) {
       scrollCancels.push(M.scroll(
         M.animate(photo, { y: [0, 40] }, { ease: "linear" }),
-        { target: hero, offset: ["start start", "end start"] }
-      ));
-    }
-    if (blades) {
-      scrollCancels.push(M.scroll(
-        M.animate(blades, { x: [0, -60] }, { ease: "linear" }),
         { target: hero, offset: ["start start", "end start"] }
       ));
     }

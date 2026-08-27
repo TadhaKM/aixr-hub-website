@@ -74,6 +74,15 @@
   --text-align: center;
 
   --wrap: 76rem;
+  /* The banner measure: the header lockup and every top banner sit on this
+     one left edge, inboard of --wrap so they read wider than body content.
+     max(), not min(): the rem term is what moves the edge left on a laptop,
+     and the percentage is what keeps moving it left on a very wide monitor
+     instead of stranding a fixed column in the middle. Below ~1250px of
+     layout width neither term binds, .wrap's padding alone sets the inset,
+     and narrow screens are left exactly as they were.
+     ONE NUMBER TO TUNE: raise 108rem / 88% to move everything further left. */
+  --wrap-banner: max(108rem, 88%);
   --focus: var(--ink);
 }
 
@@ -499,12 +508,20 @@ address { font-style: normal; }
   box-shadow: 0 8px 24px -18px rgba(5, 105, 185, 0.4);
 }
 
+/* The header, the homepage hero and every interior banner share one measure,
+   so the lockup and the headline under it stand on the same left edge. Body
+   content below keeps the narrower --wrap, which is deliberate. */
+.site-header { --wrap: var(--wrap-banner); }
+
 .header-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  padding-block: 0.85rem;
+  /* 0.5rem, not 0.85: the logo is the tallest thing in the bar, so bar height
+     is logo + 2x this. 64.8 + 16 = 80.8, within half a pixel of the old
+     54 + 27.2 = 81.2 -- the enlarged logo costs no header height. */
+  padding-block: 0.5rem;
 }
 
 .brand {
@@ -519,7 +536,7 @@ address { font-style: normal; }
 
 .brand-logo {
   display: block;
-  height: 54px;
+  height: 64.8px;              /* 54 x 1.2 */
   width: auto;
 }
 
@@ -528,7 +545,7 @@ address { font-style: normal; }
 .logo-dark { display: var(--display-dark); }
 
 @media (max-width: 920px) {
-  .site-header .brand-logo { height: 46px; }
+  .site-header .brand-logo { height: 55.2px; }   /* 46 x 1.2 */
 }
 
 .header-tools {
@@ -730,6 +747,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   --heading: #FFFFFF;
   --focus: var(--accent-soft);
   overflow: hidden;
+  --wrap: var(--wrap-banner);
   padding-block: clamp(5rem, 13vh, 8.5rem) clamp(6rem, 15vh, 9rem);
 }
 
@@ -742,24 +760,21 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
     radial-gradient(48rem 26rem at -8% 108%, rgba(5, 105, 185, 0.5), transparent 65%);
 }
 
-/* Brand graphic language: translucent diagonal blades over the navy→blue gradient */
-.hero-blades {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(115deg, transparent 42%, rgba(255, 255, 255, 0.10) 42%, rgba(255, 255, 255, 0.10) 54%, transparent 54%),
-    linear-gradient(115deg, transparent 58%, rgba(255, 255, 255, 0.06) 58%, rgba(255, 255, 255, 0.06) 74%, transparent 74%),
-    linear-gradient(115deg, transparent 26%, rgba(255, 255, 255, 0.04) 26%, rgba(255, 255, 255, 0.04) 33%, transparent 33%);
-}
-
 .hero .wrap { position: relative; z-index: 1; }
 
 .hero-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
+  /* Capped measure, not a fraction: with --wrap widened an fr track moves the
+     text's LEFT edge out but pushes its RIGHT edge into the photo. The min()
+     keeps the old proportional behaviour below ~1080px, where a bare 46rem
+     would overrun the container. */
+  grid-template-columns: minmax(0, min(46rem, 58%)) minmax(0, 1fr);
   gap: clamp(2rem, 5vw, 4.5rem);
-  align-items: end;
+  /* Holds the banner's proportions now the address block and two headline
+     lines are gone: .hero-photo-bg is aspect-locked with top and bottom
+     pinned, so hero height is what sets the photo's width. */
+  min-height: clamp(21rem, 55vh, 40rem);
+  align-items: center;
 }
 
 .hero-title {
@@ -780,6 +795,16 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   -webkit-box-decoration-break: clone;
 }
 
+/* --accent (#0569b9) is now the same hex as --ink and --ink-3, so the default
+   mark box would paint brand blue on the hero's brand-blue gradient. The tint
+   carries it instead: 10.4:1 on navy, correct in both themes. nowrap keeps the
+   highlight one fragment so the clip-path wipe has a single reference box. */
+.hero .mark {
+  background: var(--accent-soft);
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+
 .hero-lede {
   color: var(--on-ink-muted);
   font-size: 1.2em;
@@ -790,25 +815,14 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 1rem; }
 
-/* Funding acknowledgement, set as the hero's opening line so it reads before
-   the headline rather than getting lost underneath it */
-.hero-note {
-  display: inline-block;
-  margin: 0 0 1.5rem;
-  padding: 0.35rem 0 0.35rem 1rem;
-  border-left: 3px solid var(--accent-soft);
-  font-family: var(--font-mono);
-  font-size: 1rem;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
-  color: #FFFFFF;
-}
-
 /* Photo woven into the banner: full-bleed on the right, fading into the
    gradient (the Lab's blue wall blends with the brand blues) */
 .hero-photo-bg {
   position: absolute;
-  top: 0; right: -15rem; bottom: 0;
+  /* -18rem, not -15: the picture is slid 20% left below, and on wide screens
+     that slide is bigger than a 15rem overhang could absorb, so the picture
+     stopped reaching the right edge and a sliver of blue reappeared there. */
+  top: 0; right: -18rem; bottom: 0;
   /* Box matches the photo's own proportions, so cover crops nothing:
      the full image shows at every banner height. Width follows height. */
   aspect-ratio: 1600 / 1227;
@@ -817,8 +831,30 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   background-image: url("assets/students-vr.jpg");
   background-size: cover;
   background-position: 50% 25%;
-  -webkit-mask-image: linear-gradient(to left, #000 90%, rgba(0, 0, 0, 0.5) 96%, transparent 100%);
-  mask-image: linear-gradient(to left, #000 90%, rgba(0, 0, 0, 0.5) 96%, transparent 100%);
+  /* Slide the whole picture left, so the blue hands over to it sooner.
+     Same size, same proportions, same crop -- only its position changes.
+     `translate`, NOT `transform`: animations.js gives this element a
+     scroll-linked parallax through Motion, which writes `transform`. A
+     transform here would be wiped the moment the page scrolled. The
+     independent `translate` property composes with it, so both survive.
+     THE DIAL: a percentage of the picture's own width. More negative moves
+     it further left, but watch the right-hand edge -- past about -24% the
+     picture stops reaching the screen edge and blue reappears down the
+     right-hand side. */
+  translate: -15% 0;
+  /* Where the blue hands over to the photograph. This is the ONLY thing that
+     sets that boundary -- the picture's own position, size and crop are set
+     above and are untouched by anything here, because a mask changes opacity
+     and nothing else.
+     Read right-to-left: `to left` puts 0% at the box's right edge and 100% at
+     its left edge, so a BIGGER first number means the photograph stays solid
+     further left. 66% -> 86% walks that boundary 20% of the box's width to
+     the left. The dissolve necessarily gets shorter as it goes, since the
+     box's left edge cannot move without moving the picture with it.
+     THE DIAL: raise the 86% to move the boundary further left still.
+     Keep both lines identical -- the first is the Safari prefix. */
+  -webkit-mask-image: linear-gradient(to left, #000 86%, rgba(0, 0, 0, 0.55) 94%, transparent 100%);
+  mask-image: linear-gradient(to left, #000 86%, rgba(0, 0, 0, 0.55) 94%, transparent 100%);
   pointer-events: none;
 }
 
@@ -829,20 +865,8 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   background: linear-gradient(90deg, rgba(5, 105, 185, 0.22), rgba(5, 105, 185, 0) 12%);
 }
 
-.hero-meta {
-  margin-top: 2.4rem;
-  border-left: 2px solid var(--accent-soft);
-  padding-left: 1.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.9688rem;
-  line-height: 2;
-  color: var(--on-ink-muted);
-}
-
-.hero-meta strong { color: #FFFFFF; font-weight: 500; }
-
 @media (max-width: 880px) {
-  .hero-layout { grid-template-columns: 1fr; align-items: start; }
+  .hero-layout { grid-template-columns: 1fr; align-items: start; min-height: 0; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -857,17 +881,6 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   html:not(.anim) .hero .up:nth-child(1) { animation-delay: 0.08s; }
   html:not(.anim) .hero .up:nth-child(2) { animation-delay: 0.2s; }
   html:not(.anim) .hero .up:nth-child(3) { animation-delay: 0.34s; }
-  html:not(.anim) .hero .up:nth-child(4) { animation-delay: 0.46s; }
-
-  html:not(.anim) .hero-meta {
-    opacity: 0;
-    animation: rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
-  }
-
-  html:not(.anim) .hero-blades {
-    opacity: 0;
-    animation: blade-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) 0.35s forwards;
-  }
 
   html:not(.anim) .hero-photo-bg {
     opacity: 0;
@@ -876,8 +889,6 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 
   /* JS path — animations.js owns the reveal; elements start hidden */
   html.anim .hero .up,
-  html.anim .hero-meta,
-  html.anim .hero-blades,
   html.anim .hero-photo-bg,
   html.anim .page-hero h1,
   html.anim .page-hero .lede,
@@ -885,12 +896,15 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 
   /* Parallax slack: oversize scroll-driven layers so movement never shows gaps */
   html.anim .hero-photo-bg { top: -2.5rem; bottom: -2.5rem; }
-  html.anim .hero-blades { inset: 0 -6rem; }
   html.anim .page-hero-photo { top: -3rem; bottom: -3rem; }
 
   /* Split-text chars and words must be inline-block for transforms to apply */
   html.anim .hero-title .line span,
   html.anim .page-hero h1 span { display: inline-block; }
+
+  /* Each split char is its own box, so the line can otherwise break inside a
+     word. The split wraps words too, but this guarantees it at every level. */
+  html.anim .hero-title .line { word-break: keep-all; }
 
   /* Gentle spring overshoot on the audience-row hover (CSS keeps hover ownership) */
   html.anim .row > * { transition: transform 0.45s cubic-bezier(0.3, 1.18, 0.45, 1); }
@@ -906,15 +920,14 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   to { opacity: 1; transform: none; }
 }
 
-@keyframes blade-in {
-  from { opacity: 0; transform: translateX(70px); }
-  to { opacity: 1; transform: none; }
-}
 
 /* ---------- Page hero (interior) ---------- */
 
 .page-hero {
   position: relative;
+  /* was inheriting --wrap: 76rem, which left interior headlines sitting
+     ~100px inboard of the logo directly above them */
+  --wrap: var(--wrap-banner);
   background: linear-gradient(150deg, var(--ink) 0%, #03518f 70%, var(--ink-3) 130%);
   color: #FFFFFF;
   --heading: #FFFFFF;
@@ -1182,7 +1195,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
    default, and anything more specific has to be able to override it. */
 
 :where(
-  .band > .wrap:not(.contact-layout) > .reveal:not(.split-media):not(.rows):not(.news-list):not(.offer-grid):not(.pillars):not(.core-team):not(.advisory):not(.person):not(.band-head):not(.quote),
+  .band > .wrap:not(.contact-layout) > .reveal:not(.split-media):not(.rows):not(.news-list):not(.offer-grid):not(.pillars):not(.core-team):not(.advisory):not(.person):not(.band-head):not(.quote):not(.gallery),
   .band > .wrap:not(.contact-layout) > p.reveal
 ) {
   text-align: var(--text-align);
@@ -1620,6 +1633,136 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   text-decoration-thickness: 3px;
   text-decoration-color: var(--accent);
   text-underline-offset: 6px;
+}
+
+/* ============================================================
+   Media page
+   Three sections that ship empty on purpose. Everything here is
+   sized so that adding the first item is pure markup.
+   ============================================================ */
+
+/* ---------- Waiting state ----------
+   A section with no items yet shows the SHAPE of what is coming rather than
+   an apology. Top edge in --accent, NOT --accent-soft: the accent-soft rule
+   on .pillar is an on-navy idiom and all but vanishes on a white ground.
+   This matches .offer::after instead.
+
+   Deliberately NOT added to the :not() chain above: a centred reading column
+   is exactly what this block wants. */
+.media-empty {
+  max-width: 46rem;
+  margin-inline: auto;
+  padding: clamp(2rem, 5vw, 3.2rem) clamp(1.2rem, 3vw, 2rem);
+  border-top: 2px solid var(--accent);
+  border-bottom: 1px solid var(--rule);
+  text-align: var(--text-align);
+}
+
+/* Echoes .monogram::after: an accent bar across the bottom-left 38% is this
+   site's mark for "a frame that holds an image". Empty on purpose, so it
+   reads as a place set rather than a picture missing. inline-block so it
+   follows the --text-align dial; vertical-align keeps the line-box strut
+   from adding an invisible descender gap underneath. */
+.media-mark {
+  display: inline-block;
+  vertical-align: top;
+  width: clamp(4.5rem, 12vw, 6.5rem);
+  aspect-ratio: 4 / 3;
+  margin-bottom: 1.3rem;
+  border: 1px solid var(--rule-strong);
+  background: linear-gradient(var(--accent), var(--accent)) left bottom / 38% 6px no-repeat;
+}
+
+/* The small-label idiom shared with .foot-col h2, .side-toc h2 and
+   .mono-back-label. On a <span> rather than a <p> on purpose: .media-empty p
+   below is (0,1,1) and would outrank a (0,1,0) class on a <p>. */
+.media-empty-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.9rem;
+}
+
+.media-empty p {
+  color: var(--muted);
+  max-width: 52ch;
+  margin: 0 auto 1.4rem;
+}
+
+/* (0,2,0), so it wins over .media-empty p whichever element ends the block */
+.media-empty > :last-child { margin-bottom: 0; }
+
+/* ---------- Video frame ----------
+   Drops INSIDE an existing .offer, so a video inherits the card hairline,
+   its accent underline sweep and its reveal stagger. No new grid needed:
+   .offer-grid is already two columns, the right count for 16:9 frames. */
+.media-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 1.1rem;
+  background: var(--paper-2);
+  border: 1px solid var(--rule);
+  overflow: hidden;
+}
+
+.media-frame > iframe,
+.media-frame > video,
+.media-frame > img {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+}
+
+/* ---------- Photo gallery ----------
+   auto-fill, not a fixed column count. Every other grid here knows how many
+   items it holds; a photo set does not, and a fixed count strands orphans as
+   it grows. Adding a photograph is one <figure>. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+/* Below this the 15rem floor gives auto-fill one column per row, and a single
+   column of full-width photographs is a slideshow, not a gallery. Pin two and
+   let the cells shrink, the same shape .offer-grid uses at 780px. */
+@media (max-width: 560px) {
+  .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+.gallery-item { position: relative; margin: 0; }
+
+.gallery-item img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border: 1px solid var(--rule);
+  background: var(--paper-2);   /* holds the box while the file decodes */
+  transition: border-color 0.25s ease;
+}
+
+/* Colour only, no transform: nothing here for the reduced-motion block to
+   mute, and it gives the lightbox zoom-in cursor an affordance. */
+.gallery-item img:hover { border-color: var(--accent); }
+
+/* Captions stay left-aligned whatever --text-align says, for the same reason
+   .field does: centred multi-line labels are hard to scan. */
+.gallery-item figcaption {
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: var(--muted);
+  margin-top: 0.55rem;
+  text-align: left;
 }
 
 /* ---------- Forms ---------- */
@@ -2316,50 +2459,158 @@ body.nav-open .vr-toggle { opacity: 0; visibility: hidden; pointer-events: none;
 .vr-toggle:hover { transform: translateY(-3px); }
 .vr-toggle:active { transform: scale(0.95); }
 
-/* Attention hint: mostly still, with a double-bounce every few seconds so
-   it registers in peripheral vision without nagging. It runs a fixed
-   number of times and stops for good once the button has been used. */
-.vr-toggle::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 50%;
-  border: 2px solid var(--accent-soft);
-  opacity: 0;
+/* ---------- "Try Me" cue ----------
+   A chalk label and an arrow drawn down onto the VR button, five seconds on
+   every homepage visit. Built and timed in main.js.
+
+   Anchored to the SAME clamps as .vr-toggle and grows up and to the right:
+   the only free quadrant, since .to-top owns bottom-right and the sticky
+   header owns the top.
+
+   NOT zoom-cancelled. .lightbox and .vr-stage cancel body{zoom:0.8} because
+   they are full-viewport overlays that must cover the true viewport. This one
+   must ride the 0.8 exactly as the button does, or the arrow tip detaches
+   from the thing it points at. Do not pattern-match those two. */
+.vr-cue {
+  position: fixed;
+  left: clamp(1rem, 3vw, 1.75rem);
+  bottom: clamp(1rem, 3vw, 1.75rem);
+  z-index: 84;                 /* under the button (85), over .to-top */
+  width: 12.5rem;
+  height: 9.5rem;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.45s ease, visibility 0.45s ease;
+}
+
+.vr-cue.is-on { opacity: 1; visibility: visible; }
+
+/* The menu and the VR overlay each own the screen while open, the same rule
+   .to-top and .vr-toggle already follow. */
+body.nav-open .vr-cue,
+body.vr-on .vr-cue { opacity: 0; visibility: hidden; }
+
+/* viewBox 0 -20 200 152 against 12.5rem x 9.5rem, so one user unit is one CSS
+   pixel and the path coordinates are literal pixels from the box bottom-left
+   corner, the same corner the button is pinned to. The negative headroom is
+   there to give the rotated label room above y=0. */
+.vr-cue-art {
+  position: absolute;
+  inset: 0;
+  overflow: visible;
+}
+
+/* The doubled stroke. The hero gradient is Trinity Blue in BOTH themes, so at
+   scroll 0, exactly when this fires, an --accent-line stroke alone would be
+   blue on blue and invisible for the full five seconds. The white halo is
+   what reads over the hero; the core is what reads over paper once scrolled.
+   Identical geometry and pathLength, so they draw in lockstep. */
+.vr-cue-halo { stroke: var(--paper); }
+.vr-cue-core { stroke: var(--accent-line); }
+
+/* Base state is FULLY DRAWN so the cue can never be stuck at dashoffset 100;
+   the draw-on lives in the no-preference block below. The transition eases
+   the snap-to-complete when the cue is dismissed mid-draw. */
+.vr-cue-shaft, .vr-cue-head {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.3s ease;
+}
+
+/* --font-display outside a heading is house practice: .site-nav a and the
+   pull quote both do it, the latter italic. */
+.vr-cue-label {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.5rem;
+  padding: 0.32rem 0.72rem 0.36rem;
+  background: var(--paper);
+  color: var(--accent-line);
+  border: 2px solid var(--accent-line);
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.25rem;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  transform: rotate(-7deg);
+  transform-origin: 100% 50%;
+  transition: transform 0.3s ease;
+  box-shadow: 0 8px 18px -10px rgba(5, 105, 185, 0.55);
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .vr-cue.is-on .vr-cue-shaft { animation: vr-cue-draw 1s cubic-bezier(0.25, 0.9, 0.35, 1); }
+  .vr-cue.is-on .vr-cue-head  { animation: vr-cue-draw 0.3s ease-out 0.85s backwards; }
+
+  /* Two animations on one transform do not compose, the later wins while it
+     runs. vr-cue-pop uses `both` so it holds rotate(-7deg) through the gap
+     before the wobble starts, and the wobble 0%/100% is the same value. */
+  .vr-cue.is-on .vr-cue-label {
+    animation: vr-cue-pop 0.42s cubic-bezier(0.2, 1.35, 0.4, 1) 0.3s both,
+      vr-cue-wobble 2.6s ease-in-out 0.75s infinite;
+  }
+
+  /* One bounce, not five, timed so the button answers the arrow the moment
+     the head lands on it. The arrow points, the button jumps. */
   body:not(.vr-on) .vr-toggle.is-hinting {
-    animation: vr-bounce 5s cubic-bezier(0.3, 0.8, 0.4, 1) 5;
+    animation: vr-bounce 0.85s cubic-bezier(0.3, 0.8, 0.4, 1) 1.15s 1;
   }
 
-  body:not(.vr-on) .vr-toggle.is-hinting::after {
-    animation: vr-ping 5s ease-out 5;
-  }
-
-  /* Hand transform back to :hover / :active the moment it is engaged with.
-     Matches the hinting selector's specificity plus the pseudo-class, or
-     the running animation would keep overriding the hover transform. */
+  /* Hand transform back to :hover / :active the moment it is engaged with. */
   body:not(.vr-on) .vr-toggle.is-hinting:hover,
   body:not(.vr-on) .vr-toggle.is-hinting:focus-visible { animation: none; }
-
-  body:not(.vr-on) .vr-toggle.is-hinting:hover::after,
-  body:not(.vr-on) .vr-toggle.is-hinting:focus-visible::after { animation: none; opacity: 0; }
 }
 
+/* On a phone the cue's 9.5rem box reaches up out of the corner and lands on
+   the hero's own buttons (measured: cue at y676 h152 against CTAs at y599
+   h129 on a 390x844 screen). Drop the arrow and sit the label beside the
+   button instead, so the whole cue stays in the bottom corner strip where
+   nothing else lives. Still the same "Try Me" beside the same button. */
+@media (max-width: 700px) {
+  .vr-cue {
+    left: calc(clamp(1rem, 3vw, 1.75rem) + 3.1rem + 0.55rem);
+    width: auto;
+    height: 3.1rem;
+    display: grid;
+    place-items: center;
+  }
+
+  .vr-cue-art { display: none; }
+
+  .vr-cue-label {
+    position: static;
+    transform: rotate(-3deg);
+    font-size: 1.0625rem;
+  }
+}
+
+@keyframes vr-cue-draw {
+  from { stroke-dashoffset: 100; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes vr-cue-pop {
+  from { opacity: 0; transform: rotate(-7deg) scale(0.62) translateY(10px); }
+  to   { opacity: 1; transform: rotate(-7deg) scale(1) translateY(0); }
+}
+
+@keyframes vr-cue-wobble {
+  0%, 100% { transform: rotate(-7deg); }
+  50%      { transform: rotate(-4.6deg); }
+}
+
+/* Retimed for a single 0.85s play. The old curve packed its motion into
+   66-100% of a 5s loop, which run once reads as a long pause then a twitch. */
 @keyframes vr-bounce {
-  0%, 66%, 100% { transform: translateY(0) scale(1); }
-  72% { transform: translateY(-11px) scale(1.06); }
-  79% { transform: translateY(0) scale(0.96); }
-  86% { transform: translateY(-5px) scale(1.02); }
-  93% { transform: translateY(0) scale(1); }
-}
-
-@keyframes vr-ping {
-  0%, 66% { transform: scale(1); opacity: 0; }
-  72% { opacity: 0.65; }
-  100% { transform: scale(2); opacity: 0; }
+  0%, 100% { transform: translateY(0) scale(1); }
+  20% { transform: translateY(-8px) scale(1.05); }
+  44% { transform: translateY(0) scale(0.97); }
+  66% { transform: translateY(-4px) scale(1.02); }
+  86% { transform: translateY(0) scale(1); }
 }
 
 body.vr-on .vr-toggle {
@@ -2604,6 +2855,13 @@ html:not(.anim) .scroll-progress { display: none; }
     transition: opacity 0.2s linear, visibility 0.2s linear,
       background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
   }
+
+  /* Same shape as .to-top: transforms die, the opacity fade is kept. The cue
+     appears already drawn and the button does not bounce, so it is fully
+     visible with zero motion. The label rotate is a fixed angle, not
+     motion, so it stays. */
+  .vr-cue { transition: opacity 0.2s linear, visibility 0.2s linear; }
+  .vr-cue-shaft, .vr-cue-head, .vr-cue-label { transition: none; }
 }
 
 /* Photos that scroll into view wipe open rather than simply appearing */
@@ -2634,11 +2892,12 @@ html:not(.anim) .scroll-progress { display: none; }
     padding-bottom: 0;
   }
 
-  .hero > .wrap { order: 1; }
+  .hero > .wrap { order: 1; width: 100%; }
 
   .hero-photo-bg {
     display: block;
     order: 2;
+    translate: none;   /* full-width strip here, nothing to slide */
     position: relative !important;
     top: auto !important;
     right: auto !important;
@@ -2666,7 +2925,7 @@ html:not(.anim) .scroll-progress { display: none; }
   /* only pages that actually carry a banner photo lose their top padding */
   .page-hero:has(> .page-hero-photo) { padding-top: 0; }
 
-  .page-hero > .wrap { order: 2; }
+  .page-hero > .wrap { order: 2; width: 100%; }
 
   .page-hero-photo {
     display: block;
