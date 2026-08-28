@@ -71,9 +71,14 @@
      "center" = Trinity-style centred editorial column (current)
      "left"   = classic left-aligned column
      ------------------------------------------------------------------ */
-  --text-align: center;
+  --text-align: left;
 
-  --wrap: 76rem;
+  /* One measure for the whole site. The body used to sit in a narrower,
+     centred 76rem column while the header and banners used the wider one, so
+     every section below the banner looked indented from it. Everything now
+     starts on the same left edge. Individual blocks keep their own max-width
+     for a readable line length; they just begin further left. */
+  --wrap: var(--wrap-banner);
   /* The banner measure: the header lockup and every top banner sit on this
      one left edge, inboard of --wrap so they read wider than body content.
      max(), not min(): the rem term is what moves the edge left on a laptop,
@@ -246,8 +251,9 @@ address { font-style: normal; }
   --focus: #FFFFFF;
   --form-ok: #93E5B5;
   --form-error: #FFB4AB;
-  /* top slightly trimmed relative to the standard band */
-  padding-block: clamp(2.75rem, 6vw, 5rem) clamp(3.75rem, 8.5vw, 7rem);
+  /* trimmed ~20% (with .cta-split's min-height) at the owner's request;
+     the figure itself holds its size via .accent-photo's fixed 26rem */
+  padding-block: clamp(2.2rem, 4.8vw, 4rem) clamp(3rem, 6.8vw, 5.6rem);
 }
 
 .band--accent > .wrap { position: relative; z-index: 1; }
@@ -268,8 +274,11 @@ address { font-style: normal; }
   margin-left: -17rem;   /* half of the width below, i.e. dead centre */
   width: 34rem;
   background-image: url("assets/students-hero.jpg");
-  background-size: cover;
-  background-position: 50% 35%;
+  /* Fixed height, not cover: the band is ~20% shorter but the people in the
+     picture keep their size, anchored so the band crops sky, not heads. 26rem
+     is the band's former height. */
+  background-size: auto 26rem;
+  background-position: 50% 28%;
   /* feathered on BOTH sides: fades in after the heading, out before the button */
   -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
   mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
@@ -304,7 +313,12 @@ address { font-style: normal; }
      they are capped against it (35% / 65%) and both fall to zero on a
      narrow laptop — the photo can never be clipped off the side.
      Per-image dials are the inline --shift and --bleed. */
-  --room: max(0px, (100vw - 78rem) / 2);
+  /* The room the photo has to spill sideways into. It used to be the empty
+     margin beside a centred 78rem column; the content column now runs nearly
+     the full width, so that margin is the wrap's own padding and no more.
+     Anything larger pushes the photo off the right of the screen and gives
+     the whole document a horizontal scrollbar. */
+  --room: 1.5rem;
   position: relative;
   left: min(var(--shift, 0px), var(--room) * 0.35);
   width: calc(100% + min(var(--bleed, 8rem), var(--room) * 0.65));
@@ -360,8 +374,9 @@ address { font-style: normal; }
   max-width: 64ch;
   font-size: 1.2em;
   line-height: 1.6;
+  /* Flush with the heading above it, not centred under it. An auto-centred
+     64ch column under a left-aligned heading reads as an indent. */
   margin: 0;
-  margin-inline: auto;
 }
 
 .band--ink .band-head > p { color: var(--on-ink-muted); }
@@ -374,7 +389,8 @@ address { font-style: normal; }
 
 /* Long-form reading column: centred on the page, text left-aligned so the
    ragged edge stays where the eye expects it across many paragraphs */
-.prose { max-width: 68ch; margin-inline: auto; }
+/* flush left; the 68ch cap only limits line length */
+.prose { max-width: 68ch; margin-inline: 0; }
 
 .prose h2 {
   font-size: clamp(1.75rem, 3.2vw, 2.4rem);
@@ -383,7 +399,7 @@ address { font-style: normal; }
 }
 .prose h3 { font-size: 1.45rem; margin: 2.4rem 0 0.8rem; text-align: var(--text-align); }
 .prose > :first-child { margin-top: 0; }
-.prose .lede { text-align: var(--text-align); margin-inline: auto; }
+.prose .lede { text-align: var(--text-align); margin-inline: 0; }
 
 /* ---------- Buttons & links ---------- */
 
@@ -518,10 +534,10 @@ address { font-style: normal; }
   align-items: center;
   justify-content: space-between;
   gap: 2rem;
-  /* 0.5rem, not 0.85: the logo is the tallest thing in the bar, so bar height
-     is logo + 2x this. 64.8 + 16 = 80.8, within half a pixel of the old
-     54 + 27.2 = 81.2 -- the enlarged logo costs no header height. */
-  padding-block: 0.5rem;
+  /* The logo is the tallest thing in the bar, so bar height is logo + 2x
+     this. Trimmed again as the logo grew, to keep the header from becoming
+     a band in its own right. */
+  padding-block: 0.35rem;
 }
 
 .brand {
@@ -536,7 +552,7 @@ address { font-style: normal; }
 
 .brand-logo {
   display: block;
-  height: 64.8px;              /* 54 x 1.2 */
+  height: 104px;               /* was 82 */
   width: auto;
 }
 
@@ -545,7 +561,7 @@ address { font-style: normal; }
 .logo-dark { display: var(--display-dark); }
 
 @media (max-width: 920px) {
-  .site-header .brand-logo { height: 55.2px; }   /* 46 x 1.2 */
+  .site-header .brand-logo { height: 84px; }
 }
 
 .header-tools {
@@ -587,7 +603,7 @@ address { font-style: normal; }
   position: relative;
   display: inline-block;
   padding: 0.35rem 0;
-  font-size: 1.0313rem;
+  font-size: 1.1875rem;
   font-weight: 500;
   text-decoration: none;
 }
@@ -805,6 +821,21 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   white-space: nowrap;
 }
 
+/* The one line that keeps its own alignment when --text-align goes left.
+   Sits between the Hub's name and the description, centred against the text
+   column rather than the banner, so it reads as a strapline under the name
+   rather than a stray centred line. */
+.hero-motto {
+  margin: 0 0 1.4rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  color: #FFFFFF;
+  max-width: 34ch;
+}
+
 .hero-lede {
   color: var(--on-ink-muted);
   font-size: 1.2em;
@@ -947,6 +978,10 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 
 .page-hero .wrap { position: relative; z-index: 1; }
 
+/* Opt out of the diagonal blades. The blades are .page-hero::before, so this
+   is the whole switch -- nothing else about the banner changes. */
+.page-hero--plain::before { display: none; }
+
 /* Optional banner photo on interior page heroes, blended like the homepage hero */
 .page-hero-photo {
   position: absolute;
@@ -977,7 +1012,12 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 .row {
   position: relative;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) auto;
+  /* The CTA column is FIXED, not auto: every .row is its own grid, so an
+     auto track sized to its own label ("Explore Solutions" vs "Enquire")
+     gave each row different track widths and the descriptions no longer
+     lined up down the page. 11rem clears the widest label; the link
+     right-aligns inside it so short labels still hug the row's edge. */
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr) 11rem;
   gap: clamp(1.2rem, 3vw, 2.5rem);
   align-items: center;
   /* Inline padding has to absorb the hover slide: the children move by up to
@@ -998,6 +1038,7 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 .row p { margin: 0; color: var(--muted); max-width: 52ch; transition: color 0.35s ease; }
 
 .row .row-cta {
+  justify-self: end;
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -1024,12 +1065,185 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   .row { grid-template-columns: 1fr; gap: 0.7rem; }
 }
 
+/* Full-bleed grey, but a THINNER band than the standard: the quotes read as
+   a strip, not a full section. */
+.band--quotes { padding-block: clamp(2rem, 4.5vw, 3.25rem); }
+
+/* ---------- Cycling testimonials ----------
+   The figures are stacked on one grid cell rather than laid side by side, so
+   the band's height is that of the tallest quotation and nothing jumps as they
+   change. Only .is-current is visible, and visibility (not just opacity) is
+   what keeps the hidden ones out of the accessibility tree and off the tab
+   order.
+
+   A single quotation is a valid state: main.js hides the controls and never
+   starts the timer, so this markup degrades to exactly the old static block.
+   With JS off the first figure shows and the rest stay hidden, rather than a
+   stack of overlapping text. */
+.quotes {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  /* The prose default above caps direct .reveal children of a wrap at 68ch.
+     Right for a single reading column; a side-by-side pair inside 68ch is two
+     gutters of squeezed text, so the set opts out and spans the wrap. */
+  max-width: none;
+}
+
+.quotes > .quote-slide {
+  grid-area: 1 / 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  /* the pair: one quotation left, one right */
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: start;
+  width: 100%;
+}
+
+.quotes > .quote-slide.is-current { opacity: 1; visibility: visible; }
+
+/* Thin rule separating the pair. Two equal columns either side of the gap
+   put the slide's midpoint in the middle of the gap, so one absolutely
+   centred line serves every slide regardless of quote length. */
+.quote-slide { position: relative; }
+
+.quote-slide::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  bottom: 8%;
+  width: 1px;
+  background: var(--rule-strong);
+  pointer-events: none;
+}
+
+/* side by side is for wide screens; stacked on phones */
+@media (max-width: 880px) {
+  .quotes > .quote-slide { grid-template-columns: 1fr; gap: 2.5rem; }
+  /* stacked, so the divider turns horizontal: a border on the second quote
+     rather than the centred vertical line */
+  .quote-slide::after { content: none; }
+  .quote-slide > .quote + .quote { border-top: 1px solid var(--rule-strong); padding-top: 2.2rem; }
+}
+
+/* The mark belongs to the set, not to each quotation, or it would cross-fade
+   along with the words. The per-figure one is cancelled just below. */
+.quotes::before {
+  content: "\201C";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-display);
+  font-size: clamp(5rem, 11vw, 8.5rem);
+  font-weight: 700;
+  line-height: 0.8;
+  color: var(--accent);
+  pointer-events: none;
+}
+
+.quotes .quote::before { content: none; }
+
+.quote-photo {
+  display: block;
+  width: 5.5rem;
+  height: 5.5rem;
+  margin: 0 auto 1.4rem;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--accent-soft);
+}
+
+.quote-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
+.quote-dots { display: flex; gap: 0.6rem; }
+
+.quote-arrow {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  background: var(--paper);
+  color: var(--accent);
+  border: 1.5px solid var(--rule-strong);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.quote-arrow:hover { background: var(--accent); border-color: var(--accent); color: #FFFFFF; }
+
+/* On a desktop the arrows leave the row and flank the slides, vertically
+   centred at the band's sides. The wrap is the positioning anchor (the
+   .quotes-wrap class is added by main.js when the carousel boots), and 45%
+   centres against the slides rather than slides-plus-nav-row. */
+@media (min-width: 881px) {
+  .quotes-wrap { position: relative; }
+
+  .quote-arrow {
+    position: absolute;
+    top: 45%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .quote-arrow--prev { left: 0.6rem; }
+  .quote-arrow--next { right: 0.6rem; }
+}
+
+/* The button is a 44px tap target; the dot you actually see is the ::after
+   inside it. Sizing the dot itself would give a 10px target. */
+.quote-dot {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.quote-dot::after {
+  content: "";
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: var(--rule-strong);
+  transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+.quote-dot[aria-selected="true"]::after {
+  background: var(--accent);
+  transform: scale(1.35);
+}
+
+.quote-dot:hover::after { background: var(--accent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .quotes > .quote-slide { transition: opacity 0.2s linear, visibility 0.2s linear; }
+  .quote-dot::after, .quote-dot[aria-selected="true"]::after { transition: none; }
+}
+
 /* ---------- Quote ---------- */
 
 .quote {
   position: relative;
   max-width: 58rem;
-  margin-inline: auto;
+  /* <figure> carries a browser-default margin: 1em 40px. That used to be
+     masked by margin-inline: auto; with the block now flush left the default
+     comes back as a 40px indent, so it has to be zeroed explicitly. */
+  margin-inline: 0;
   padding-top: clamp(3rem, 8vw, 4.5rem);
   text-align: var(--text-align);
 }
@@ -1049,11 +1263,13 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 
 .quote blockquote { margin: 0; }
 
+.quote blockquote p strong { font-weight: 700; color: var(--heading); }
+
 .quote blockquote p {
   font-family: var(--font-display);
   font-style: italic;
   font-weight: 400;
-  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-size: clamp(1.35rem, 2.5vw, 1.9rem);
   line-height: 1.4;
   letter-spacing: -0.01em;
 }
@@ -1200,7 +1416,11 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
 ) {
   text-align: var(--text-align);
   max-width: 68ch;
-  margin-inline: auto;
+  /* Flush left, not a centred column. With --text-align: left an auto-centred
+     column reads as an indent: the words line up with each other but not with
+     the heading above them, which is what "all the text on the left" is
+     actually about. */
+  margin-inline: 0;
 }
 
 /* Paragraphs carrying their own narrower inline measure still sit on the
@@ -1587,9 +1807,9 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
-  /* Uniform strip height on every page (sized to a two-line heading), so the
-     stretched photo renders identically regardless of content length */
-  min-height: 9rem;
+  /* Uniform strip height on every page, so the stretched photo renders
+     identically regardless of content length. */
+  min-height: 11.6rem;
 }
 .cta-split h2 { margin: 0 0 0.6rem; max-width: 20ch; }
 
@@ -1651,7 +1871,6 @@ body.nav-open .nav-toggle-bar:nth-child(2) { transform: translateY(-5px) rotate(
    is exactly what this block wants. */
 .media-empty {
   max-width: 46rem;
-  margin-inline: auto;
   padding: clamp(2rem, 5vw, 3.2rem) clamp(1.2rem, 3vw, 2rem);
   border-top: 2px solid var(--accent);
   border-bottom: 1px solid var(--rule);
@@ -1890,21 +2109,20 @@ button[type="submit"]:disabled:hover { transform: none; box-shadow: none; }
 }
 
 .partners-title {
-  text-align: center;
   font-size: 1.05rem;
   color: #50555a;
   max-width: 60ch;
   /* Trinity identity handbook §2.3: the logo needs a clear zone of at least
      half the shield's height on all four sides. At the strip's largest the
      lockup is 82px, so nothing may sit within 41px of it. */
-  margin: 0 auto 3.25rem;
+  margin: 0 0 3.25rem;
 }
 
 .partners-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   gap: clamp(2rem, 6vw, 4.5rem);
 }
 
@@ -1961,16 +2179,18 @@ button[type="submit"]:disabled:hover { transform: none; box-shadow: none; }
 
 .foot-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1.9fr;
+  grid-template-columns: 1.5fr 0.9fr 0.9fr 1.7fr;
   gap: clamp(2rem, 5vw, 3.5rem);
   padding-bottom: 3rem;
 }
 
-.foot-brand .brand-logo { height: 96px; margin-bottom: 1.1rem; }
+.foot-brand .brand-logo { height: 132px; margin-bottom: 1.3rem; }
 
 .foot-brand p {
   margin-top: 1rem;
-  font-size: 1.05rem;
+  font-size: 1.45rem;
+  font-family: var(--font-display);
+  line-height: 1.35;
   max-width: 30ch;
 }
 
@@ -2057,10 +2277,18 @@ button[type="submit"]:disabled:hover { transform: none; box-shadow: none; }
 
 .layout-side {
   display: grid;
-  grid-template-columns: 215px minmax(0, 1fr);
+  /* Text first, contents list second: the prose starts on the page's shared
+     left edge like every other section, and "On This Page" becomes a right
+     rail. Grid placement swaps them visually; the nav stays first in the DOM
+     so keyboard and screen-reader users still meet the contents list before
+     the content it indexes. */
+  grid-template-columns: minmax(0, 1fr) 215px;
   gap: clamp(2.5rem, 6vw, 5rem);
   align-items: start;
 }
+
+.layout-side > .side-toc { grid-column: 2; grid-row: 1; }
+.layout-side > .prose { grid-column: 1; grid-row: 1; }
 
 .side-toc {
   position: sticky;
@@ -2091,6 +2319,10 @@ button[type="submit"]:disabled:hover { transform: none; box-shadow: none; }
 
 @media (max-width: 900px) {
   .layout-side { grid-template-columns: 1fr; }
+  /* cancel the desktop swap or both land in row 1 and overlap: the toc's
+     explicit column 2 would also mint an implicit column off the screen */
+  .layout-side > .side-toc { grid-column: auto; grid-row: auto; }
+  .layout-side > .prose { grid-column: auto; grid-row: auto; }
   .side-toc { display: none; }
 }
 
@@ -2277,10 +2509,13 @@ body.lb-open .lightbox img { transform: none; }
   display: block;
   width: 3.5rem;
   height: 3px;
-  margin: 1rem auto 0;
+  /* Anchored under the START of the heading. The auto-centred version made
+     sense when headings were centred; with everything left-aligned it read
+     as a stray blue line floating in the middle of the band. */
+  margin: 1rem 0 0;
   background: var(--accent);
   transform: scaleX(0);
-  transform-origin: center;
+  transform-origin: left;
   transition: transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.12s;
 }
 

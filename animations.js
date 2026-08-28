@@ -163,9 +163,11 @@ function initHome() {
       // split failed: the headline still arrives, as one block, never hidden
       tl.add(".hero-title", { opacity: [0, 1], y: [22, 0], duration: 700 }, 0);
     }
-    // .hero-lede carries `up`, so the html.anim rule holds it at opacity 0.
-    // It MUST be revealed here or it never appears at all.
-    tl.add(".hero-lede", { opacity: [0, 1], y: [18, 0], duration: 700 }, 420);
+    // Everything carrying `up` is held at opacity 0 by the html.anim rule and
+    // MUST be revealed here, or it never appears at all. That is the whole
+    // contract: add a `up` element to the hero, add it to this timeline.
+    tl.add(".hero-motto", { opacity: [0, 1], y: [14, 0], duration: 600 }, 320)
+      .add(".hero-lede", { opacity: [0, 1], y: [18, 0], duration: 700 }, 460);
     if (mark) {
       // wipes once the lede has settled, so the highlight is not a gap in a
       // half-faded sentence

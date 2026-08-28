@@ -195,6 +195,123 @@
   }
 
   // ---------------------------------------------------------------
+  // Cycling testimonials
+  // ---------------------------------------------------------------
+  // The markup ships every quotation; this decides which one shows. With one
+  // quotation it does nothing at all and adds no controls, so the section
+  // reads exactly as a static block until a second is added.
+  var quoteSet = document.querySelector("[data-quotes]");
+  if (quoteSet) {
+    // slides, each holding a side-by-side pair of quotations
+    var quotes = Array.prototype.slice.call(quoteSet.querySelectorAll(".quote-slide"));
+
+    if (quotes.length > 1) {
+      var current = 0;
+      var timer = 0;
+      var DWELL = 5000;
+
+      // The row under the slides: [prev] [dots] [next]. The dots form a
+      // tablist; the arrows are NOT tabs, so they live outside it in the
+      // plain wrapper, or the tablist role would be announcing buttons that
+      // are not part of its set.
+      var nav = document.createElement("div");
+      nav.className = "quote-nav";
+
+      var dotsBox = document.createElement("div");
+      dotsBox.className = "quote-dots";
+      dotsBox.setAttribute("role", "tablist");
+      dotsBox.setAttribute("aria-label", "Choose a quotation");
+
+      var mkArrow = function (dir, label) {
+        var btn = document.createElement("button");
+        btn.className = "quote-arrow quote-arrow--" + (dir < 0 ? "prev" : "next");
+        btn.type = "button";
+        btn.setAttribute("aria-label", label);
+        btn.innerHTML =
+          '<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" ' +
+          'stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">' +
+          (dir < 0 ? '<path d="M15 5l-7 7 7 7"/>' : '<path d="M9 5l7 7-7 7"/>') + "</svg>";
+        btn.addEventListener("click", function () {
+          chosen = true;
+          stop();
+          show(current + dir);
+        });
+        return btn;
+      };
+
+      var dots = quotes.map(function (q, i) {
+        var dot = document.createElement("button");
+        dot.className = "quote-dot";
+        dot.type = "button";
+        dot.setAttribute("role", "tab");
+        dot.setAttribute("aria-label", "Quotations page " + (i + 1) + " of " + quotes.length);
+        dot.addEventListener("click", function () { show(i); chosen = true; stop(); });
+        dotsBox.appendChild(dot);
+        return dot;
+      });
+
+      var show = function (n) {
+        current = (n + quotes.length) % quotes.length;
+        quotes.forEach(function (q, i) {
+          q.classList.toggle("is-current", i === current);
+          // aria-hidden as well as visibility: belt and braces for the
+          // screen readers that still walk visually hidden subtrees.
+          q.setAttribute("aria-hidden", String(i !== current));
+        });
+        dots.forEach(function (d, i) {
+          d.setAttribute("aria-selected", String(i === current));
+          // only the selected tab stays in the tab order; arrow keys move
+          // between them, which is the expected tablist behaviour
+          d.tabIndex = i === current ? 0 : -1;
+        });
+      };
+
+      // Choosing a quote by hand parks the carousel on it for good; merely
+      // passing the pointer across it only pauses.
+      var chosen = false;
+      var stop = function () { clearInterval(timer); timer = 0; };
+      var start = function () {
+        if (timer || reduceMotion.matches) return;
+        timer = setInterval(function () { show(current + 1); }, DWELL);
+      };
+
+      // Arrow keys move between quotations, as a tablist should.
+      dotsBox.addEventListener("keydown", function (e) {
+        var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        chosen = true;
+        stop();
+        show(current + d);
+        dots[current].focus();
+      });
+
+      // Reading one should not have it snatched away mid-sentence: pause
+      // while the pointer or focus is inside, resume when it leaves. Without
+      // the resume, a pointer merely passing across the band would kill the
+      // cycling for the rest of the visit.
+      quoteSet.addEventListener("pointerenter", stop);
+      quoteSet.addEventListener("focusin", stop);
+      quoteSet.addEventListener("pointerleave", function () { if (!chosen) start(); });
+      quoteSet.addEventListener("focusout", function () { if (!chosen) start(); });
+
+      // Nothing should animate in a tab nobody is looking at.
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) stop(); else start();
+      });
+
+      nav.appendChild(mkArrow(-1, "Previous quotations"));
+      nav.appendChild(dotsBox);
+      nav.appendChild(mkArrow(1, "Next quotations"));
+      // the wrap anchors the desktop side-arrows
+      quoteSet.parentNode.classList.add("quotes-wrap");
+      quoteSet.parentNode.appendChild(nav);
+      show(0);
+      start();
+    }
+  }
+
+  // ---------------------------------------------------------------
   // Scroll-spy: the in-page nav highlights the section you are reading
   // ---------------------------------------------------------------
   // Deterministic rather than an IntersectionObserver band: several targets
