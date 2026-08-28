@@ -274,11 +274,12 @@ address { font-style: normal; }
   margin-left: -17rem;   /* half of the width below, i.e. dead centre */
   width: 34rem;
   background-image: url("assets/students-hero.jpg");
-  /* Fixed height, not cover: the band is ~20% shorter but the people in the
-     picture keep their size, anchored so the band crops sky, not heads. 26rem
-     is the band's former height. */
-  background-size: auto 26rem;
-  background-position: 50% 28%;
+  /* Fixed height, not cover: the band crops the scene but the people in the
+     picture keep their size, anchored so the band crops sky, not heads. */
+  /* Sized so nearly the full height of the photo fits inside the thin band:
+     you see the figure head-to-hands rather than a zoomed close crop. */
+  background-size: auto 24rem;
+  background-position: 50% 35%;
   /* feathered on BOTH sides: fades in after the heading, out before the button */
   -webkit-mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
   mask-image: linear-gradient(to right, transparent 2%, #000 24%, #000 78%, transparent 98%);
@@ -3188,7 +3189,7 @@ html:not(.anim) .scroll-progress { display: none; }
   .accent-photo {
     /* The desktop crop is framed for a tall side panel; as a wide strip the
        subject needs to sit much lower in the frame */
-    background-position: 55% 85%;
+    background-position: 55% 95%;
     display: block;
     position: relative !important;
     top: auto !important;
