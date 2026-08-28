@@ -19,7 +19,7 @@ var FORM_CONFIG = {
   //         https://formspree.io/f/abcdwxyz
   //    e) Paste it below, replacing the whole placeholder string.
   // ---------------------------------------------------------------
-  bookingEndpoint: "PASTE_FORMSPREE_ENDPOINT_HERE",
+  bookingEndpoint: "https://formspree.io/f/mrpggopn",
 
   // ---------------------------------------------------------------
   // 2. MAILING LIST  →  Mailchimp
@@ -36,9 +36,9 @@ var FORM_CONFIG = {
   //    link automatically.
   // ---------------------------------------------------------------
   mailchimp: {
-    account: "PASTE_ACCOUNT_HERE", // the bit before .list-manage.com, e.g. "trinityaixr.us21"
-    u: "PASTE_U_HERE",             // the u= value
-    id: "PASTE_ID_HERE"            // the id= value
+    account: "tcd.us17", // the bit before .list-manage.com, e.g. "trinityaixr.us21"
+    u: "dbd99519637a7e7c966590ceb",             // the u= value
+    id: "9d944d9b23"            // the id= value
   }
 };
 
